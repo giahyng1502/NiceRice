@@ -1,28 +1,34 @@
-import React from "react";
-import {StyleSheet, SafeAreaView, View} from "react-native";
-import { Provider } from "react-redux";
-import AppNavigation from "./navigation/AppNavigation";
-import { useTheme } from "./hooks/useTheme"; // Import hook useTheme
-import store from "./store/store"; // Import store của bạn
-import { globalStyles } from "./styles/globalStyles";
+import React from 'react';
+import {
+  StyleSheet,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import {Provider} from 'react-redux';
+import AppNavigation from './navigation/AppNavigation';
+import store from './store/store'; // Import store của bạn
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {globalStyles} from './styles/globalStyles';
 
 // AppWrapper component không cần sử dụng Provider
 const AppWrapper: React.FC = () => {
-    const theme = useTheme();
-    return (
-        <SafeAreaView style={[globalStyles.container]}>
-            <AppNavigation />
-        </SafeAreaView>
-    );
+  return (
+    <SafeAreaView style={globalStyles.container}>
+      <AppNavigation />
+    </SafeAreaView>
+  );
 };
 
 // App chính với Provider bọc bên ngoài
 const App: React.FC = () => {
-    return (
-        <Provider store={store}>
-            <AppWrapper />
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <AppWrapper />
+      </GestureHandlerRootView>
+    </Provider>
+  );
 };
 
 const styles = StyleSheet.create({});

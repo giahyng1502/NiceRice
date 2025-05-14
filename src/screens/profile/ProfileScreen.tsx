@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {globalStyles, width} from "../../styles/globalStyles";
@@ -9,10 +9,11 @@ import Row from "../../components/container/Row";
 import IconCoppy from "../../assets/svgs/ic_copy";
 import IconUpdateOuline from "../../assets/svgs/ic_pen_edit_outline";
 import IconLogout from "../../assets/svgs/ic_logout";
+import EditInfoDialog from "../../modals/modal_edit_profile";
 
 const ProfileScreen = () => {
     const theme = useTheme();
-
+    const [isVisible, setIsVisible] = useState(false)
     // hàm copy nội dung
     const handleCopy = (value: string) => {
         Clipboard.setString(value);
@@ -21,6 +22,8 @@ const ProfileScreen = () => {
     return (
         <View style={[styles.container, {backgroundColor: theme.background}]}>
             <View style={styles.circle}>
+
+                <Image source={require('../../assets/images/Avatar.png')} style={styles.avatar} />
                 <View
                     style={{
                         borderRadius: 100,
@@ -30,13 +33,11 @@ const ProfileScreen = () => {
                         alignItems: 'center',
                         backgroundColor: theme.primary,
                         position: 'absolute',
-                        top: -3,
-                        right: -3,
-                        zIndex: 1,
+                        top: 2,
+                        right: 2,
                     }}>
                     <IconUpdateFull />
                 </View>
-                <Image source={require('../../assets/images/Avatar.png')} style={styles.avatar} />
             </View>
 
             <Margin top={5} />
@@ -96,7 +97,11 @@ const ProfileScreen = () => {
                         borderRadius: 8,
                         alignItems: 'center',
                     },
-                ]}>
+                ]}
+                onPress={() => {
+                    setIsVisible(true)
+                }}
+            >
                 <IconUpdateOuline />
                 <Text
                     style={[
@@ -136,6 +141,11 @@ const ProfileScreen = () => {
                     Logout
                 </Text>
             </TouchableOpacity>
+
+            <EditInfoDialog
+                isVisible={isVisible}
+                onClose={()=>{setIsVisible(false)}}
+                onSave={()=>{}}/>
         </View>
     );
 };

@@ -13,6 +13,7 @@ export const themes: Record<Theme,
         text2 : string;
         text3 : string;
         backgroundModal : string;
+        bottomSheetColor : string;
     }> = {
     light: {
         background: '#2F2E41',
@@ -22,6 +23,7 @@ export const themes: Record<Theme,
         dot : '#7FD7FF',
         activeDot : '#40C4FF',
         primary: '#40C4FF',
+        bottomSheetColor : '#4A4B62',
         btnTextColor : '#292929',
         backgroundModal : '#4A4B62',
         backgroundIntroduce1 : '#092A51',
