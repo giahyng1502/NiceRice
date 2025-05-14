@@ -5,7 +5,10 @@ export const globalStyles = StyleSheet.create({
         flex: 1,
     },
     contentSize: {
-        fontSize: width*0.04,
+        fontSize: width*0.045,
+    },
+    mediumText: {
+        fontSize: width*0.05,
     },
     title : {
         fontSize: width*0.06,

@@ -53,7 +53,7 @@ const BottomNavigation = () => {
               );
             },
             headerShown: false,
-            tabBarShowLabel: false, // nếu không muốn hiện tên dưới icon
+            tabBarShowLabel: false,
             tabBarStyle: {
               height: height*0.1,
               paddingBottom: 16,

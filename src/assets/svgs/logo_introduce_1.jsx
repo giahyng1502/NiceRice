@@ -1,4 +1,3 @@
-import * as React from "react";
 import Svg, { G, Path, Defs, ClipPath, Rect } from "react-native-svg";
 const LogoIntroduce1 = (props) => (
     <Svg

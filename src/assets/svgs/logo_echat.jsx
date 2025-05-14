@@ -1,4 +1,3 @@
-import * as React from "react";
 import Svg, { Path, G, Defs, LinearGradient, Stop } from "react-native-svg";
 
 const SVGComponent = ({

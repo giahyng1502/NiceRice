@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import {StyleSheet, SafeAreaView, View} from "react-native";
 import { Provider } from "react-redux";
 import AppNavigation from "./navigation/AppNavigation";
 import { useTheme } from "./hooks/useTheme"; // Import hook useTheme
@@ -8,7 +8,7 @@ import { globalStyles } from "./styles/globalStyles";
 
 // AppWrapper component không cần sử dụng Provider
 const AppWrapper: React.FC = () => {
-
+    const theme = useTheme();
     return (
         <SafeAreaView style={[globalStyles.container]}>
             <AppNavigation />
