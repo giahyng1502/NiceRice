@@ -10,14 +10,20 @@ export const themes: Record<Theme,
         backgroundIntroduce1 : string;
         backgroundIntroduce2: string;
         btnTextColor : string;
+        text2 : string;
+        text3 : string;
+        backgroundModal : string;
     }> = {
     light: {
         background: '#2F2E41',
         text: '#40C4FF',
+        text2 : '#F0F0F3',
+        text3 : '#9A9BB1',
         dot : '#7FD7FF',
         activeDot : '#40C4FF',
         primary: '#40C4FF',
         btnTextColor : '#292929',
+        backgroundModal : '#4A4B62',
         backgroundIntroduce1 : '#092A51',
         backgroundIntroduce2 : '#686A8A'
 

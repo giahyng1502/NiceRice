@@ -8,31 +8,31 @@ import {
     NativeSyntheticEvent,
     TouchableOpacity, Text,
 } from 'react-native';
-import LogoIntroduce1 from "../../assets/svgs/logo_introduce_1";
-import LogoIntroduce2 from "../../assets/svgs/logo_introduce_2";
-import LogoIntroduce3 from "../../assets/svgs/logo_introduce_3";
-import IntroduceSlice from "./introduce_slide";
-import LogoIntroduce4 from "../../assets/svgs/logo_introduce_4";
-import {useTheme} from "../../hooks/useTheme";
-import Row from "../../components/container/Row";
-import {globalStyles} from "../../styles/globalStyles";
-import {useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
+import LogoIntroduce1 from '../../assets/svgs/logo_introduce_1';
+import LogoIntroduce2 from '../../assets/svgs/logo_introduce_2';
+import LogoIntroduce3 from '../../assets/svgs/logo_introduce_3';
+import IntroduceSlice from './introduce_slide';
+import LogoIntroduce4 from '../../assets/svgs/logo_introduce_4';
+import {useTheme} from '../../hooks/useTheme';
+import Row from '../../components/container/Row';
+import {globalStyles} from '../../styles/globalStyles';
+import {useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
-import ButtonCustom from "../../components/buttons/Button";
-import Column from "../../components/container/Column";
+import ButtonCustom from '../../components/buttons/Button';
+import Column from '../../components/container/Column';
 
 type Props = {
     navigation: any;
 };
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const IntroduceScreen: React.FC<Props> = ({navigation}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const theme = useTheme();
 
     const translateY = useSharedValue(-300);
-    const translateX = useSharedValue(width*0.8); // Bắt đầu ở ngoài màn hình (bên trái)
+    const translateX = useSharedValue(width * 0.8); // Bắt đầu ở ngoài màn hình (bên trái)
     //useRef tham chiếu đến phần từ dom của ScrollView
     const scrollViewRef = useRef<ScrollView>(null);
     // hiệu ứng trượt từ trên xuống
@@ -93,7 +93,7 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
     }, []);
     const animatedStyle = useAnimatedStyle(() => {
         return {
-            transform: [{ translateY: translateY.value },{ translateX: translateX.value },],
+            transform: [{ translateY: translateY.value },{ translateX: translateX.value }],
         };
     });
 
@@ -102,14 +102,14 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
             <Animated.View
                 style={[
                     {
-                        width: width*2,
+                        width: width * 2,
                         backgroundColor: theme.backgroundIntroduce2,
                         height: height * 0.7,
                         opacity : 1,
                         position: 'absolute',
                         top: 0,
-                        borderBottomLeftRadius: width * 1,  // càng lớn càng xòe
-                        borderBottomRightRadius: width * 1,
+                        borderBottomLeftRadius: width,
+                        borderBottomRightRadius: width,
                     },
                     animatedStyle,
                 ]}
@@ -117,13 +117,13 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
             <Animated.View
                 style={[
                     {
-                        width: width*2,
+                        width: width * 2,
                         backgroundColor: theme.background,
                         height: height * 0.55,
                         position: 'absolute',
                         top: 0,
-                        borderBottomLeftRadius: width * 1,  // càng lớn càng xòe
-                        borderBottomRightRadius: width * 1,
+                        borderBottomLeftRadius: width,  // càng lớn càng xòe
+                        borderBottomRightRadius: width,
                     },
                     animatedStyle,
                 ]}
@@ -151,7 +151,7 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
 
             {/*Column*/}
 
-          <Column styleCustom={{width : width,height : height*0.3,justifyContent : 'space-evenly'}}>
+          <Column styleCustom={{width : width,height : height * 0.3,justifyContent : 'space-evenly'}}>
               {/*Button getStarted*/}
               <ButtonCustom onPress={()=>{}} text={'Get Started'} styleCustom={[
                   globalStyles.buttonHeight,
@@ -160,13 +160,13 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
                       borderRadius : 16,
                       justifyContent : 'center',
                       alignItems : 'center',
-                      width : width*0.9,
-                      alignSelf : 'center'
-                  }
+                      width : width * 0.9,
+                      alignSelf : 'center',
+                  },
               ]}
                             styleText={[
                                 globalStyles.title,
-                                {color : theme.btnTextColor}
+                                {color : theme.btnTextColor},
                             ]}
               />
 
@@ -178,7 +178,7 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
                           {
                               color :theme.text,
                               fontWeight : '600',
-                          },globalStyles.contentSize
+                          },globalStyles.contentSize,
                       ]}>Skip</Text>
                   </TouchableOpacity>
 
@@ -207,7 +207,7 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
                           {
                               color :'#1B526B',
                               fontWeight : '600',
-                          },globalStyles.contentSize
+                          },globalStyles.contentSize,
                       ]}>Next</Text>
                   </TouchableOpacity>
               </Row>
@@ -219,13 +219,12 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        flex : 1
     },
     btnNext : {
         backgroundColor : '#A7E4FF',
         justifyContent : 'center',
-        width : width*0.17,
-        height : width*0.17,
+        width : width * 0.17,
+        height : width * 0.17,
         borderRadius : 100,
         alignItems: 'center',
     },
