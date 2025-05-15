@@ -1,18 +1,14 @@
 import React, {useRef, useState, useMemo, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet, ScrollView,
-} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import {useTheme} from '../hooks/useTheme';
 import InputComponent from '../components/input/InputConponent';
 import KeyboardCustomView from '../components/container/KeyboardAvoidingView';
-import ButtonCustom from "../components/buttons/Button";
-import {globalStyles} from "../styles/globalStyles";
-import Margin from "../components/margin/magin";
+import ButtonCustom from '../components/buttons/Button';
+import {globalStyles} from '../styles/globalStyles';
+import Margin from '../components/margin/magin';
+import SelectInput from '../components/input/selectInput';
+import {DatePickerExample} from "../components/input/DialogPickerInput";
 
 interface Props {
   isVisible: boolean;
@@ -25,8 +21,8 @@ const EditInfoDialog: React.FC<Props> = ({isVisible, onClose, onSave}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [gender, setGender] = useState('');
+  const [birthday, setBirthday] = useState<Date>(new Date());
+  const [gender, setGender] = useState<string>('');
   const theme = useTheme();
   // Snap points for BottomSheet: 30%, 60%, and 90%
   const snapPoints = useMemo(() => ['60%', '90%'], []);
@@ -34,7 +30,7 @@ const EditInfoDialog: React.FC<Props> = ({isVisible, onClose, onSave}) => {
   // Open the BottomSheet when the `isVisible` prop changes
   useEffect(() => {
     if (isVisible) {
-      bottomSheetRef.current?.snapToIndex(1); // Open BottomSheet at 30%
+      bottomSheetRef.current?.snapToIndex(1); // Open BottomSheet at 60%
     } else {
       bottomSheetRef.current?.close(); // Close the BottomSheet
     }
@@ -56,7 +52,6 @@ const EditInfoDialog: React.FC<Props> = ({isVisible, onClose, onSave}) => {
       backgroundStyle={{
         backgroundColor: theme.bottomSheetColor,
       }}
-
       enableDynamicSizing={false}>
       <BottomSheetView
         enableFooterMarginAdjustment={true}
@@ -67,65 +62,55 @@ const EditInfoDialog: React.FC<Props> = ({isVisible, onClose, onSave}) => {
           },
         ]}>
         <Text style={[styles.title, {color: theme.text2}]}>Edit Profile</Text>
-          <KeyboardCustomView>
-            {/* TextInput to update name */}
-            <InputComponent
-                placeholder="Enter your name"
-                label={'Name'}
-                value={name}
-                labelStyle={{color: theme.text2}}
-                inputStyle={{backgroundColor: 'transparent',color : theme.text2}}
-                onChangeText={setName} // Update state when text changes
-            />
+        <KeyboardCustomView>
+          {/* TextInput to update name */}
+          <InputComponent
+            placeholder="Enter your name"
+            label={'Name'}
+            value={name}
+            labelStyle={{color: theme.text2}}
+            inputStyle={{backgroundColor: 'transparent', color: theme.text2}}
+            onChangeText={setName} // Update state when text changes
+          />
 
-            {/* TextInput to update email */}
-            <InputComponent
-                placeholder="Enter your phone number"
-                value={phone}
-                labelStyle={{color: theme.text2}}
-                label={'Phone Number'}
-                inputStyle={{backgroundColor: 'transparent',color : theme.text2}}
+          {/* TextInput to update email */}
+          <InputComponent
+            placeholder="Enter your phone number"
+            value={phone}
+            labelStyle={{color: theme.text2}}
+            label={'Phone Number'}
+            inputStyle={{backgroundColor: 'transparent', color: theme.text2}}
+            onChangeText={setPhone} // Update state when text changes
+          />
+          {/*chọn giới tính*/}
+          <SelectInput item={gender} setItem={setGender} />
 
-                onChangeText={setPhone} // Update state when text changes
-            />
-            <InputComponent
-                placeholder="Enter your email"
-                value={email}
-                label={'Email'}
-                labelStyle={{color: theme.text2}}
-                inputStyle={{backgroundColor: 'transparent',color : theme.text2}}
-
-                onChangeText={setEmail} // Update state when text changes
-            />
-            <InputComponent
-                placeholder="Enter your email"
-                value={email}
-                labelStyle={{color: theme.text2}}
-                label={'Email'}
-                inputStyle={{backgroundColor: 'transparent',color : theme.text2}}
-                onChangeText={setEmail} // Update state when text changes
-            />
-            <InputComponent
-                placeholder="Enter your email"
-                value={email}
-                labelStyle={{color: theme.text2}}
-                label={'Email'}
-                inputStyle={{backgroundColor: 'transparent',color : theme.text2}}
-                onChangeText={setEmail} // Update state when text changes
-            />
-            {/* Action buttons for saving or canceling */}
-            <Margin top={2}/>
-              <ButtonCustom onPress={()=>{}} text={'Save'}
-                            styleCustom={[globalStyles.buttonHeight,
-                              {
-                                backgroundColor : theme.primary,
-                                width: '100%',
-                                borderRadius: 8,
-                                justifyContent : 'center',
-                                alignItems : 'center'
-                              }
-                            ]}/>
-          </KeyboardCustomView>
+          <DatePickerExample date={birthday} setDate={setBirthday}/>
+          <InputComponent
+            placeholder="Enter your email"
+            value={email}
+            labelStyle={{color: theme.text2}}
+            label={'Email'}
+            inputStyle={{backgroundColor: 'transparent', color: theme.text2}}
+            onChangeText={setEmail} // Update state when text changes
+          />
+          {/* Action buttons for saving or canceling */}
+          <Margin top={2} />
+          <ButtonCustom
+            onPress={() => {}}
+            text={'Save'}
+            styleCustom={[
+              globalStyles.buttonHeight,
+              {
+                backgroundColor: theme.primary,
+                width: '100%',
+                borderRadius: 8,
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            ]}
+          />
+        </KeyboardCustomView>
       </BottomSheetView>
     </BottomSheet>
   );

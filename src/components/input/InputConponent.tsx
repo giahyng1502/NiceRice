@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TextInput, StyleSheet, Text, TextInputProps, ViewStyle, TextStyle } from 'react-native';
 import {height} from "../../styles/globalStyles";
+import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 
 type InputComponentProps = {
     label?: string;
@@ -28,7 +29,7 @@ const InputComponent = ({
     return (
         <View style={[styles.container, containerStyle]}>
             {label && <Text style={[labelStyle,styles.label]}>{label}</Text>}
-            <TextInput
+            <BottomSheetTextInput
                 style={[styles.input, inputStyle]}
                 placeholder={placeholder}
                 value={value}
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     input: {
-        height: height*0.06,
+        height: 45,
         borderWidth: 1,
         borderColor: '#8688A1',
         borderRadius: 8,

@@ -18,6 +18,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomNavigation = () => {
   const theme = useTheme();
+  const bottomNavHeight = height*0.12;
   return (
       <Tab.Navigator
           screenOptions={({ route }) => ({
@@ -55,9 +56,9 @@ const BottomNavigation = () => {
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
-              height: height*0.1,
-              paddingBottom: 16,
-              paddingTop: 16,
+              height: bottomNavHeight,
+              paddingBottom: height*0.03,
+              paddingTop: height*0.03,
               backgroundColor : theme.background
             },
           })}

@@ -1,13 +1,9 @@
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode} from 'react';
 import {
     KeyboardAvoidingView,
     Platform,
-    StyleSheet,
-    Text,
-    TextInput,
     TouchableWithoutFeedback,
     Keyboard,
-    View,
 } from 'react-native';
 
 type Props = {
