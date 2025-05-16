@@ -5,14 +5,13 @@ import Margin from '../margin/magin';
 import { useTheme } from '../../hooks/useTheme';
 import IconCalendar from '../../assets/svgs/ic_calendar';
 import Modal from 'react-native-modal';
-import {width} from "../../styles/globalStyles";
 
 type Props = {
     date: Date;
     setDate: (date: Date) => void;
 };
 
-export const DatePickerExample: React.FC<Props> = ({ date, setDate }) => {
+const DatePickerExample: React.FC<Props> = ({ date, setDate }) => {
     const [open, setOpen] = useState(false);
     const theme = useTheme();
 
@@ -59,7 +58,7 @@ export const DatePickerExample: React.FC<Props> = ({ date, setDate }) => {
         </View>
     );
 };
-
+export default DatePickerExample;
 const styles = StyleSheet.create({
     container: {
         width : '100%'

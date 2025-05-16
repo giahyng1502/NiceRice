@@ -7,13 +7,13 @@ export const globalStyles = StyleSheet.create({
         flex: 1,
     },
     contentSize: {
-        fontSize: width*0.045,
+        fontSize: 16,
     },
     mediumText: {
-        fontSize: width*0.05,
+        fontSize: 18,
     },
     title : {
-        fontSize: width*0.06,
+        fontSize: 20,
         fontWeight : '800'
     },
     buttonHeight : {

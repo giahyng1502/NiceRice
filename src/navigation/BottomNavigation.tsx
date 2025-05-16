@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {BottomTabNavigatorProps, createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MessageScreen from '../screens/messages/MessageScreen';
 import GroupScreen from '../screens/groups/GroupScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
@@ -13,6 +13,7 @@ import IconProfile from '../assets/svgs/ic_profile';
 import IconMore from '../assets/svgs/icon_more';
 import {height, width} from "../styles/globalStyles";
 import {useTheme} from "../hooks/useTheme";
+import CustomHeader from "./CustomHeader";
 
 const Tab = createBottomTabNavigator();
 

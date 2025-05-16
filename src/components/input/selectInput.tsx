@@ -28,6 +28,7 @@ const SelectInputModal: React.FC<Props> = ({ item, setItem }) => {
 
     const handleSelect = (value: string) => {
         setItem(value);
+        console.log(value)
         setModalVisible(false);
     };
 

@@ -8,7 +8,7 @@ import ButtonCustom from '../components/buttons/Button';
 import {globalStyles} from '../styles/globalStyles';
 import Margin from '../components/margin/magin';
 import SelectInput from '../components/input/selectInput';
-import {DatePickerExample} from "../components/input/DialogPickerInput";
+import DatePickerExample from "../components/input/DialogPickerInput";
 
 interface Props {
   isVisible: boolean;
