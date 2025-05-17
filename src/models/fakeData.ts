@@ -1,7 +1,7 @@
 // fakeData.ts
 
 // Fake participants
-import {Types, Message, Participant} from "./types";
+import {Conversation, Message, Participant} from "./types";
 
 export const fakeParticipants: Participant[] = [
     {
@@ -22,7 +22,7 @@ export const fakeParticipants: Participant[] = [
 ];
 
 // Fake conversations
-export const fakeConversations: Types[] = [
+export const fakeConversations: Conversation[] = [
     {
         conversationId: 'c1',
         participantIds: ['u1', 'u2'],
@@ -44,31 +44,110 @@ export const fakeMessages: Message[] = [
     {
         messageId: 'm1',
         conversationId: 'c1',
-        senderId: 'u1',
+        sender: {
+            userId: 'u1',
+            username: 'Alice',
+            avatarUrl: 'https://i.pravatar.cc/150?img=1',
+        },
         content: 'Hello, how are you?',
         timestamp: '2025-05-17T08:00:00Z',
         type: 'text',
-        status: 'read',
+        status: 'received',
     },
     {
         messageId: 'm2',
         conversationId: 'c1',
-        senderId: 'u2',
+        sender: {
+            userId: 'u2',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
         content: "I'm good, thanks! And you?",
         timestamp: '2025-05-17T08:01:00Z',
         type: 'text',
-        status: 'read',
+        status: 'sent',
     },
     {
         messageId: 'm3',
         conversationId: 'c1',
-        senderId: 'u1',
-        content: 'https://example.com/image.jpg',
+        sender: {
+            userId: 'u2',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:01:00Z',
+        type: 'text',
+        status: 'sent',
+    },
+    {
+        messageId: 'm4',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u2',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:01:00Z',
+        type: 'text',
+        status: 'sent',
+    },
+    {
+        messageId: 'm5',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u6',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:01:00Z',
+        type: 'text',
+        status: 'sent',
+    },
+    {
+        messageId: 'm7',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u8',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:01:00Z',
+        type: 'text',
+        status: 'sent',
+    },
+    {
+        messageId: 'm9',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u1',
+            username: 'Alice',
+            avatarUrl: 'https://i.pravatar.cc/150?img=1',
+        },
+        content: 'Dep qua shop oi',
         timestamp: '2025-05-17T08:02:00Z',
         type: 'image',
-        status: 'delivered',
+        link : ['https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg','https://pub-0f02951565a14603816f4ca468c73608.r2.dev/giahyng.jpg',],
+        status: 'sent',
+    },
+    {
+        messageId: 'm10',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u2',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:03:00Z',
+        type: 'text',
+        status: 'pending',
     },
 ];
+
 
 // utils.ts
 export const getParticipantsByIds = (ids: string[]): Participant[] => {

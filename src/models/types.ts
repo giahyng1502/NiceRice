@@ -2,11 +2,12 @@
 export interface Message {
     messageId: string;
     conversationId: string;
-    senderId: string;
+    sender: Participant;
     content: string;
     timestamp: string;
     type: 'text' | 'image' | 'video' | 'audio' | 'file';
-    status: 'sent' | 'delivered' | 'read';
+    link? : string[];
+    status: 'pending' | 'received' | 'sent';
 }
 
 export interface Participant {
@@ -15,7 +16,7 @@ export interface Participant {
     avatarUrl?: string;
 }
 
-export interface Types {
+export interface Conversation {
     conversationId: string;
     participantIds: string[];
     lastUpdated: string;
