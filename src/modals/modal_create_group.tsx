@@ -3,8 +3,8 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import {globalStyles, width} from '../styles/globalStyles';
 import {useTheme} from '../hooks/useTheme';
-import IconPerson from "../assets/svgs/icon_person";
-import IconGroup from "../assets/svgs/ic_groups";
+import IconPerson from '../assets/svgs/icon_person';
+import IconGroup from '../assets/svgs/ic_groups';
 
 type Props = {
   visible: boolean;
@@ -34,35 +34,29 @@ const CreateGroupModal: React.FC<Props> = ({visible, onClose, position}) => {
           shadowColor: '#000',
           shadowOpacity: 0.2,
           shadowRadius: 5,
-            justifyContent : 'flex-start',
-            alignItems : 'flex-start',
-            gap : 10
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          gap: 10,
         }}>
-        <TouchableOpacity style={{
-            flexDirection : 'row',
-            alignItems : 'center',
-            gap : 10
-        }}>
-            <IconPerson/>
-          <Text
-            style={[
-              globalStyles.mediumText,
-              {color: theme.text2},
-            ]}>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+          }}>
+          <IconPerson />
+          <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
             Add Friend
           </Text>
         </TouchableOpacity>
-          <TouchableOpacity style={{
-              flexDirection : 'row',
-              alignItems : 'center',
-              gap : 10
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
           }}>
-              <IconGroup/>
-          <Text
-            style={[
-              globalStyles.mediumText,
-              {color: theme.text2},
-            ]}>
+          <IconGroup />
+          <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
             Create Group
           </Text>
         </TouchableOpacity>

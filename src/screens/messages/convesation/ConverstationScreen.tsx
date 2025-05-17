@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Animated, {
     useSharedValue,
     useAnimatedScrollHandler,
 } from 'react-native-reanimated';
-import CustomHeader from '../../navigation/CustomHeader';
-import { useTheme } from '../../hooks/useTheme';
-import CreateGroupModal from '../../modals/modal_create_group';
+import CustomHeader from '../../../navigation/CustomHeader';
+import { useTheme } from '../../../hooks/useTheme';
+import {fakeConversations} from "../../../models/fakeData";
+import ConversationItem from "./converstation_item";
 
-const DATA = Array.from({ length: 100 }, (_, i) => ({
-    id: i.toString(),
-    title: `Item thứ ${i + 1}`,
-}));
-
-const MessageScreen = () => {
+const ConverstationScreen = () => {
     const scrollY = useSharedValue(0);
-    const [visible, setVisible] = useState(false);
 
     const scrollHandler = useAnimatedScrollHandler(event => {
         scrollY.value = event.contentOffset.y;
@@ -23,28 +18,16 @@ const MessageScreen = () => {
 
     const theme = useTheme();
 
-    // khi bấm add => toggle modal
-    const onAdd = () => {
-        setVisible(!visible);
-    };
-
-    const renderItem = ({ item }: { item: { id: string; title: string } }) => (
-        <View style={styles.item}>
-            <Text>{item.title}</Text>
-        </View>
-    );
-
     return (
         <View style={{ flex: 1, backgroundColor: theme.background }}>
             <CustomHeader
                 scrollY={scrollY}
                 theme={theme}
-                visible={visible}
             />
             <Animated.FlatList
-                data={DATA}
-                keyExtractor={item => item.id}
-                renderItem={renderItem}
+                data={fakeConversations}
+                keyExtractor={item => item.conversationId}
+                renderItem={({ item }) => <ConversationItem conversation={item} />}
                 onScroll={scrollHandler}
                 scrollEventThrottle={16}
                 contentContainerStyle={{ paddingTop: 80 }}
@@ -54,7 +37,7 @@ const MessageScreen = () => {
     );
 };
 
-export default MessageScreen;
+export default ConverstationScreen;
 
 const styles = StyleSheet.create({
     item: {

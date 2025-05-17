@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {BottomTabNavigatorProps, createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import MessageScreen from '../screens/messages/MessageScreen';
+import ConverstationScreen from '../screens/messages/convesation/ConverstationScreen';
 import GroupScreen from '../screens/groups/GroupScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import MoreScreen from '../screens/more/MoreScreen';
@@ -13,7 +13,6 @@ import IconProfile from '../assets/svgs/ic_profile';
 import IconMore from '../assets/svgs/icon_more';
 import {height, width} from "../styles/globalStyles";
 import {useTheme} from "../hooks/useTheme";
-import CustomHeader from "./CustomHeader";
 
 const Tab = createBottomTabNavigator();
 
@@ -64,7 +63,7 @@ const BottomNavigation = () => {
             },
           })}
       >
-        <Tab.Screen name="Messages" component={MessageScreen} />
+        <Tab.Screen name="Messages" component={ConverstationScreen} />
         <Tab.Screen name="Group" component={GroupScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
         <Tab.Screen name="More" component={MoreScreen} />
