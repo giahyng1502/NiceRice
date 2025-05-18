@@ -1,131 +1,36 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
-import {
-  GiftedChat,
-  IMessage,
-  Composer,
-} from 'react-native-gifted-chat';
-import {fakeMessages} from '../../../models/fakeData';
-import {Message} from '../../../models/types';
 import {useTheme} from '../../../hooks/useTheme';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../navigation/AppNavigation';
-import IconSend from '../../../assets/svgs/ic_Send';
-import IconAdd from '../../../assets/svgs/ic_add';
-import RenderBubble from "./custom_bubble";
+
+import {FlashList} from '@shopify/flash-list';
+import {fakeMessages} from '../../../models/fakeData';
+import {Message} from '../../../models/types';
+import RenderItemMessage from './custom_bubble';
+import CustomInputToolbar, {HEIGHT_INPUT_TOOLBAR} from './custom_input_toolbar';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MessageDetail'>;
 
 const MessageDetail: React.FC<Props> = ({route}) => {
   const {id} = route.params;
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [content, setContent] = useState<string>('');
   const theme = useTheme();
-
-  // Map data từ model sang GiftedChat IMessage chuẩn
-  const mapToGiftedChat = (msgs: Message[]): IMessage[] => {
-    return msgs
-      .map(msg => ({
-        _id: msg.messageId,
-        text: msg.content,
-        createdAt: new Date(msg.timestamp),
-        user: {
-          _id: msg.sender?.userId ?? 'unknown',
-          name: msg.sender?.username ?? 'Unknown',
-          avatar: msg.sender?.avatarUrl ?? undefined,
-        },
-        link: msg.link,
-        [msg.status]: true,
-      }))
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  };
-
+  const listRef = useRef<FlashList<any>>(null);
   useEffect(() => {
-    const filteredMessages = fakeMessages.filter(m => m.conversationId === id);
-    setMessages(mapToGiftedChat(filteredMessages));
-  }, [id]);
-
-  // Gửi tin nhắn mới
-  const onSend = useCallback((newMessages: IMessage[] = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, newMessages),
+    const currentMessage = fakeMessages.filter(
+      msg => msg.conversationId === id,
     );
+    setMessages(currentMessage);
+    console.log(currentMessage);
+    setTimeout(() => {
+      listRef.current?.scrollToEnd({animated: false});
+    }, 300); // đợi 1 chút cho list rende
   }, []);
-  // Custom thanh input + nút add + nút send
-  const CustomInputToolbar = (props: any) => {
-    const {text, onSend} = props;
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor: theme.background,
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-          height: 70,
-          borderTopEndRadius: 32,
-          borderTopStartRadius: 32,
-        }}>
-        {/* Nút Add bên trái */}
-        <TouchableOpacity
-          style={{
-            padding: 8,
-            backgroundColor: 'gray',
-            borderRadius: 30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 40,
-            height: 40,
-          }}
-          onPress={() => {
-            // Xử lý thêm file, ảnh, emoji, v.v.
-            console.log('Add button pressed');
-          }}>
-          <IconAdd color={theme.primary} />
-        </TouchableOpacity>
-
-        {/* Input text */}
-        <Composer
-          {...props}
-          textInputStyle={{
-            color: theme.text2,
-            fontSize: 16,
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            backgroundColor: 'gray',
-            borderRadius: 8,
-            flex: 1,
-            marginHorizontal: 10,
-            minHeight: 45,
-            maxHeight: 50,
-          }}
-          placeholder="Nhập tin nhắn..."
-        />
-
-        {/* Nút Send bên phải */}
-        <TouchableOpacity
-          style={{
-            marginRight: 10,
-            backgroundColor: theme.primary,
-            width: 40,
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 25,
-          }}
-          onPress={() => {
-            if (text && text.trim().length > 0) {
-              onSend({text: text.trim()}, true);
-            }
-          }}>
-          <IconSend />
-        </TouchableOpacity>
-      </View>
-    );
-  };
   return (
     <View
       style={[
@@ -134,21 +39,37 @@ const MessageDetail: React.FC<Props> = ({route}) => {
           backgroundColor: theme.backgroundMessage,
         },
       ]}>
-      <GiftedChat
-        messages={messages}
-        onSend={onSend}
-        user={{
-          _id: 'u1', // id user hiện tại, bạn thay thế theo logic app
+      <FlashList
+        data={messages}
+        renderItem={({item}) => <RenderItemMessage currentMessage={item} />}
+        keyExtractor={item => item.messageId}
+        estimatedItemSize={40}
+        inverted={true}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponentStyle={{
+          height: HEIGHT_INPUT_TOOLBAR,
         }}
-        renderBubble={RenderBubble}
-        renderInputToolbar={CustomInputToolbar}
+      />
+      <CustomInputToolbar
+        value={content}
+        onChangeText={setContent}
+        onSend={() => {
+          if (content && content.trim().length > 0) {
+            // Xử lý gửi tin nhắn ở đây
+            console.log('Send:', content);
+            setContent('');
+          }
+        }}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
+  container: {
+    flex: 1,
+    padding: 15,
+  },
 });
 
 export default MessageDetail;

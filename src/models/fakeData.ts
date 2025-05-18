@@ -68,7 +68,7 @@ export const fakeMessages: Message[] = [
         status: 'sent',
     },
     {
-        messageId: 'm3',
+        messageId: 'm21',
         conversationId: 'c1',
         sender: {
             userId: 'u2',
@@ -81,7 +81,7 @@ export const fakeMessages: Message[] = [
         status: 'sent',
     },
     {
-        messageId: 'm4',
+        messageId: 'm22',
         conversationId: 'c1',
         sender: {
             userId: 'u2',
@@ -94,7 +94,59 @@ export const fakeMessages: Message[] = [
         status: 'sent',
     },
     {
-        messageId: 'm5',
+        messageId: 'm23',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u2',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:01:00Z',
+        type: 'text',
+        status: 'sent',
+    },
+    {
+        messageId: 'm24',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u2',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:01:00Z',
+        type: 'text',
+        status: 'sent',
+    },
+    {
+        messageId: 'm35',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u2',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:01:00Z',
+        type: 'text',
+        status: 'sent',
+    },
+    {
+        messageId: 'm46',
+        conversationId: 'c1',
+        sender: {
+            userId: 'u2',
+            username: 'Bob',
+            avatarUrl: 'https://i.pravatar.cc/150?img=2',
+        },
+        content: "I'm good, thanks! And you?",
+        timestamp: '2025-05-17T08:01:00Z',
+        type: 'text',
+        status: 'sent',
+    },
+    {
+        messageId: 'm57',
         conversationId: 'c1',
         sender: {
             userId: 'u6',

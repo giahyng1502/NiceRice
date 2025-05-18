@@ -62,7 +62,6 @@ const EditInfoDialog: React.FC<Props> = ({isVisible, onClose, onSave}) => {
           },
         ]}>
         <Text style={[styles.title, {color: theme.text2}]}>Edit Profile</Text>
-        <KeyboardCustomView>
           {/* TextInput to update name */}
           <InputComponent
             placeholder="Enter your name"
@@ -110,7 +109,6 @@ const EditInfoDialog: React.FC<Props> = ({isVisible, onClose, onSave}) => {
               },
             ]}
           />
-        </KeyboardCustomView>
       </BottomSheetView>
     </BottomSheet>
   );

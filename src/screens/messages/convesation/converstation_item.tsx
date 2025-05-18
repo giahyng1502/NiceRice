@@ -13,6 +13,7 @@ interface Props {
 }
 // 2. Khai báo kiểu navigation
 type NavigationProps = NavigationProp<RootStackParamList, 'Messages'>;
+
 const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
   const theme = useTheme();
   const {participantIds, lastMessagePreview, unreadCount, lastUpdated} =

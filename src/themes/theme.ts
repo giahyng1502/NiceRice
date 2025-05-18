@@ -19,6 +19,7 @@ export const themes: Record<Theme,
         backgroundMessageReceipt : string;
         backgroundMessageSend : string;
         backgroundMessage : string;
+        borderRadiusColorIcon : string;
     }> = {
     light: {
         background: '#292929',
@@ -30,6 +31,7 @@ export const themes: Record<Theme,
         dot : '#7FD7FF',
         activeDot : '#40C4FF',
         primary: '#40C4FF',
+        borderRadiusColorIcon: '#40C4FF',
         bottomSheetColor : '#4A4B62',
         btnTextColor : '#292929',
         backgroundModal : '#4A4B62',

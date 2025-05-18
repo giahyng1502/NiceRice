@@ -9,6 +9,9 @@ export const globalStyles = StyleSheet.create({
     contentSize: {
         fontSize: 16,
     },
+    smailSize: {
+        fontSize: 12,
+    },
     mediumText: {
         fontSize: 18,
     },
