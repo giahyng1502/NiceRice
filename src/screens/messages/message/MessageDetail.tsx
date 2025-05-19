@@ -20,16 +20,11 @@ const MessageDetail: React.FC<Props> = ({route}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [content, setContent] = useState<string>('');
   const theme = useTheme();
-  const listRef = useRef<FlashList<any>>(null);
   useEffect(() => {
     const currentMessage = fakeMessages.filter(
       msg => msg.conversationId === id,
     );
     setMessages(currentMessage);
-    console.log(currentMessage);
-    setTimeout(() => {
-      listRef.current?.scrollToEnd({animated: false});
-    }, 300); // đợi 1 chút cho list rende
   }, []);
   return (
     <View

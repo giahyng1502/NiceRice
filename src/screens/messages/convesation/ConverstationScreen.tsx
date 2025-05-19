@@ -9,7 +9,7 @@ import { useTheme } from '../../../hooks/useTheme';
 import {fakeConversations} from "../../../models/fakeData";
 import ConversationItem from "./converstation_item";
 
-const ConverstationScreen = () => {
+const ConversationScreen = () => {
     const scrollY = useSharedValue(0);
 
     const scrollHandler = useAnimatedScrollHandler(event => {
@@ -37,7 +37,7 @@ const ConverstationScreen = () => {
     );
 };
 
-export default ConverstationScreen;
+export default ConversationScreen;
 
 const styles = StyleSheet.create({
     item: {

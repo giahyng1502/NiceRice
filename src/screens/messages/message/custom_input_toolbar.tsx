@@ -59,7 +59,7 @@ const CustomInputToolbar: React.FC<Props> = ({value, onChangeText, onSend}) => {
   );
 };
 
-export default React.memo(CustomInputToolbar);
+export default CustomInputToolbar;
 
 const styles = StyleSheet.create({
   container: {
