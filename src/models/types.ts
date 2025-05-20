@@ -17,7 +17,7 @@ export type MessageStatus = 'pending' | 'received' | 'sent' | 'seen';
 export interface Message {
     messageId: string;
     conversationId: string;
-    sender: Participant;
+    senderId: string;
     content: string;
     timestamp: string;
     type: MessageType;

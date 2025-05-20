@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Conversation, Participant} from '../../models/types';
 import {useTheme} from '../../hooks/useTheme';
 import Row from '../../components/container/Row';
@@ -7,19 +7,28 @@ import {getParticipantsByIds} from '../../models/fakeData';
 import Column from '../../components/container/Column';
 import {globalStyles} from '../../styles/globalStyles';
 import {formatDateOrTime} from '../../utils/formatDate';
+import {RootStackParamList} from '../../navigation/AppNavigation';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 interface Props {
   conversation: Conversation;
 }
+type NavigationProps = NavigationProp<RootStackParamList, 'Group'>;
 
 const GroupItem: React.FC<Props> = React.memo(({conversation}) => {
   const participantDetail: Participant[] = getParticipantsByIds(
     conversation.participantIds,
   );
+  const navigation = useNavigation<NavigationProps>();
   const theme = useTheme();
   const extraCount = participantDetail.length - 3;
+  const handleMessageDetail  = () => {
+    navigation.navigate('MessageDetail', {
+      id: conversation.conversationId,
+    });
+  };
   return (
-    <Row styleCustom={styles.row}>
+    <TouchableOpacity style={styles.row} onPress={handleMessageDetail}>
       {/* Avatars */}
       {participantDetail?.length > 0 && (
         <View style={styles.avatarContainer}>
@@ -48,7 +57,7 @@ const GroupItem: React.FC<Props> = React.memo(({conversation}) => {
                       backgroundColor: 'rgba(0,0,0,0.4)',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      borderRadius: 8,
+                      borderRadius: 100,
                     }}>
                     <Text
                       style={{
@@ -94,7 +103,7 @@ const GroupItem: React.FC<Props> = React.memo(({conversation}) => {
           </View>
         )}
       </Column>
-    </Row>
+    </TouchableOpacity>
   );
 });
 
@@ -103,6 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 15,
+    flexDirection: 'row',
     marginHorizontal: 15,
     gap: 10,
   },
