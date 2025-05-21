@@ -15,7 +15,7 @@ interface Props {
 }
 
 const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage}) => {
-  const theme = useTheme();
+  const {theme} = useTheme();
   const currentUser = 'u1';
   const sender = getParticipantsByIds([currentMessage.senderId]);
   const isUserCurrent = sender[0].userId === currentUser;
@@ -151,7 +151,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage}) => {
               minute: '2-digit',
             })}
           </Text>
-          {currentMessage.status === 'sent' && <IconSeen />}
+          {currentMessage.status === 'sent' && <IconSeen color={theme.iconColor} />}
         </View>
       </View>
     </View>

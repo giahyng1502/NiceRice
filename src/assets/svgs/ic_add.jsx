@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-const IconAdd = ({ color = 'white'}) => (
+const IconAdd = ({color}) => (
     <Svg
         width={20}
         height={21}

@@ -15,7 +15,7 @@ interface Props {
 type NavigationProps = NavigationProp<RootStackParamList, 'Messages'>;
 
 const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
-  const theme = useTheme();
+  const {theme} = useTheme();
   const {participantIds, lastMessagePreview, unreadCount, lastUpdated} =
     conversation;
   const navigation = useNavigation<NavigationProps>();

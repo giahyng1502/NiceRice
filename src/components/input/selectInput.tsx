@@ -23,7 +23,7 @@ const genderOptions = [
 ];
 
 const SelectInputModal: React.FC<Props> = ({ item, setItem }) => {
-    const theme = useTheme();
+    const {theme} = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleSelect = (value: string) => {
@@ -47,7 +47,7 @@ const SelectInputModal: React.FC<Props> = ({ item, setItem }) => {
                     {item ? genderOptions.find(g => g.value === item)?.label : 'Select gender'}
                 </Text>
 
-                <IconArrowDown />
+                <IconArrowDown color={theme.iconColor}/>
             </TouchableOpacity>
 
             <Modal

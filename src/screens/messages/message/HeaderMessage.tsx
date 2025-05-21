@@ -1,9 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {NavigationProp} from '@react-navigation/native';
-import {RootStackParamList} from '../../../navigation/AppNavigation';
 import {useTheme} from '../../../hooks/useTheme';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import IconBack from '../../../assets/svgs/icon_back';
 import {globalStyles} from '../../../styles/globalStyles';
 import IconShowMore from "../../../assets/svgs/icon_showmore";
@@ -13,7 +10,7 @@ type Props = {
 };
 
 const HeaderMessage: React.FC<Props> = ({handleBack,handleChatOption}) => {
-  const theme = useTheme();
+  const {theme} = useTheme();
     return (
     <View
       style={[
@@ -23,7 +20,7 @@ const HeaderMessage: React.FC<Props> = ({handleBack,handleChatOption}) => {
         },
       ]}>
       <TouchableOpacity onPress={handleBack}>
-          <IconBack/>
+          <IconBack color={theme.iconColor}/>
       </TouchableOpacity>
       <Text
         style={[
@@ -35,7 +32,7 @@ const HeaderMessage: React.FC<Props> = ({handleBack,handleChatOption}) => {
         Message
       </Text>
         <TouchableOpacity onPress={handleChatOption}>
-            <IconShowMore/>
+            <IconShowMore color={theme.iconColor}/>
         </TouchableOpacity>
     </View>
   );

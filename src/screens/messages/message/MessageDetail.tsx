@@ -13,8 +13,8 @@ import {
 import {Message, Participant} from '../../../models/types';
 import RenderItemMessage from './custom_bubble';
 import CustomInputToolbar, {HEIGHT_INPUT_TOOLBAR} from './custom_input_toolbar';
-import {Header} from 'react-native/Libraries/NewAppScreen';
 import HeaderMessage from './HeaderMessage';
+import Magin from '../../../components/margin/magin';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MessageDetail'>;
 
@@ -23,7 +23,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [content, setContent] = useState<string>('');
   const [participant, setParticipant] = useState<Participant>();
-  const theme = useTheme();
+  const {theme} = useTheme();
   useEffect(() => {
     const currentMessage = fakeMessages.filter(
       msg => msg.conversationId === id,
@@ -57,6 +57,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
           backgroundColor: theme.backgroundMessage,
         },
       ]}>
+        <Magin top={1}/>
       <HeaderMessage
         handleBack={handleBack}
         handleChatOption={handleChatOption}

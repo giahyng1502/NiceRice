@@ -13,7 +13,7 @@ type Props = {
 
 const DatePickerExample: React.FC<Props> = ({ date, setDate }) => {
     const [open, setOpen] = useState(false);
-    const theme = useTheme();
+    const {theme} = useTheme();
 
     return (
         <View style={styles.container}>
@@ -26,7 +26,7 @@ const DatePickerExample: React.FC<Props> = ({ date, setDate }) => {
                     {date.toLocaleDateString()}
                 </Text>
                 <TouchableOpacity onPress={() => setOpen(true)} style={styles.iconButton}>
-                    <IconCalendar />
+                    <IconCalendar color={theme.iconColor} />
                 </TouchableOpacity>
             </View>
 

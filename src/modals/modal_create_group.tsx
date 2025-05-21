@@ -13,7 +13,7 @@ type Props = {
 };
 
 const CreateGroupModal: React.FC<Props> = ({visible, onClose, position}) => {
-  const theme = useTheme();
+  const {theme} = useTheme();
   return (
     <Modal
       isVisible={visible}
@@ -44,7 +44,7 @@ const CreateGroupModal: React.FC<Props> = ({visible, onClose, position}) => {
             alignItems: 'center',
             gap: 10,
           }}>
-          <IconPerson />
+          <IconPerson color={theme.iconColor}/>
           <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
             Add Friend
           </Text>
@@ -55,7 +55,7 @@ const CreateGroupModal: React.FC<Props> = ({visible, onClose, position}) => {
             alignItems: 'center',
             gap: 10,
           }}>
-          <IconGroup />
+          <IconGroup color={theme.iconColor} />
           <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
             Create Group
           </Text>

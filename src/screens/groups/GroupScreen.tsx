@@ -15,7 +15,7 @@ import GroupItem from './GroupItem';
 import {Conversation} from "../../models/types";
 
 const GroupScreen = () => {
-  const theme = useTheme();
+  const {theme} = useTheme();
   const scrollY = useSharedValue(0);
   const [groupMsg, setGroupMsg] = useState<Conversation[]>([]);
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {

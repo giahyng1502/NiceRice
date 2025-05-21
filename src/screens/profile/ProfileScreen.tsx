@@ -12,7 +12,7 @@ import IconLogout from "../../assets/svgs/ic_logout";
 import EditInfoDialog from "../../modals/modal_edit_profile";
 
 const ProfileScreen = () => {
-    const theme = useTheme();
+    const {theme} = useTheme();
     const [isVisible, setIsVisible] = useState(false)
     // hàm copy nội dung
     const handleCopy = (value: string) => {
@@ -36,7 +36,7 @@ const ProfileScreen = () => {
                         top: 2,
                         right: 2,
                     }}>
-                    <IconUpdateFull />
+                    <IconUpdateFull color={theme.iconColor}/>
                 </View>
             </View>
 
@@ -51,7 +51,7 @@ const ProfileScreen = () => {
             <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
                 <Text style={[globalStyles.mediumText, {color: theme.text2}]}>Phone: 0987654321</Text>
                 <TouchableOpacity onPress={() => handleCopy('0987654321')}>
-                    <IconCoppy />
+                    <IconCoppy color={theme.iconColor}/>
                 </TouchableOpacity>
             </Row>
 
@@ -60,7 +60,8 @@ const ProfileScreen = () => {
             <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
                 <Text style={[globalStyles.mediumText, {color: theme.text2}]}>Gender: Male</Text>
                 <TouchableOpacity onPress={() => handleCopy('Male')}>
-                    <IconCoppy />
+                    <IconCoppy color={theme.iconColor}/>
+
                 </TouchableOpacity>
             </Row>
 
@@ -69,7 +70,8 @@ const ProfileScreen = () => {
             <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
                 <Text style={[globalStyles.mediumText, {color: theme.text2}]}>Birthday: 01/05/2002</Text>
                 <TouchableOpacity onPress={() => handleCopy('01/05/2002')}>
-                    <IconCoppy />
+                    <IconCoppy color={theme.iconColor}/>
+
                 </TouchableOpacity>
             </Row>
 
@@ -80,7 +82,7 @@ const ProfileScreen = () => {
                     Email: hungcy1502@gmail.com
                 </Text>
                 <TouchableOpacity onPress={() => handleCopy('hungcy1502@gmail.com')}>
-                    <IconCoppy />
+                    <IconCoppy color={theme.iconColor}/>
                 </TouchableOpacity>
             </Row>
 
@@ -102,7 +104,7 @@ const ProfileScreen = () => {
                     setIsVisible(true)
                 }}
             >
-                <IconUpdateOuline />
+                <IconUpdateOuline color={theme.iconColor} />
                 <Text
                     style={[
                         globalStyles.contentSize,
@@ -129,7 +131,7 @@ const ProfileScreen = () => {
                         alignItems: 'center',
                     },
                 ]}>
-                <IconLogout />
+                <IconLogout color={theme.iconColor}/>
                 <Text
                     style={[
                         globalStyles.contentSize,

@@ -20,7 +20,7 @@ const GroupItem: React.FC<Props> = React.memo(({conversation}) => {
     conversation.participantIds,
   );
   const navigation = useNavigation<NavigationProps>();
-  const theme = useTheme();
+  const {theme} = useTheme();
   const extraCount = participantDetail.length - 3;
   const handleMessageDetail  = () => {
     navigation.navigate('MessageDetail', {

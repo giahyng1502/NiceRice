@@ -6,7 +6,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import IconAdd from '../assets/svgs/ic_add';
 import CreateGroupModal from '../modals/modal_create_group';
-import React, {useRef, useState} from "react";
+import React, {useRef, useState} from 'react';
 
 type Props = {
   scrollY: SharedValue<number>;
@@ -49,10 +49,18 @@ const CustomHeader: React.FC<Props> = ({scrollY, theme}) => {
         animatedHeaderStyle,
         {backgroundColor: theme.background},
       ]}>
-      <Text style={styles.title}>NiceRice</Text>
+      <Text
+        style={[
+          styles.title,
+          {
+            color: theme.text2,
+          },
+        ]}>
+        NiceRice
+      </Text>
       <Animated.View ref={iconRef} style={[animatedIconStyle]}>
         <TouchableOpacity onPress={handleAddPress} activeOpacity={0.7}>
-          <IconAdd />
+          <IconAdd color={theme.iconColor} />
         </TouchableOpacity>
       </Animated.View>
 
@@ -76,7 +84,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   title: {
-    color: 'white',
     fontSize: 26,
     fontWeight: 'bold',
   },

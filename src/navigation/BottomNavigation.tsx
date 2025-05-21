@@ -20,7 +20,7 @@ import {useTheme} from '../hooks/useTheme';
 const Tab = createBottomTabNavigator();
 
 const BottomNavigation = () => {
-  const theme = useTheme();
+  const {theme} = useTheme();
   const bottomNavHeight = height * 0.12;
   return (
     <Tab.Navigator
@@ -48,7 +48,7 @@ const BottomNavigation = () => {
           return (
             <View
               style={[styles.iconWrapper, focused && styles.iconWrapperActive]}>
-              <IconComponent />
+              <IconComponent color={theme.iconColor} />
               <Text
                 style={{
                   fontSize: 10,

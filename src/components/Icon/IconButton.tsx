@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const IconButton: React.FC<IProps> = ({onPress, title, icon}) => {
-  const theme = useTheme();
+  const {theme} = useTheme();
   return (
     <TouchableOpacity
       style={{

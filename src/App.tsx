@@ -1,27 +1,31 @@
-import React from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import AppNavigation from './navigation/AppNavigation';
-import store from './store/store'; // Import store của bạn
+import store from './store/store';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {globalStyles} from './styles/globalStyles';
-import {KeyboardProvider} from 'react-native-keyboard-controller';
+import {useThemeManager, useTheme} from './hooks/useTheme';
+import {StatusBar} from 'react-native';
 
-// AppWrapper component không cần sử dụng Provider
 const AppWrapper: React.FC = () => {
+  const {loadTheme} = useThemeManager();
+  const {themeType} = useTheme();
+
+  useEffect(() => {
+    loadTheme();
+  }, []);
+
   return (
-    <SafeAreaView style={globalStyles.container}>
+    <>
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle={themeType === 'dark' ? 'light-content' : 'dark-content'}
+      />
       <AppNavigation />
-    </SafeAreaView>
+    </>
   );
 };
 
-// App chính với Provider bọc bên ngoài
 const App: React.FC = () => {
   return (
     <Provider store={store}>
@@ -31,7 +35,5 @@ const App: React.FC = () => {
     </Provider>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default App;

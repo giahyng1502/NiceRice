@@ -19,7 +19,7 @@ const BottomSheetModal: React.FC<Props> = ({
   snapPoints,
 }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-    const theme = useTheme();
+    const {theme} = useTheme();
   // Các mức snap point
 
   useEffect(() => {

@@ -29,7 +29,7 @@ const height = Dimensions.get('window').height;
 
 const IntroduceScreen: React.FC<Props> = ({navigation}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const theme = useTheme();
+    const {theme} = useTheme();
 
     const translateY = useSharedValue(-300);
     const translateX = useSharedValue(width * 0.8); // Bắt đầu ở ngoài màn hình (bên trái)

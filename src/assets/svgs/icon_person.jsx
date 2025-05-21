@@ -1,5 +1,5 @@
 import Svg, { Path } from "react-native-svg";
-const IconPerson = ({color = '#9A9BB1'}) => (
+const IconPerson = ({color}) => (
   <Svg
     width={18}
     height={22}

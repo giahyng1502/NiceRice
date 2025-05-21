@@ -1,56 +1,95 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {globalStyles} from '../../styles/globalStyles';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Switch} from 'react-native';
+import {globalStyles, height} from '../../styles/globalStyles';
 import {useTheme} from '../../hooks/useTheme';
 import IconArrowRight from '../../assets/svgs/icon_arrow_right';
 
 interface IProps {
-    Icon: React.FC;
-    title: string;
-    color?: string;
+  Icon: React.ReactNode;
+  title: string;
+  color?: string;
+  type?: 'next' | 'color' | 'radio' | 'switch';
+  selected?: boolean;
+  onPress?: () => void;
 }
 
-const ItemOption: React.FC<IProps> = ({Icon, title, color}) => {
-    const theme = useTheme();
+const ItemOption: React.FC<IProps> = ({
+  Icon,
+  title,
+  color,
+  type = 'next',
+  onPress,
+}) => {
+  const {themeType, theme, setTheme} = useTheme();
+  const onToggleSwitch = () => {
+    const newValue = themeType === 'light' ? 'dark' : 'light';
+    setTheme(newValue);
+  };
 
-    return (
-        <TouchableOpacity style={styles.container}>
-            <View style={{width: 30}}>
-                <Icon />
-            </View>
-            <Text
-                style={[
-                    globalStyles.contentSize,
-                    {color: theme.text2, fontWeight: '700',flex : 1},
-                ]}>
-                {title}
-            </Text>
-            {color ? (
-                <View
-                    style={{
-                        backgroundColor: color,
-                        width: 60,
-                        height: 40,
-                        borderRadius: 16,
-                    }}></View>
-            ) : (
-                <IconArrowRight />
-            )}
-        </TouchableOpacity>
-    );
+  const renderItemType = () => {
+    switch (type) {
+      case 'next':
+        return <IconArrowRight color={theme.iconColor} />;
+      case 'color':
+        return (
+          <View
+            style={{
+              backgroundColor: color,
+              width: 60,
+              height: 50,
+              borderRadius: 16,
+            }}
+          />
+        );
+      case 'switch':
+        return (
+          <Switch
+            trackColor={{false: '#767577', true: theme.primary}}
+            thumbColor={themeType === 'dark' ? theme.primary : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={onToggleSwitch}
+            value={themeType === 'dark'}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <TouchableOpacity
+      disabled={type === 'switch'} // switch thì không cho onPress thằng container
+      onPress={onPress}
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.backgroundItem,
+          shadowOpacity: 1,
+        },
+      ]}>
+      <Text
+        style={[
+          globalStyles.contentSize,
+          {color: theme.text2, fontWeight: '700', flex: 1},
+        ]}>
+        {title}
+      </Text>
+      {renderItemType()}
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
+    height: height * 0.08,
+    paddingHorizontal: 15,
     flexDirection: 'row',
-  },
-  text: {
-    fontSize: 20,
-    color: 'black',
+    borderRadius: 16,
+    elevation: 4,
+    marginVertical: 10,
   },
 });
 
-export default ItemOption;
+export default React.memo(ItemOption);

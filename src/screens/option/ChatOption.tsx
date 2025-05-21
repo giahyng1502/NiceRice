@@ -3,20 +3,19 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {RootStackParamList} from '../../navigation/AppNavigation';
 import {useTheme} from '../../hooks/useTheme';
 import IconBack from '../../assets/svgs/icon_back';
-import {globalStyles, width} from '../../styles/globalStyles';
+import {globalStyles} from '../../styles/globalStyles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Magin from '../../components/margin/magin';
 import ItemOption from './OtionItem';
 import IconGroup from '../../assets/svgs/ic_groups';
-import IconCustomColor from '../../assets/svgs/icon_custom_color';
 import IconCustomBackground from '../../assets/svgs/icon_custom_backgroup';
-import IconColor from "../../assets/svgs/icon_custom_color";
+import IconColor from '../../assets/svgs/icon_custom_color';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ChatOption'>;
 
 const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
   const {name, image} = route.params;
-  const theme = useTheme();
+  const {theme} = useTheme();
   const handleBack = () => {
     navigation.goBack();
   };
@@ -28,9 +27,10 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
           backgroundColor: theme.background,
         },
       ]}>
+      <Magin top={1} />
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBack}>
-          <IconBack />
+            <IconBack color={theme.iconColor}/>
         </TouchableOpacity>
       </View>
       <View style={styles.information}>
@@ -49,22 +49,26 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
       <Magin top={2} />
       <View
         style={{
-          height: 1,
-          backgroundColor: theme.text2,
+          height: 0.5,
+          backgroundColor: 'gray',
         }}
       />
-        <Magin top={2}/>
-      <View style={{
-          width : '100%',
-          height : 120,
-          justifyContent : 'flex-start',
-          alignItems : 'flex-start'
-      }}>
-          <ItemOption Icon={IconGroup} title={'Add To Group'} />
-          <ItemOption Icon={IconColor} title={'Custom Color Chat'} />
-          <ItemOption Icon={IconCustomBackground} title={'Custom Background Chat'} />
+      <Magin top={2} />
+      <View
+        style={{
+          width: '100%',
+          justifyContent: 'flex-start',
+          minHeight: 200,
+          alignItems: 'flex-start',
+            gap : 10,
+        }}>
+        <ItemOption Icon={<IconGroup color={theme.iconColor}/>} title={'Add To Group'} />
+        <ItemOption Icon={<IconColor color={theme.iconColor}/>} title={'Custom Color Chat'} />
+        <ItemOption
+          Icon={<IconCustomBackground color={theme.iconColor}/>}
+          title={'Custom Background Chat'}
+        />
       </View>
-
     </View>
   );
 };

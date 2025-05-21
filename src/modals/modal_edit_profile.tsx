@@ -23,7 +23,7 @@ const EditInfoDialog: React.FC<Props> = ({isVisible, onClose, onSave}) => {
   const [phone, setPhone] = useState('');
   const [birthday, setBirthday] = useState<Date>(new Date());
   const [gender, setGender] = useState<string>('');
-  const theme = useTheme();
+  const {theme} = useTheme();
   // Snap points for BottomSheet: 30%, 60%, and 90%
   const snapPoints = useMemo(() => ['60%', '90%'], []);
 

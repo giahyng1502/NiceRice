@@ -21,16 +21,20 @@ export const HEIGHT_INPUT_TOOLBAR = 60;
 const CustomInputToolbar: React.FC<Props> = ({value, onChangeText, onSend}) => {
   const [optionModalVisible, setOptionModalVisible] = useState<boolean>(false);
 
-  const theme = useTheme();
+  const {theme} = useTheme();
   return (
     <TouchableWithoutFeedback>
-      <View style={[styles.container]}>
+      <View style={[styles.container,{
+        backgroundColor : theme.background
+      }]}>
         <TouchableOpacity
-          style={styles.addButton}
+          style={[styles.addButton,{
+            backgroundColor : theme.primary
+          }]}
           onPress={() =>{
             setOptionModalVisible(true);
           }}>
-          <IconAdd color={theme.primary} />
+          <IconAdd color={'#FFFFFF'} />
         </TouchableOpacity>
 
         <TextInput
@@ -38,7 +42,9 @@ const CustomInputToolbar: React.FC<Props> = ({value, onChangeText, onSend}) => {
           onChangeText={onChangeText}
           placeholder="Write a message"
           placeholderTextColor="#ccc"
-          style={styles.input}
+          style={[styles.input,{
+            backgroundColor: theme.inputBar,
+          }]}
           onSubmitEditing={() => {
             onSend();
             Keyboard.dismiss();
@@ -48,7 +54,7 @@ const CustomInputToolbar: React.FC<Props> = ({value, onChangeText, onSend}) => {
         <TouchableOpacity
           style={[styles.sendButton, {backgroundColor: theme.primary}]}
           onPress={onSend}>
-          <IconSend />
+          <IconSend color={'#FFFFFF'}/>
         </TouchableOpacity>
 
         <ModalOption visible={optionModalVisible} onClose={()=>{
@@ -72,13 +78,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     paddingVertical: 5,
-    backgroundColor: '#222',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
   },
   addButton: {
     padding: 8,
-    backgroundColor: 'gray',
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
@@ -87,7 +91,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: 'gray',
     borderRadius: 16,
     paddingHorizontal: 12,
     marginHorizontal: 10,

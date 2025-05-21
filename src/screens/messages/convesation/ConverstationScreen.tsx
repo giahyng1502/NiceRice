@@ -17,7 +17,7 @@ const ConversationScreen = () => {
         scrollY.value = event.contentOffset.y;
     });
 
-    const theme = useTheme();
+    const {theme} = useTheme();
     useEffect(() => {
         const msg = fakeConversations.filter(c=> !c.isGroup)
         setConrvesation(msg);
