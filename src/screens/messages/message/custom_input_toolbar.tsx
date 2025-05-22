@@ -11,6 +11,7 @@ import IconSend from '../../../assets/svgs/ic_Send';
 import IconAdd from '../../../assets/svgs/ic_add';
 import {useTheme} from '../../../hooks/useTheme';
 import ModalOption from "../../../modals/modal_option";
+import {useTranslation} from "react-i18next";
 
 type Props = {
   value: string;
@@ -20,7 +21,7 @@ type Props = {
 export const HEIGHT_INPUT_TOOLBAR = 60;
 const CustomInputToolbar: React.FC<Props> = ({value, onChangeText, onSend}) => {
   const [optionModalVisible, setOptionModalVisible] = useState<boolean>(false);
-
+  const {t} = useTranslation();
   const {theme} = useTheme();
   return (
     <TouchableWithoutFeedback>
@@ -40,7 +41,7 @@ const CustomInputToolbar: React.FC<Props> = ({value, onChangeText, onSend}) => {
         <TextInput
           value={value}
           onChangeText={onChangeText}
-          placeholder="Write a message"
+          placeholder={t('optionScreen.writeMessage')}
           placeholderTextColor="#ccc"
           style={[styles.input,{
             backgroundColor: theme.inputBar,

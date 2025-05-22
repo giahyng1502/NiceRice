@@ -20,6 +20,7 @@ import {useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanima
 import Animated from 'react-native-reanimated';
 import ButtonCustom from '../../components/buttons/Button';
 import Column from '../../components/container/Column';
+import {useTranslation} from "react-i18next";
 
 type Props = {
     navigation: any;
@@ -30,7 +31,7 @@ const height = Dimensions.get('window').height;
 const IntroduceScreen: React.FC<Props> = ({navigation}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const {theme} = useTheme();
-
+    const {t} = useTranslation();
     const translateY = useSharedValue(-300);
     const translateX = useSharedValue(width * 0.8); // Bắt đầu ở ngoài màn hình (bên trái)
     //useRef tham chiếu đến phần từ dom của ScrollView
@@ -38,23 +39,23 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
     // hiệu ứng trượt từ trên xuống
     const introduceData = [
         {
-            title: 'Group Chatting',
-            content: 'Connect with multiple members in group chats.',
+            title: `${t('introduceScreen.groupChating.sub')}`,
+            content: `${t('introduceScreen.groupChating.subtitle')}`,
             image: <LogoIntroduce1 width={width} />,
         },
+        // {
+        //     title: 'Video and Voice Calls',
+        //     content: 'Instantly connect via video and voice calls.',
+        //     image: <LogoIntroduce2 width={width} />,
+        // },
         {
-            title: 'Video and Voice Calls',
-            content: 'Instantly connect via video and voice calls.',
-            image: <LogoIntroduce2 width={width} />,
-        },
-        {
-            title: 'Message Encryption',
-            content: 'Ensure privacy with encrypted messages.',
+            title: `${t('introduceScreen.messageEncryption.sub')}`,
+            content: `${t('introduceScreen.messageEncryption.subtitle')}`,
             image: <LogoIntroduce3 width={width} />,
         },
         {
-            title: 'Cross-Platform Compatibility',
-            content: 'Access chats on any device seamlessly.',
+            title: `${t('introduceScreen.CrossPlatformCompatibility.sub')}`,
+            content: `${t('introduceScreen.CrossPlatformCompatibility.subtitle')}`,
             image: <LogoIntroduce4 width={width}/>,
         },
     ];
@@ -153,7 +154,7 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
 
           <Column styleCustom={{width : width,height : height * 0.3,justifyContent : 'space-evenly'}}>
               {/*Button getStarted*/}
-              <ButtonCustom onPress={()=>{}} text={'Get Started'} styleCustom={[
+              <ButtonCustom onPress={()=>{}} text={t('introduceScreen.started')} styleCustom={[
                   globalStyles.buttonHeight,
                   {
                       backgroundColor : theme.primary,
@@ -179,7 +180,7 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
                               color :theme.text,
                               fontWeight : '600',
                           },globalStyles.contentSize,
-                      ]}>Skip</Text>
+                      ]}>{t('introduceScreen.skip')}</Text>
                   </TouchableOpacity>
 
                   <View style={styles.dotContainer}>
@@ -208,7 +209,7 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
                               color :'#1B526B',
                               fontWeight : '600',
                           },globalStyles.contentSize,
-                      ]}>Next</Text>
+                      ]}>{t('introduceScreen.next')}</Text>
                   </TouchableOpacity>
               </Row>
           </Column>

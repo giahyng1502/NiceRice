@@ -1,0 +1,77 @@
+{
+  "privacyPolicy": "Chúng tôi cam kết bảo mật thông tin cá nhân của bạn khi sử dụng ứng dụng nhắn tin. Thông tin thu thập bao gồm: họ tên, số điện thoại, email (nếu có), danh sách bạn bè và nội dung tin nhắn được mã hóa đầu cuối. Dữ liệu chỉ được sử dụng cho mục đích kết nối, gửi và nhận tin nhắn, hỗ trợ tính năng ứng dụng. Chúng tôi không chia sẻ dữ liệu với bên thứ ba, trừ khi có yêu cầu từ cơ quan chức năng theo quy định pháp luật. Người dùng có quyền chỉnh sửa, cập nhật hoặc xóa thông tin bất cứ lúc nào thông qua cài đặt ứng dụng.",
+  "termsOfService": "Bằng việc sử dụng ứng dụng, bạn đồng ý không sử dụng dịch vụ vào các mục đích vi phạm pháp luật, quấy rối, phát tán thông tin sai lệch hoặc nội dung không phù hợp. Người dùng tự chịu trách nhiệm về nội dung tin nhắn và hành vi trong ứng dụng. Chúng tôi có quyền khóa hoặc xóa tài khoản vi phạm mà không cần thông báo trước.",
+  "contentPolicy": "Người dùng không được phép chia sẻ các nội dung độc hại, phản cảm, khiêu dâm, kích động bạo lực, hoặc thông tin sai sự thật. Bất kỳ hành vi nào vi phạm sẽ bị xử lý bằng việc cảnh cáo, khóa tài khoản hoặc báo cáo cơ quan chức năng theo mức độ nghiêm trọng. Chúng tôi cung cấp chức năng báo cáo nội dung để cộng đồng cùng tham gia kiểm soát và duy trì môi trường an toàn.",
+  "childProtectionPolicy": "Ứng dụng không dành cho trẻ em dưới 13 tuổi. Chúng tôi không cố ý thu thập thông tin từ người dùng dưới 13 tuổi. Nếu phát hiện tài khoản vi phạm, chúng tôi sẽ khóa và xóa dữ liệu liên quan ngay lập tức.",
+  "contactInfo": "Nếu bạn có bất kỳ thắc mắc, khiếu nại hoặc cần hỗ trợ, vui lòng liên hệ:",
+  "PhoneNumber" : "0963594828",
+  "Mail" : "hungcy1502@gmail.com",
+  "termsPolicies" : "Điều khoản & chính sách",
+  "lang": {
+    "language" : "Ngôn ngữ",
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh"
+  },
+  "bottomNavigation": {
+    "Messages": "Tin nhắn",
+    "Group": "Nhóm",
+    "Profile": "Cá nhân",
+    "More": "Cài đặt"
+  },
+  "modal": {
+    "addfriend": "Thêm bạn bè",
+    "createGroup": "Tạo nhóm",
+    "phone": "Số điện thoại",
+    "gender": "Giới tính",
+    "birthday": "Ngày sinh",
+    "email": "Email",
+    "editProfile": "Sửa trang cá nhân",
+    "logout": "Đăng xuất",
+    "enterName" : "Nhập tên của bạn",
+    "enterPhone" : "Nhập số điện thoại của bạn",
+    "enterMail" : "Nhập email của bạn",
+    "save" : "Lưu",
+    "congratulations" : "Thành công !",
+    "readyAccount" : "Tài khoản của bạn bây giờ đã có thể sử dụng",
+    "beDiriced" : "Bạn sẽ được chuyển hướng đến màn hình chính ngay bây giờ",
+    "camera" : "Máy ảnh",
+    "record" : "Ghi âm",
+    "contact" : "Danh bạ",
+    "gallery" : "Thư mục ảnh",
+    "location" : "Vị trí của bạn",
+    "document" : "Tài liệu"
+
+  },
+  "moreScreen": {
+    "muteNotification": "Tắt thông báo",
+    "inviteFriend": "Mời bạn bè",
+    "aboutApp": "Về ứng dụng",
+    "helpCenter": "Hướng dẫn",
+    "darkMode" : "Chế độ tối"
+  },
+  "introduceScreen": {
+    "groupChating": {
+      "sub": "Phòng chat",
+      "subtitle": "Trò chuyện với nhiều thành viên trong nhóm"
+    },
+    "messageEncryption": {
+      "sub": "Bảo mật tin nhắn",
+      "subtitle": "Tin nhắn được bảo mật an toàn"
+    },
+    "CrossPlatformCompatibility": {
+      "sub": "Tương thích đa nền tảng",
+      "subtitle": "Dễ dàng trò chuyện trên bất kỳ thiết bị nào."
+    },
+    "skip" : "Bỏ qua",
+    "next" : "Tiếp",
+    "prev" : "Trước",
+    "started" : "Bắt đầu bây giờ"
+  },
+  "optionScreen" : {
+    "addGroup" : "Thêm vào nhóm",
+    "customColor" : "Tùy chỉnh màu của đoạn chat",
+    "customBackground" : "Tùy chỉnh nền của đoạn chat",
+    "writeMessage" : "Soạn tin nhắn",
+
+  }
+}

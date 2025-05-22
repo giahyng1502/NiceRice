@@ -5,6 +5,7 @@ import {globalStyles, width} from '../styles/globalStyles';
 import {useTheme} from '../hooks/useTheme';
 import IconPerson from '../assets/svgs/icon_person';
 import IconGroup from '../assets/svgs/ic_groups';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   visible: boolean;
@@ -14,6 +15,7 @@ type Props = {
 
 const CreateGroupModal: React.FC<Props> = ({visible, onClose, position}) => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
   return (
     <Modal
       isVisible={visible}
@@ -44,9 +46,9 @@ const CreateGroupModal: React.FC<Props> = ({visible, onClose, position}) => {
             alignItems: 'center',
             gap: 10,
           }}>
-          <IconPerson color={theme.iconColor}/>
+          <IconPerson color={theme.iconColor} />
           <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
-            Add Friend
+            {t('modal.addfriend')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -57,7 +59,7 @@ const CreateGroupModal: React.FC<Props> = ({visible, onClose, position}) => {
           }}>
           <IconGroup color={theme.iconColor} />
           <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
-            Create Group
+            {t('modal.createGroup')}
           </Text>
         </TouchableOpacity>
       </View>

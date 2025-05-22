@@ -1,0 +1,76 @@
+{
+  "privacyPolicy": "We are committed to protecting your personal information when using the messaging app. The information collected includes: full name, phone number, email (if any), friends list, and end-to-end encrypted message content. Data is only used for the purpose of connecting, sending and receiving messages, and supporting app features. We do not share data with third parties, except when required by law enforcement agencies according to legal regulations. Users have the right to edit, update, or delete information anytime through the app settings.",
+  "termsOfService": "By using the app, you agree not to use the service for illegal purposes, harassment, spreading false information, or inappropriate content. Users are responsible for the message content and behavior within the app. We reserve the right to lock or delete violating accounts without prior notice.",
+  "contentPolicy": "Users are not allowed to share harmful, offensive, pornographic, violent inciting, or false information content. Any violations will be handled with warnings, account suspension, or reporting to authorities depending on the severity. We provide a content reporting feature for the community to help maintain a safe environment.",
+  "childProtectionPolicy": "The app is not intended for children under 13 years old. We do not intentionally collect information from users under 13. If a violating account is detected, we will immediately lock and delete related data.",
+  "contactInfo": "If you have any questions, complaints, or need support, please contact:",
+  "PhoneNumber": "0963594828",
+  "Mail": "hungcy1502@gmail.com",
+  "termsPolicies" : "Terms & Policies",
+  "lang": {
+    "language": "Language",
+    "vi": "Vietnamese",
+    "en": "English"
+  },
+  "bottomNavigation": {
+    "Messages": "Messages",
+    "Group": "Group",
+    "Profile": "Profile",
+    "More": "Settings"
+  },
+  "modal": {
+    "addfriend": "Add Friend",
+    "createGroup": "Create Group",
+    "phone": "Phone Number",
+    "gender": "Gender",
+    "birthday": "Birthday",
+    "email": "Email",
+    "editProfile": "Edit Profile",
+    "logout": "Logout",
+    "enterName": "Enter your name",
+    "enterPhone": "Enter your phone number",
+    "enterMail": "Enter your email",
+    "save": "Save",
+    "congratulations": "Success!",
+    "readyAccount": "Your account is now ready to use",
+    "beDiriced": "You will be redirected to the Home screen shortly",
+    "camera": "Camera",
+    "record": "Recording",
+    "contact": "Contacts",
+    "gallery": "Gallery",
+    "location": "Your Location",
+    "document": "Document"
+  },
+  "moreScreen": {
+    "muteNotification": "Mute Notifications",
+    "inviteFriend": "Invite Friends",
+    "aboutApp": "About App",
+    "helpCenter": "Help Center",
+    "darkMode": "Dark Mode"
+  },
+  "introduceScreen": {
+    "groupChating": {
+      "sub": "Chat Room",
+      "subtitle": "Chat with multiple group members"
+    },
+    "messageEncryption": {
+      "sub": "Message Security",
+      "subtitle": "Messages are securely encrypted"
+    },
+    "CrossPlatformCompatibility": {
+      "sub": "Cross-Platform Compatibility",
+      "subtitle": "Easily chat on any device."
+    },
+    "skip": "Skip",
+    "next": "Next",
+    "prev": "Previous",
+    "started": "Get Started Now"
+  },
+  "optionScreen" : {
+    "addGroup" : "Add To Group",
+    "customColor" : "Custom Color Chat",
+    "customBackground" : "Custom Background Chat",
+    "writeMessage" : "Write a message"
+
+  }
+}

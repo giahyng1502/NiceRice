@@ -10,6 +10,7 @@ import IconCoppy from "../../assets/svgs/ic_copy";
 import IconUpdateOuline from "../../assets/svgs/ic_pen_edit_outline";
 import IconLogout from "../../assets/svgs/ic_logout";
 import EditInfoDialog from "../../modals/modal_edit_profile";
+import {useTranslation} from "react-i18next";
 
 const ProfileScreen = () => {
     const {theme} = useTheme();
@@ -18,7 +19,7 @@ const ProfileScreen = () => {
     const handleCopy = (value: string) => {
         Clipboard.setString(value);
     };
-
+    const {t} = useTranslation();
     return (
         <View style={[styles.container, {backgroundColor: theme.background}]}>
             <View style={styles.circle}>
@@ -49,7 +50,7 @@ const ProfileScreen = () => {
             <Margin top={5} />
 
             <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
-                <Text style={[globalStyles.mediumText, {color: theme.text2}]}>Phone: 0987654321</Text>
+                <Text style={[globalStyles.mediumText, {color: theme.text2}]}>{t('modal.phone')}: 0987654321</Text>
                 <TouchableOpacity onPress={() => handleCopy('0987654321')}>
                     <IconCoppy color={theme.iconColor}/>
                 </TouchableOpacity>
@@ -58,7 +59,7 @@ const ProfileScreen = () => {
             <Margin top={2} />
 
             <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
-                <Text style={[globalStyles.mediumText, {color: theme.text2}]}>Gender: Male</Text>
+                <Text style={[globalStyles.mediumText, {color: theme.text2}]}>{t('modal.gender')}: Male</Text>
                 <TouchableOpacity onPress={() => handleCopy('Male')}>
                     <IconCoppy color={theme.iconColor}/>
 
@@ -68,7 +69,7 @@ const ProfileScreen = () => {
             <Margin top={2} />
 
             <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
-                <Text style={[globalStyles.mediumText, {color: theme.text2}]}>Birthday: 01/05/2002</Text>
+                <Text style={[globalStyles.mediumText, {color: theme.text2}]}>{t('modal.birthday')}: 01/05/2002</Text>
                 <TouchableOpacity onPress={() => handleCopy('01/05/2002')}>
                     <IconCoppy color={theme.iconColor}/>
 
@@ -79,7 +80,7 @@ const ProfileScreen = () => {
 
             <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
                 <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
-                    Email: hungcy1502@gmail.com
+                    {t('modal.email')}: hungcy1502@gmail.com
                 </Text>
                 <TouchableOpacity onPress={() => handleCopy('hungcy1502@gmail.com')}>
                     <IconCoppy color={theme.iconColor}/>
@@ -113,7 +114,7 @@ const ProfileScreen = () => {
                             marginLeft: 8,
                         },
                     ]}>
-                    Edit Profile
+                    {t('modal.editProfile')}
                 </Text>
             </TouchableOpacity>
 
@@ -140,7 +141,7 @@ const ProfileScreen = () => {
                             marginLeft: 8,
                         },
                     ]}>
-                    Logout
+                    {t('modal.logout')}
                 </Text>
             </TouchableOpacity>
 

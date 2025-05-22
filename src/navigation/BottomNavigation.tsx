@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {
-  BottomTabNavigatorProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import ConverstationScreen from '../screens/messages/convesation/ConverstationScreen';
@@ -16,11 +15,13 @@ import IconProfile from '../assets/svgs/ic_profile';
 import IconMore from '../assets/svgs/icon_more';
 import {height, width} from '../styles/globalStyles';
 import {useTheme} from '../hooks/useTheme';
+import {useTranslation} from "react-i18next";
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigation = () => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
   const bottomNavHeight = height * 0.12;
   return (
     <Tab.Navigator
@@ -56,7 +57,7 @@ const BottomNavigation = () => {
                   marginTop: 8,
                   fontWeight: '700',
                 }}>
-                {route.name}
+                  {t(`bottomNavigation.${route.name}`)}
               </Text>
             </View>
           );

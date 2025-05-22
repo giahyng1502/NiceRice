@@ -10,11 +10,13 @@ import ItemOption from './OtionItem';
 import IconGroup from '../../assets/svgs/ic_groups';
 import IconCustomBackground from '../../assets/svgs/icon_custom_backgroup';
 import IconColor from '../../assets/svgs/icon_custom_color';
+import {useTranslation} from "react-i18next";
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ChatOption'>;
 
 const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
   const {name, image} = route.params;
+  const {t} = useTranslation()
   const {theme} = useTheme();
   const handleBack = () => {
     navigation.goBack();
@@ -62,11 +64,11 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
           alignItems: 'flex-start',
             gap : 10,
         }}>
-        <ItemOption Icon={<IconGroup color={theme.iconColor}/>} title={'Add To Group'} />
-        <ItemOption Icon={<IconColor color={theme.iconColor}/>} title={'Custom Color Chat'} />
+        <ItemOption Icon={<IconGroup color={theme.iconColor}/>} title={t('optionScreen.addGroup')} />
+        <ItemOption Icon={<IconColor color={theme.iconColor}/>} title={t('optionScreen.customColor')} />
         <ItemOption
           Icon={<IconCustomBackground color={theme.iconColor}/>}
-          title={'Custom Background Chat'}
+          title={t('optionScreen.customBackground')}
         />
       </View>
     </View>

@@ -11,6 +11,7 @@ import IconGallery from '../assets/svgs/ic_gallery';
 import IconLocation from '../assets/svgs/ic_location';
 import IconDocument from '../assets/svgs/ic_document';
 import {HEIGHT_INPUT_TOOLBAR} from '../screens/messages/message/custom_input_toolbar';
+import {useTranslation} from "react-i18next";
 
 interface Props {
   visible: boolean;
@@ -19,6 +20,7 @@ interface Props {
 
 const ModalOption: React.FC<Props> = ({visible, onClose}) => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
   return (
     <Modal
       isVisible={visible}
@@ -39,32 +41,32 @@ const ModalOption: React.FC<Props> = ({visible, onClose}) => {
         <IconButton
           icon={<IconCamera color={theme.iconColor} />}
           onPress={() => {}}
-          title={'Camera'}
+          title={t('modal.camera')}
         />
         <IconButton
           icon={<IconRecord color={theme.iconColor} />}
           onPress={() => {}}
-          title={'Record'}
+          title={t('modal.record')}
         />
         <IconButton
           icon={<IconPerson color={theme.iconColor} />}
           onPress={() => {}}
-          title={'Contact'}
+          title={t('modal.contact')}
         />
         <IconButton
           icon={<IconGallery color={theme.iconColor} />}
           onPress={() => {}}
-          title={'Gallery'}
+          title={t('modal.gallery')}
         />
         <IconButton
           icon={<IconLocation color={theme.iconColor} />}
           onPress={() => {}}
-          title={'My Location'}
+          title={t('modal.location')}
         />
         <IconButton
           icon={<IconDocument color={theme.iconColor} />}
           onPress={() => {}}
-          title={'Document'}
+          title={t('modal.document')}
         />
       </View>
     </Modal>

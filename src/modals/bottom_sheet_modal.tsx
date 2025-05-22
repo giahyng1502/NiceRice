@@ -33,7 +33,7 @@ const BottomSheetModal: React.FC<Props> = ({
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={-1}
+      index={visible ? 0 : -1}
       snapPoints={snapPoints}
       enablePanDownToClose
       onClose={onClose}
