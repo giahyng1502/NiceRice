@@ -7,13 +7,13 @@ import {getParticipantsByIds} from '../../models/fakeData';
 import Column from '../../components/container/Column';
 import {globalStyles} from '../../styles/globalStyles';
 import {formatDateOrTime} from '../../utils/formatDate';
-import {RootStackParamList} from '../../navigation/AppNavigation';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {MainTabParamList} from "../../navigation/BottomNavigation";
 
 interface Props {
   conversation: Conversation;
 }
-type NavigationProps = NavigationProp<RootStackParamList, 'Group'>;
+type NavigationProps = NavigationProp<MainTabParamList, 'Group'>;
 
 const GroupItem: React.FC<Props> = React.memo(({conversation}) => {
   const participantDetail: Participant[] = getParticipantsByIds(

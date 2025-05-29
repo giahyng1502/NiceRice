@@ -5,33 +5,49 @@ import IntroduceScreen from "../screens/introduct/introduce_screen";
 import BottomNavigation from "./BottomNavigation";
 import MessageDetail from "../screens/messages/message/MessageDetail";
 import ChatOption from "../screens/option/ChatOption";
+import LoginScreen from "../screens/login/LoginScreen";
+import {useAuth} from "../hooks/useAuth";
+import SplashScreen from "../screens/introduct/splash_screen";
 
-// 1. Định nghĩa kiểu param cho toàn bộ stack
-export type RootStackParamList = {
+export type AuthStackParamList = {
     Introduce: undefined;
-    Main: undefined;
-    Group: undefined;
-    Messages : undefined;
-    MessageDetail: { id: string };
-    ChatOption: { name: string ,image: string};
+    LoginScreen: undefined;
+    SplashScreen: undefined;
 };
 
-// 2. Khởi tạo stack navigator với kiểu param list
-const Stack = createNativeStackNavigator<RootStackParamList>();
+export type AppStackParamList = {
+    Main: undefined;
+    MessageDetail: { id: string };
+    ChatOption: { name: string; image: string };
+};
 
-const AppNavigation: React.FC = () => {
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const AppStack = createNativeStackNavigator<AppStackParamList>();
+
+const AuthStackScreen = () => (
+    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+        <AuthStack.Screen name="SplashScreen" component={SplashScreen} />
+        <AuthStack.Screen name="Introduce" component={IntroduceScreen} />
+        <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
+    </AuthStack.Navigator>
+);
+
+const AppStackScreen = () => (
+    <AppStack.Navigator screenOptions={{ headerShown: false }}>
+        <AppStack.Screen name="Main" component={BottomNavigation} />
+        <AppStack.Screen name="MessageDetail" component={MessageDetail} />
+        <AppStack.Screen name="ChatOption" component={ChatOption} />
+    </AppStack.Navigator>
+);
+
+const RootNavigator: React.FC = () => {
+    const {isLoggedIn} = useAuth();
+
     return (
         <NavigationContainer>
-            <Stack.Navigator
-                initialRouteName="Main"
-                screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Introduce" component={IntroduceScreen} />
-                <Stack.Screen name="Main" component={BottomNavigation} />
-                <Stack.Screen name="MessageDetail" component={MessageDetail} />
-                <Stack.Screen name="ChatOption" component={ChatOption} />
-            </Stack.Navigator>
+            {isLoggedIn ? <AppStackScreen /> : <AuthStackScreen />}
         </NavigationContainer>
     );
 };
 
-export default AppNavigation;
+export default RootNavigator;

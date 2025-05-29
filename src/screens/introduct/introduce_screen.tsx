@@ -21,14 +21,14 @@ import Animated from 'react-native-reanimated';
 import ButtonCustom from '../../components/buttons/Button';
 import Column from '../../components/container/Column';
 import {useTranslation} from "react-i18next";
+import {NavigationProp, useNavigation} from "@react-navigation/native";
+import {AuthStackParamList} from "../../navigation/AppNavigation";
 
-type Props = {
-    navigation: any;
-};
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-
-const IntroduceScreen: React.FC<Props> = ({navigation}) => {
+type NavigationProps = NavigationProp<AuthStackParamList,"Introduce">;
+const IntroduceScreen: React.FC = () => {
+    const navigation = useNavigation<NavigationProps>();
     const [currentIndex, setCurrentIndex] = useState(0);
     const {theme} = useTheme();
     const {t} = useTranslation();
@@ -74,12 +74,12 @@ const IntroduceScreen: React.FC<Props> = ({navigation}) => {
                 animated: true,
             });
         } else {
-            navigation.navigate('Login'); // hoặc màn nào bạn muốn
+            navigation.navigate('LoginScreen'); // hoặc màn nào bạn muốn
         }
     };
     // chức năng của nút skip
     const handleSkip = () => {
-        navigation.navigate('Login'); // hoặc màn chính
+        navigation.navigate('LoginScreen'); // hoặc màn chính
     };
 
     useEffect(() => {

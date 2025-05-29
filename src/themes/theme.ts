@@ -22,6 +22,8 @@ export const themes: Record<Theme, {
     backgroundItem: string;
     iconColor: string;
     inputBar: string;
+    backgroundLogin1: string;
+    backgroundLogin2: string;
 }> = {
     dark: {
         background: '#292929',
@@ -43,6 +45,8 @@ export const themes: Record<Theme, {
         backgroundMessage: '#2F2E41',
         backgroundIntroduce1: '#092A51',
         backgroundIntroduce2: '#686A8A',
+        backgroundLogin1 : "#03A9F4",
+        backgroundLogin2 : "#E8F0F9",
         inputBar : '#686A8A',
         iconColor: '#ffffff'
     },
@@ -67,6 +71,8 @@ export const themes: Record<Theme, {
         backgroundMessage: '#E9EAEB',
         backgroundIntroduce1: '#E0F7FA',
         backgroundIntroduce2: '#B2EBF2',
+        backgroundLogin1 : "#1A47B8",
+        backgroundLogin2 : "#9A9BB1",
         iconColor: '#000000'
     }
 };

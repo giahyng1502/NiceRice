@@ -3,11 +3,7 @@ export interface Participant {
     username: string;
     avatarUrl?: string;
     isAdmin?: boolean;
-}
-
-export interface Reaction {
-    userId: string;
-    emoji: string;
+    conversationId: string;
 }
 
 export type MessageType = 'text' | 'image' | 'video' | 'audio' | 'file' | 'system';
@@ -24,13 +20,11 @@ export interface Message {
     link?: string[];
     status: MessageStatus;
     replyToMessageId?: string;
-    reactions?: Reaction[];
     isEdited?: boolean;
 }
 
 export interface Conversation {
     conversationId: string;
-    participantIds: string[];
     lastUpdated: string;
     unreadCount: number;
     lastMessagePreview?: string;

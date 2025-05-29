@@ -11,10 +11,12 @@ import IconUpdateOuline from "../../assets/svgs/ic_pen_edit_outline";
 import IconLogout from "../../assets/svgs/ic_logout";
 import EditInfoDialog from "../../modals/modal_edit_profile";
 import {useTranslation} from "react-i18next";
+import {useAuth} from "../../hooks/useAuth";
 
 const ProfileScreen = () => {
     const {theme} = useTheme();
     const [isVisible, setIsVisible] = useState(false)
+    const { logout } = useAuth()
     // hàm copy nội dung
     const handleCopy = (value: string) => {
         Clipboard.setString(value);
@@ -131,7 +133,9 @@ const ProfileScreen = () => {
                         borderRadius: 8,
                         alignItems: 'center',
                     },
-                ]}>
+                ]}
+                onPress={()=> logout()}
+            >
                 <IconLogout color={theme.iconColor}/>
                 <Text
                     style={[

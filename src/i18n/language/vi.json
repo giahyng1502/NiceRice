@@ -71,7 +71,12 @@
     "addGroup" : "Thêm vào nhóm",
     "customColor" : "Tùy chỉnh màu của đoạn chat",
     "customBackground" : "Tùy chỉnh nền của đoạn chat",
-    "writeMessage" : "Soạn tin nhắn",
+    "writeMessage" : "Soạn tin nhắn"
 
+  },
+  "birthday": {
+    "Male": "Nam",
+    "Female": "Nữ",
+    "Other": "Khác"
   }
 }

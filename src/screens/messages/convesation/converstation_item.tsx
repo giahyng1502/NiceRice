@@ -6,17 +6,19 @@ import {useTheme} from '../../../hooks/useTheme';
 import {formatDateOrTime} from '../../../utils/formatDate';
 import Column from '../../../components/container/Column';
 import {NavigationProp, useNavigation} from "@react-navigation/native";
-import {RootStackParamList} from "../../../navigation/AppNavigation";
+import {MainTabParamList} from "../../../navigation/BottomNavigation";
+import {useConversation} from "../../../hooks/useConversation";
 
 interface Props {
   conversation: Conversation;
 }
 // 2. Khai báo kiểu navigation
-type NavigationProps = NavigationProp<RootStackParamList, 'Messages'>;
+type NavigationProps = NavigationProp<MainTabParamList, 'Messages'>;
 
 const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
   const {theme} = useTheme();
-  const {participantIds, lastMessagePreview, unreadCount, lastUpdated} =
+  const {participants} = useConversation()
+  const {lastMessagePreview, unreadCount, lastUpdated} =
     conversation;
   const navigation = useNavigation<NavigationProps>();
   const currentUserId = 'u1';

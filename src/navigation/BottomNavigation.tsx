@@ -7,8 +7,6 @@ import ConverstationScreen from '../screens/messages/convesation/ConverstationSc
 import GroupScreen from '../screens/groups/GroupScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import MoreScreen from '../screens/more/MoreScreen';
-
-// Import icon SVG
 import IconMessage from '../assets/svgs/ic_message';
 import IconGroup from '../assets/svgs/ic_groups';
 import IconProfile from '../assets/svgs/ic_profile';
@@ -17,7 +15,13 @@ import {height, width} from '../styles/globalStyles';
 import {useTheme} from '../hooks/useTheme';
 import {useTranslation} from "react-i18next";
 
-const Tab = createBottomTabNavigator();
+export type MainTabParamList = {
+    Home: undefined;
+    Group: undefined;
+    Profile: undefined;
+    Messages: undefined;
+};
+const Tab = createBottomTabNavigator<MainTabParamList>();
 
 const BottomNavigation = () => {
   const {theme} = useTheme();

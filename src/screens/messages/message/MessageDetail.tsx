@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../navigation/AppNavigation';
+import {AppStackParamList} from '../../../navigation/AppNavigation';
 
 import {FlashList} from '@shopify/flash-list';
 import {
@@ -16,7 +16,7 @@ import CustomInputToolbar, {HEIGHT_INPUT_TOOLBAR} from './custom_input_toolbar';
 import HeaderMessage from './HeaderMessage';
 import Magin from '../../../components/margin/magin';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'MessageDetail'>;
+type Props = NativeStackScreenProps<AppStackParamList, 'MessageDetail'>;
 
 const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const {id} = route.params;

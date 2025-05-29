@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {RootStackParamList} from '../../navigation/AppNavigation';
 import {useTheme} from '../../hooks/useTheme';
 import IconBack from '../../assets/svgs/icon_back';
 import {globalStyles} from '../../styles/globalStyles';
@@ -11,8 +10,9 @@ import IconGroup from '../../assets/svgs/ic_groups';
 import IconCustomBackground from '../../assets/svgs/icon_custom_backgroup';
 import IconColor from '../../assets/svgs/icon_custom_color';
 import {useTranslation} from "react-i18next";
+import {AppStackParamList} from "../../navigation/AppNavigation";
 
-type Props = NativeStackScreenProps<RootStackParamList, 'ChatOption'>;
+type Props = NativeStackScreenProps<AppStackParamList, 'ChatOption'>;
 
 const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
   const {name, image} = route.params;

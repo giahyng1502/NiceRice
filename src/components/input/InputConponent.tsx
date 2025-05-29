@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, TextInput, StyleSheet, Text, TextInputProps, ViewStyle, TextStyle } from 'react-native';
-import {height} from "../../styles/globalStyles";
+import { View, StyleSheet, Text, TextInputProps, ViewStyle, TextStyle } from 'react-native';
 import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 
 type InputComponentProps = {

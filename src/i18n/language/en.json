@@ -72,5 +72,11 @@
     "customBackground" : "Custom Background Chat",
     "writeMessage" : "Write a message"
 
+  },
+
+  "birthday": {
+    "Male": "Male",
+    "Female": "Female",
+    "Other": "Other"
   }
 }

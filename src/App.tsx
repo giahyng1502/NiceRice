@@ -5,6 +5,9 @@ import store from './store/store';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useThemeManager, useTheme} from './hooks/useTheme';
 import {StatusBar} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getInformation} from './store/action/userAction';
+import {useAppDispatch} from './hooks/useAppDispatch';
 
 const AppWrapper: React.FC = () => {
   const {loadTheme} = useThemeManager();
@@ -14,6 +17,17 @@ const AppWrapper: React.FC = () => {
     loadTheme();
   }, []);
 
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem('accessToken');
+        console.log(token);
+      if (token) {
+        dispatch(getInformation());
+      }
+    };
+    checkToken();
+  }, [dispatch]);
   return (
     <>
       <StatusBar
