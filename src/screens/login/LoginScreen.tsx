@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
-  TextInput,
-  Alert,
 } from 'react-native';
 import {useTheme} from '../../hooks/useTheme';
 import Animated, {
@@ -17,13 +15,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import {globalStyles} from '../../styles/globalStyles';
 import Margin from '../../components/margin/magin';
-import {User} from '../../store/reducers/userSlice';
-import {useTranslation} from 'react-i18next';
-import GenderButton from '../../components/buttons/GenderButton';
 import {useAuth} from '../../hooks/useAuth';
-import LottieView from 'lottie-react-native';
-import LoadingAnimation from '../../components/animation/loading_animation';
-import LoadingModal from "../../modals/modal_loading";
+import LoadingModal from '../../modals/modal_loading';
+import RegisterScreen from './RegisterScreen';
+import Login from './Login';
 
 const {width} = Dimensions.get('window');
 
@@ -33,40 +28,17 @@ const LoginScreen: React.FC = () => {
   const {theme} = useTheme();
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useSharedValue(0);
-  const {login, user, loading, error} = useAuth();
-  const [information, setInformation] = useState({
-    email: '',
-    phoneNumber: '',
-    birthDay: '',
-    gender: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const {loading, error} = useAuth();
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateX: translateX.value}],
   }));
-
-  const handleChange = (key: keyof User, value: string) => {
-    setInformation(prev => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
 
   const handleSwitch = (index: number) => {
     setActiveTab(index);
     translateX.value = withTiming(-index * width, {duration: 300});
   };
 
-  const handleLogin = async () => {
-    if (!information.email || !information.password) {
-      Alert.alert('Lỗi', 'Vui lòng nhập email và mật khẩu');
-      return;
-    }
-    // Gọi login từ useAuth hook
-    await login(information.email, information.password);
-  };
   return (
     <View style={[styles.container, {backgroundColor: theme.background}]}>
       <Margin top={5} />
@@ -128,166 +100,13 @@ const LoginScreen: React.FC = () => {
       {/* Animated Views */}
       <Animated.View style={[styles.sliderContainer, animatedStyle]}>
         {/* SignIn */}
-        <View style={[styles.screen, {backgroundColor: theme.background}]}>
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor={theme.text2}
-            style={[
-              styles.textInput,
-              {
-                backgroundColor: theme.inputBar,
-                color: theme.text2,
-              },
-            ]}
-            value={information.email}
-            onChangeText={text => handleChange('email', text)}
-          />
-          <Margin top={2} />
 
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor={theme.text2}
-            style={[
-              styles.textInput,
-              {
-                backgroundColor: theme.inputBar,
-                color: theme.text2,
-              },
-            ]}
-            value={information.password}
-            onChangeText={text => handleChange('password', text)}
-          />
-          <Margin top={2} />
-
-          <TouchableOpacity
-            style={{
-              backgroundColor: theme.primary,
-              width: width * 0.4,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 8,
-            }}
-            onPress={handleLogin}>
-            <Text
-              style={{
-                color: theme.text2,
-                fontSize: 16,
-              }}>
-              SingIn
-            </Text>
-          </TouchableOpacity>
-        </View>
-
+        <Login />
         {/* SignUp */}
-        <View style={[styles.screen, {backgroundColor: theme.background}]}>
-          <TextInput
-            placeholder="Name"
-            placeholderTextColor={theme.text2}
-            style={[
-              styles.textInput,
-              {
-                backgroundColor: theme.inputBar,
-                color: theme.text2,
-              },
-            ]}
-            value={information.userName}
-            onChangeText={text => handleChange('userName', text)}
-          />
-          <Margin top={2} />
-
-          <View style={styles.genderContainer}>
-            {['Male', 'Female', 'Other'].map(gender => (
-              <GenderButton
-                key={gender}
-                label={gender}
-                selected={information.gender === gender}
-                onPress={() => handleChange('gender', gender)}
-                theme={theme}
-              />
-            ))}
-          </View>
-          <Margin top={2} />
-
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor={theme.text2}
-            style={[
-              styles.textInput,
-              {
-                backgroundColor: theme.inputBar,
-                color: theme.text2,
-              },
-            ]}
-            value={information.email}
-            onChangeText={text => handleChange('email', text)}
-          />
-          <Margin top={2} />
-
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor={theme.text2}
-            style={[
-              styles.textInput,
-              {
-                backgroundColor: theme.inputBar,
-                color: theme.text2,
-              },
-            ]}
-            value={information.email}
-            onChangeText={text => handleChange('email', text)}
-          />
-          <Margin top={2} />
-          <TextInput
-            placeholder="Comfirm Password"
-            placeholderTextColor={theme.text2}
-            style={[
-              styles.textInput,
-              {
-                backgroundColor: theme.inputBar,
-                color: theme.text2,
-              },
-            ]}
-            value={information.email}
-            onChangeText={text => handleChange('email', text)}
-          />
-          <Margin top={2} />
-          <TextInput
-            placeholder="PhoneNumber"
-            placeholderTextColor={theme.text2}
-            style={[
-              styles.textInput,
-              {
-                backgroundColor: theme.inputBar,
-                color: theme.text2,
-              },
-            ]}
-            value={information.phoneNumber}
-            onChangeText={text => handleChange('phoneNumber', text)}
-          />
-          <Margin top={2} />
-          <TouchableOpacity
-            style={{
-              backgroundColor: theme.primary,
-              width: width * 0.4,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 8,
-            }}>
-            <Text
-              style={{
-                color: theme.text2,
-                fontSize: 16,
-              }}>
-              Sing Up
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <RegisterScreen />
       </Animated.View>
 
-      <LoadingModal visible={loading}/>
-
+      <LoadingModal visible={loading} />
     </View>
   );
 };

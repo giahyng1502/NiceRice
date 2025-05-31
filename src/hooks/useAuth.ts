@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect } from 'react';
 import { RootState } from '../store/store';
 import { useAppDispatch } from './useAppDispatch';
 import { clearUser } from '../store/reducers/userSlice';
-import { getInformation, loginUser } from '../store/action/userAction';
+import {loginUser} from '../store/action/userAction';
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
@@ -13,9 +12,6 @@ export const useAuth = () => {
     const error = useSelector((state: RootState) => state.user.error);
     const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
 
-    const login = async (email: string, password: string) => {
-        await dispatch(loginUser({ email, password }));
-    };
 
     const logout = async () => {
         try {
@@ -27,5 +23,5 @@ export const useAuth = () => {
     };
 
 
-    return { user, loading, login, logout, error, isLoggedIn };
+    return { user, loading, logout, error, isLoggedIn };
 };

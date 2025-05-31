@@ -1,14 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {getInformation, loginUser} from '../action/userAction';
+import {getInformation, loginUser, registerUser} from '../action/userAction';
 
 // Định nghĩa interface cho user
 export interface User {
   userId?: string;
   userName: string;
-  email: string;
+  fullName: string;
   avatarUrl?: string;
-  phoneNumber: string;
-  birthDay: string;
+  phoneNumber?: string;
+  birthDay?: string;
   gender: string;
 }
 
@@ -24,7 +24,7 @@ const initialState: UserState = {
   data: null,
   loading: false,
   error: null,
-  isLoggedIn : false
+  isLoggedIn: false,
 };
 
 // Tạo slice
@@ -34,7 +34,7 @@ const userSlice = createSlice({
   reducers: {
     clearUser: state => {
       state.data = null;
-      state.isLoggedIn = false
+      state.isLoggedIn = false;
     },
     setUser: (state, action: PayloadAction<User>) => {
       state.data = action.payload;
@@ -67,6 +67,19 @@ const userSlice = createSlice({
         state.isLoggedIn = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(registerUser.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.loading = false;
+        state.isLoggedIn = true;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

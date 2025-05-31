@@ -20,7 +20,6 @@ const ConversationScreen = () => {
 
   const {theme} = useTheme();
   useEffect(() => {
-    console.log(conversations);
 
     const msg = conversations.filter(c => !c.isGroup);
     setConvs(msg);

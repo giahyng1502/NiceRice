@@ -2,6 +2,7 @@ import { User } from "../reducers/userSlice";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axiosClient from "../../apis/axios";
+import {RegisterForm} from "../../screens/register/registerForm";
 // This should return a promise that resolves to the user data
 export const getInformation = createAsyncThunk<User>(
     "user/getInformation",
@@ -19,10 +20,10 @@ export const getInformation = createAsyncThunk<User>(
 
 export const loginUser = createAsyncThunk(
     'user/loginUser',
-    async (loginData: { email: string; password: string }, { rejectWithValue }) => {
+    async (loginData: { userName: string; password: string }, { rejectWithValue }) => {
         try {
             console.log(loginData);
-            const response  = await axiosClient.post('/users/login', loginData);
+            const response : any  = await axiosClient.post('/users/login', loginData);
             const { accessToken, profile } = response;
 
             // Lưu token vào AsyncStorage
@@ -34,3 +35,19 @@ export const loginUser = createAsyncThunk(
         }
     }
 );
+
+export const registerUser = createAsyncThunk('user/sign-Up', async (registerData : RegisterForm, { rejectWithValue }) => {
+    try {
+        console.log(registerData);
+        const response : any = await axiosClient.post('/users/sign-Up', registerData);
+        if (!response?.profile) {
+            rejectWithValue('Tạo tài khoản thất bại')
+        }
+        const { accessToken, profile } = response;
+        await AsyncStorage.setItem('accessToken', accessToken);
+        return profile as User;
+    }catch (error: any) {
+        return rejectWithValue(error?.message || 'Tạo tài khoản thất bại');
+
+    }
+})
