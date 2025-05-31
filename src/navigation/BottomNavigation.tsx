@@ -30,7 +30,6 @@ const BottomNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarHideOnKeyboard: true,
         tabBarIcon: ({focused}) => {
           let IconComponent;
           switch (route.name) {

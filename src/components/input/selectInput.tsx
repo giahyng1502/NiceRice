@@ -11,6 +11,7 @@ import {
 import { useTheme } from '../../hooks/useTheme';
 import Margin from '../margin/magin';
 import IconArrowDown from "../../assets/svgs/ic_arrow_down";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     item: string;
@@ -18,14 +19,14 @@ type Props = {
 };
 
 const genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' },
 ];
 
 const SelectInputModal: React.FC<Props> = ({ item, setItem }) => {
     const {theme} = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
-
+    const {t} = useTranslation()
     const handleSelect = (value: string) => {
         setItem(value);
         console.log(value)
@@ -35,7 +36,7 @@ const SelectInputModal: React.FC<Props> = ({ item, setItem }) => {
     return (
         <View style={styles.container}>
             <Margin top={1} />
-            <Text style={[styles.label, { color: theme.text2 }]}>Gender</Text>
+            <Text style={[styles.label, { color: theme.text2 }]}>{t('modal.gender')}</Text>
             <Margin top={1} />
 
             <TouchableOpacity
@@ -44,7 +45,7 @@ const SelectInputModal: React.FC<Props> = ({ item, setItem }) => {
                 activeOpacity={0.8}
             >
                 <Text style={[styles.selectedText, { color: item ? theme.text2 : '#999' }]}>
-                    {item ? genderOptions.find(g => g.value === item)?.label : 'Select gender'}
+                    {item ? t(`birthday.${genderOptions.find(g => g.value === item)?.label || ''}`) : t('modal.select_gender')}
                 </Text>
 
                 <IconArrowDown color={theme.iconColor}/>
@@ -58,7 +59,7 @@ const SelectInputModal: React.FC<Props> = ({ item, setItem }) => {
             >
                 <Pressable style={styles.overlay} onPress={() => setModalVisible(false)}>
                     <View style={[styles.modalContainer, { backgroundColor: theme.background }]}>
-                        <Text style={[styles.modalTitle, { color: theme.text2 }]}>Select gender</Text>
+                        <Text style={[styles.modalTitle, { color: theme.text2 }]}>{t('modal.select_gender')}</Text>
                         <FlatList
                             data={genderOptions}
                             keyExtractor={(item) => item.value}
@@ -68,7 +69,7 @@ const SelectInputModal: React.FC<Props> = ({ item, setItem }) => {
                                     onPress={() => handleSelect(option.value)}
                                 >
                                     <Text style={[styles.optionText, { color: theme.text2 }]}>
-                                        {option.label}
+                                        {t(`birthday.${option.label}`)}
                                     </Text>
                                 </TouchableOpacity>
                             )}

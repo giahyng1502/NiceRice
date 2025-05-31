@@ -1,5 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {getInformation, loginUser, registerUser} from '../action/userAction';
+import {
+  getInformation,
+  loginUser,
+  registerUser,
+  updateInformation,
+} from '../action/userAction';
 
 // Định nghĩa interface cho user
 export interface User {
@@ -8,8 +13,9 @@ export interface User {
   fullName: string;
   avatarUrl?: string;
   phoneNumber?: string;
-  birthDay?: string;
+  birthday?: string;
   gender: string;
+  createdAt?: Date;
 }
 
 // Khởi tạo initial state
@@ -21,7 +27,15 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  data: null,
+  data: {
+    userId: '',
+    gender: '',
+    birthday: '',
+    phoneNumber: '',
+    fullName: '',
+    userName: '',
+    avatarUrl: '',
+  },
   loading: false,
   error: null,
   isLoggedIn: false,
@@ -51,6 +65,7 @@ const userSlice = createSlice({
         (state, action: PayloadAction<User>) => {
           state.loading = false;
           state.data = action.payload;
+          state.isLoggedIn = true;
         },
       )
       .addCase(getInformation.rejected, (state, action: PayloadAction<any>) => {
@@ -82,7 +97,25 @@ const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
+      .addCase(updateInformation.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        updateInformation.fulfilled,
+        (state, action: PayloadAction<User>) => {
+          state.loading = false;
+          state.data = action.payload;
+        },
+      )
+      .addCase(
+        updateInformation.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        },
+      );
   },
 });
 

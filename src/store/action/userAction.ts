@@ -9,7 +9,7 @@ export const getInformation = createAsyncThunk<User>(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axiosClient.get("/users/getProfile");
-            return response.data as User;
+            return response.user as User;
         } catch (error: any) {
             console.error(error);
             return rejectWithValue(error.response?.data || "Có lỗi xảy ra");
@@ -51,3 +51,18 @@ export const registerUser = createAsyncThunk('user/sign-Up', async (registerData
 
     }
 })
+
+
+export const updateInformation = createAsyncThunk<User>(
+    "user/updateInformation",
+    async (information, { rejectWithValue }) => {
+        try {
+            const response = await axiosClient.put("/users/update/information",information);
+            return response.user as User;
+        } catch (error: any) {
+            console.error(error);
+            return rejectWithValue(error.response?.data || "Có lỗi xảy ra");
+        }
+    }
+);
+

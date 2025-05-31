@@ -7,7 +7,7 @@ export const fetchConversation = createAsyncThunk<Conversation[], void>(
   async (_, {rejectWithValue}) => {
     try {
       const response = await axiosClient.get<Conversation[]>(
-        '/conversation/getAll',
+        '/conversation',
       );
         console.log("Conversation response", response);
 

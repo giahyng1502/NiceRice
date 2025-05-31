@@ -23,8 +23,10 @@
     "createGroup": "Tạo nhóm",
     "phone": "Số điện thoại",
     "gender": "Giới tính",
+    "select_gender": "Chọn giới tính",
     "birthday": "Ngày sinh",
     "email": "Email",
+    "name": "Tên",
     "editProfile": "Sửa trang cá nhân",
     "logout": "Đăng xuất",
     "enterName" : "Nhập tên của bạn",
@@ -39,7 +41,8 @@
     "contact" : "Danh bạ",
     "gallery" : "Thư mục ảnh",
     "location" : "Vị trí của bạn",
-    "document" : "Tài liệu"
+    "document" : "Tài liệu",
+    "joinedDate" : "Ngày tham gia"
 
   },
   "moreScreen": {

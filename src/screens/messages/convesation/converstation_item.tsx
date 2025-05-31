@@ -7,7 +7,6 @@ import {formatDateOrTime} from '../../../utils/formatDate';
 import Column from '../../../components/container/Column';
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {MainTabParamList} from "../../../navigation/BottomNavigation";
-import {useConversation} from "../../../hooks/useConversation";
 
 interface Props {
   conversation: Conversation;
@@ -17,21 +16,12 @@ type NavigationProps = NavigationProp<MainTabParamList, 'Messages'>;
 
 const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
   const {theme} = useTheme();
-  const {participants} = useConversation()
-  const {lastMessagePreview, unreadCount, lastUpdated} =
+  const {lastMessagePreview, unreadCount, updatedAt} =
     conversation;
   const navigation = useNavigation<NavigationProps>();
-  const currentUserId = 'u1';
-  const otherParticipants = participantIds.filter(u => u !== currentUserId);
-  const user = getParticipantsByIds(otherParticipants);
 
-  // Hiển thị tên của participant chính
-  const displayName =
-    otherParticipants.length > 0 ? user[0].username : 'Unknown';
-
-  // Hiển thị avatar participant chính
-  const avatarUrl =
-    otherParticipants.length > 0 ? user[0].avatarUrl : undefined;
+  const displayName = conversation.users?.[0]?.fullName || "no name";
+  const avatarUrl = conversation.users?.[0]?.avatarUrl || "";
 
   return (
     <TouchableOpacity style={styles.container} onPress={()=> {
@@ -68,7 +58,7 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
           justifyContent: 'space-between',
           gap: 10,
         }}>
-        <Text style={styles.time}>{formatDateOrTime(lastUpdated)}</Text>
+        <Text style={styles.time}>{formatDateOrTime(updatedAt)}</Text>
         {unreadCount > 0 && (
           <View
             style={[

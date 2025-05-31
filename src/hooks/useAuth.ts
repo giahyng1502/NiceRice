@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootState } from '../store/store';
 import { useAppDispatch } from './useAppDispatch';
 import { clearUser } from '../store/reducers/userSlice';
-import {loginUser} from '../store/action/userAction';
+import {getInformation, updateInformation} from "../store/action/userAction";
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
@@ -22,6 +22,13 @@ export const useAuth = () => {
         }
     };
 
+    const loadUser = async () => {
+        await dispatch(getInformation());
+    };
 
-    return { user, loading, logout, error, isLoggedIn };
+    const updateUser = async (information : any) => {
+        dispatch(updateInformation(information))
+    }
+
+    return { user, loading,loadUser, logout, error, isLoggedIn,updateUser };
 };

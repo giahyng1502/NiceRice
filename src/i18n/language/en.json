@@ -23,6 +23,7 @@
     "createGroup": "Create Group",
     "phone": "Phone Number",
     "gender": "Gender",
+    "select_gender": "Select gender",
     "birthday": "Birthday",
     "email": "Email",
     "editProfile": "Edit Profile",
@@ -39,7 +40,9 @@
     "contact": "Contacts",
     "gallery": "Gallery",
     "location": "Your Location",
-    "document": "Document"
+    "document": "Document",
+    "joinedDate" : "Joined Date"
+
   },
   "moreScreen": {
     "muteNotification": "Mute Notifications",
