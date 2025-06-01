@@ -38,6 +38,7 @@
     "react-native-svg": "^15.11.2",
     "react-native-vector-icons": "^10.2.0",
     "react-redux": "^9.2.0",
+    "realm": "^20.1.0",
     "recyclerlistview": "^4.2.3"
   },
   "devDependencies": {

@@ -13,7 +13,7 @@ import {useTheme} from '../../hooks/useTheme';
 import {width} from '../../styles/globalStyles';
 import {loginUser} from '../../store/action/userAction';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
-import {useSnackbar} from "../../provider/SnackbarProvider";
+import {useSnackbar} from '../../provider/SnackbarProvider';
 
 const Login = () => {
   const [information, setInformation] = useState({
@@ -23,7 +23,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
 
   const {theme} = useTheme();
-    const {showSnackbar} = useSnackbar();
+  const {showSnackbar} = useSnackbar();
   const handleChange = (key: keyof User, value: string) => {
     setInformation(prev => ({
       ...prev,
@@ -39,11 +39,10 @@ const Login = () => {
     // Gọi login từ useAuth hook
     const res = await dispatch(loginUser(information));
     if (loginUser.rejected.match(res)) {
-        showSnackbar(res.payload as string,'error')
-        return;
+      showSnackbar(res.payload as string, 'error');
+      return;
     }
-      showSnackbar('Đăng nhập thành công','success')
-
+    showSnackbar('Đăng nhập thành công', 'success');
   };
   return (
     <View style={[styles.screen, {backgroundColor: theme.background}]}>
@@ -73,7 +72,9 @@ const Login = () => {
           },
         ]}
         value={information.password}
-        onChangeText={text => handleChange('password', text)}
+        onChangeText={text => {
+          handleChange('password', text);
+        }}
       />
       <Margin top={2} />
 

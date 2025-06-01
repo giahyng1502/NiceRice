@@ -1,53 +1,35 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppStackParamList} from '../../../navigation/AppNavigation';
 
 import {FlashList} from '@shopify/flash-list';
-import {
-  fakeConversations,
-  fakeMessages,
-  getParticipantsByIds,
-} from '../../../models/fakeData';
-import {Message, Participant} from '../../../models/types';
+import {Participant} from '../../../models/types';
 import RenderItemMessage from './custom_bubble';
 import CustomInputToolbar, {HEIGHT_INPUT_TOOLBAR} from './custom_input_toolbar';
 import HeaderMessage from './HeaderMessage';
 import Magin from '../../../components/margin/magin';
+import {useConversationMessages} from '../../../hooks/useMessage';
+import {useParticipantsListener} from '../../../hooks/useParticipant';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MessageDetail'>;
 
 const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const {id} = route.params;
-  const [messages, setMessages] = useState<Message[]>([]);
+  const messages = useConversationMessages(id);
   const [content, setContent] = useState<string>('');
-  const [participant, setParticipant] = useState<Participant>();
   const {theme} = useTheme();
-  useEffect(() => {
-    const currentMessage = fakeMessages.filter(
-      msg => msg.conversationId === id,
-    );
-    setMessages(currentMessage);
-    const participantIds = fakeConversations
-      .find(msg => msg.conversationId === id)
-      ?.participantIds.filter(p => p !== 'u1');
-
-    if (participantIds && participantIds.length > 0) {
-      const users = getParticipantsByIds(participantIds);
-      setParticipant(users[0]);
-    }
-  }, []);
-
+  const participants = useParticipantsListener(id);
   const handleBack = () => {
     navigation.goBack();
   };
-  const handleChatOption = () => {
-    navigation.navigate('ChatOption', {
-      name: participant?.username || '',
-      image: participant?.avatarUrl || '',
-    });
-  };
+  // const handleChatOption = () => {
+  //   navigation.navigate('ChatOption', {
+  //     name: participant?.fullName || '',
+  //     image: participant?.avatarUrl || '',
+  //   });
+  // };
 
   return (
     <View
@@ -57,14 +39,11 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
           backgroundColor: theme.backgroundMessage,
         },
       ]}>
-        <Magin top={1}/>
-      <HeaderMessage
-        handleBack={handleBack}
-        handleChatOption={handleChatOption}
-      />
+      <Magin top={1} />
+      <HeaderMessage handleBack={handleBack} handleChatOption={() => {}} />
       <FlashList
         data={messages}
-        renderItem={({item}) => <RenderItemMessage currentMessage={item} />}
+        renderItem={({item}) => <RenderItemMessage currentMessage={item} participants={participants}  />}
         keyExtractor={item => item.messageId}
         estimatedItemSize={40}
         inverted={true}
@@ -78,7 +57,6 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
         onChangeText={setContent}
         onSend={() => {
           if (content && content.trim().length > 0) {
-            // Xử lý gửi tin nhắn ở đây
             console.log('Send:', content);
             setContent('');
           }

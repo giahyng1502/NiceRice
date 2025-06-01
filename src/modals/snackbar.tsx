@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Animated, Text, StyleSheet} from 'react-native';
-import {useSnackbar} from "../provider/SnackbarProvider";
+import {useSnackbar} from '../provider/SnackbarProvider';
 
 const CustomSnackbar: React.FC = () => {
     const translateY = useRef(new Animated.Value(100)).current;
@@ -32,7 +32,7 @@ const CustomSnackbar: React.FC = () => {
 
     }, [visible]);
 
-    if (!visible) return null;
+    if (!visible) {return null;}
 
     return (
         <Animated.View

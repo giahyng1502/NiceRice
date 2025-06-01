@@ -1,18 +1,17 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Conversation} from '../../../models/types';
-import {getParticipantsByIds} from '../../../models/fakeData';
 import {useTheme} from '../../../hooks/useTheme';
 import {formatDateOrTime} from '../../../utils/formatDate';
 import Column from '../../../components/container/Column';
 import {NavigationProp, useNavigation} from "@react-navigation/native";
-import {MainTabParamList} from "../../../navigation/BottomNavigation";
+import {AppStackParamList} from "../../../navigation/AppNavigation";
 
 interface Props {
   conversation: Conversation;
 }
 // 2. Khai báo kiểu navigation
-type NavigationProps = NavigationProp<MainTabParamList, 'Messages'>;
+type NavigationProps = NavigationProp<AppStackParamList, 'Messages'>;
 
 const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
   const {theme} = useTheme();

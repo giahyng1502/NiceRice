@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import IntroduceScreen from "../screens/introduct/introduce_screen";
-import BottomNavigation from "./BottomNavigation";
-import MessageDetail from "../screens/messages/message/MessageDetail";
-import ChatOption from "../screens/option/ChatOption";
-import LoginScreen from "../screens/login/LoginScreen";
-import {useAuth} from "../hooks/useAuth";
-import SplashScreen from "../screens/introduct/splash_screen";
+import IntroduceScreen from '../screens/introduct/introduce_screen';
+import BottomNavigation from './BottomNavigation';
+import MessageDetail from '../screens/messages/message/MessageDetail';
+import ChatOption from '../screens/option/ChatOption';
+import LoginScreen from '../screens/login/LoginScreen';
+import {useAuth} from '../hooks/useAuth';
+import SplashScreen from '../screens/introduct/splash_screen';
 
 export type AuthStackParamList = {
     Introduce: undefined;
@@ -19,6 +19,10 @@ export type AppStackParamList = {
     Main: undefined;
     MessageDetail: { id: string };
     ChatOption: { name: string; image: string };
+    Group: undefined;
+    Profile: undefined;
+    Messages: undefined;
+    More: undefined;
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();

@@ -14,14 +14,9 @@ import IconMore from '../assets/svgs/icon_more';
 import {height, width} from '../styles/globalStyles';
 import {useTheme} from '../hooks/useTheme';
 import {useTranslation} from "react-i18next";
+import {AppStackParamList} from "./AppNavigation";
 
-export type MainTabParamList = {
-    Home: undefined;
-    Group: undefined;
-    Profile: undefined;
-    Messages: undefined;
-};
-const Tab = createBottomTabNavigator<MainTabParamList>();
+const Tab = createBottomTabNavigator<AppStackParamList>();
 
 const BottomNavigation = () => {
   const {theme} = useTheme();

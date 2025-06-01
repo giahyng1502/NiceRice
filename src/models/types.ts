@@ -22,11 +22,9 @@ export interface Message {
   senderId: string;
   content: string;
   timestamp: string;
-  type: MessageType;
+  type?: MessageType;
   link?: string[];
-  status: MessageStatus;
-  replyToMessageId?: string;
-  isEdited?: boolean;
+  status?: MessageStatus;
 }
 
 export interface Conversation {

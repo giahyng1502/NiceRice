@@ -1,29 +1,42 @@
 import {Dimensions, Image, Text, View} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import IconSeen from '../../../assets/svgs/icon_seen';
 import {Message} from '../../../models/types';
-import {getParticipantsByIds} from '../../../models/fakeData';
-import Column from '../../../components/container/Column';
-import Row from '../../../components/container/Row';
 import {globalStyles} from '../../../styles/globalStyles';
+import {useAuth} from '../../../hooks/useAuth';
+import {
+  Participant,
+  useParticipantsListener,
+} from '../../../hooks/useParticipant';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 interface Props {
   currentMessage: Message;
+  participants: Participant[];
 }
 
-const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage}) => {
+const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage,participants}) => {
   const {theme} = useTheme();
-  const currentUser = 'u1';
-  const sender = getParticipantsByIds([currentMessage.senderId]);
-  const isUserCurrent = sender[0].userId === currentUser;
+  const {user: currentUser} = useAuth();
+  const senderId = currentMessage.senderId;
+  const isUserCurrent = senderId === currentUser?.userId;
   const images = currentMessage.link || [];
   const extraCount = images.length - 3;
+  const [sender, setSender] = useState<Participant>();
   useEffect(() => {
-    console.log(currentMessage);
-  }, []);
+    if (!currentMessage) return;
+
+    // Tìm participant có userId trùng senderId
+    const participant = participants.find(
+      u => u.userId === currentMessage.senderId,
+    );
+
+    setSender(participant);
+    console.log(sender);
+  }, [participants, currentMessage]);
+
   return (
     <View>
       {!isUserCurrent && (
@@ -34,7 +47,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage}) => {
             gap: 5,
           }}>
           <Image
-            source={{uri: sender[0].avatarUrl}}
+            source={{uri: sender?.avatarUrl}}
             style={{
               width: 28,
               height: 28,
@@ -48,7 +61,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage}) => {
                 color: theme.text3,
               },
             ]}>
-            {sender[0].username}
+            {sender?.fullName}
           </Text>
         </View>
       )}
@@ -151,7 +164,9 @@ const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage}) => {
               minute: '2-digit',
             })}
           </Text>
-          {currentMessage.status === 'sent' && <IconSeen color={theme.iconColor} />}
+          {currentMessage.status === 'sent' && (
+            <IconSeen color={theme.iconColor} />
+          )}
         </View>
       </View>
     </View>
