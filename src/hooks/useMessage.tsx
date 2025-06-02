@@ -1,69 +1,72 @@
 import {useEffect, useState} from 'react';
 import Realm from 'realm';
-import {Message} from '../models/types';
-import axiosClient from '../apis/axios';
-import {saveMessages} from '../realm/service/message_service';
-import {useRealm} from "../provider/RealmProvider";
+import {getRealm} from '../realm/realm';
+import {useAppDispatch} from './useAppDispatch';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/store';
+import {Messages, setMessages} from '../store/reducers/messageSlice';
+import {getMessageByConv} from '../store/action/messageAction';
+import {addMessage, saveMessages} from '../realm/service/message_service';
 
 export function useConversationMessages(conversationId: string) {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const realmInstance = useRealm();
-  // Chuyển đổi Realm object thành plain object
-  const toPlainObject = (message: Message): Message => ({
-    messageId: message.messageId,
-    conversationId: message.conversationId,
-    content: message.content,
-    timestamp: message.timestamp,
-    senderId: message.senderId,
-  });
+  const [realmInstance, setRealmInstance] = useState<Realm>();
+  const dispatch = useAppDispatch();
+  const messages = useSelector((msg: RootState) => msg.message.messages);
 
-  // Fetch API và lưu dữ liệu vào Realm
-  const fetchMessagesFromApi = async (id: string) => {
-    try {
-      const res = await axiosClient.get(`/messages/getMessage`, {
-        params: {conversationId: id},
-      });
+  useEffect(() => {
+    const realm = getRealm();
+    setRealmInstance(realm);
+  }, []);
+  const getMessageFromSever = async (lastMessageTime: string) => {
+    const resultAction = await dispatch(
+      getMessageByConv({conversationId, since: lastMessageTime}),
+    );
 
-      if (res.data) {
-        await saveMessages(res.data,realmInstance);
+    if (getMessageByConv.fulfilled.match(resultAction)) {
+      // Thành công
+      console.log('Data:', resultAction.payload); // dữ liệu api trả về
+      if (resultAction.payload.length === 0) {
+        console.log('Không có dữ liệu mới');
+      } else {
+        console.log('Có dữ liệu mới:', resultAction.payload.length);
+        realmInstance &&
+          (await saveMessages(resultAction.payload, realmInstance));
       }
-    } catch (error) {
-      console.log('Fetch API message lỗi:', error);
+    } else {
+      // Thất bại hoặc reject
+      console.error('Lỗi khi fetch:', resultAction.error);
     }
   };
 
-  // Fetch API mỗi khi realmInstance hoặc conversationId thay đổi
-  useEffect(() => {
-    if (conversationId) {
-      fetchMessagesFromApi(conversationId);
-    }
-  }, [conversationId]);
-
-  // Lắng nghe thay đổi trong Realm và cập nhật messages
-  useEffect(() => {
+  const getMessageFromLocal = () => {
     if (!realmInstance || realmInstance.isClosed || !conversationId) return;
 
-    const allMessages = realmInstance.objects<Message>('Message');
+    const allMessages = realmInstance.objects<Messages>('Message');
+
     const conversationMessages = allMessages
-        .filtered('conversationId = $0', conversationId)
-        .sorted('timestamp',true);
+      .filtered('conversationId = $0', conversationId)
+      .sorted('timestamp', true)
+      .slice(0, 50);
 
-    setMessages(conversationMessages.map(toPlainObject));
+    const messagesPlain = conversationMessages.map(msg => ({
+      messageId: msg.messageId,
+      senderId: msg.senderId,
+      conversationId: msg.conversationId,
+      content: msg.content,
+      timestamp: msg.timestamp instanceof Date ? msg.timestamp.toISOString() : '',
+      type: msg.type,
+      link: msg.link ? [...msg.link] : [],  // chuyển link thành array thuần
+    }));
 
-    const listener = (
-        collection: Realm.Collection<Message>,
-        changes: Realm.CollectionChangeSet,
-    ) => {
-      setMessages(collection.map(toPlainObject));
-    };
+    dispatch(setMessages(messagesPlain));
 
-    conversationMessages.addListener(listener);
+    const lastMessageTime = messagesPlain[0]?.timestamp || '';
 
-    return () => {
-      conversationMessages.removeListener(listener);
-    };
-  }, [realmInstance, conversationId]);
-
+    getMessageFromSever(lastMessageTime);
+  };
+  useEffect(() => {
+    getMessageFromLocal();
+  }, [conversationId, dispatch, realmInstance]);
 
   return messages;
 }

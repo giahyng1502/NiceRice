@@ -5,13 +5,12 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppStackParamList} from '../../../navigation/AppNavigation';
 
 import {FlashList} from '@shopify/flash-list';
-import {Participant} from '../../../models/types';
 import RenderItemMessage from './custom_bubble';
 import CustomInputToolbar, {HEIGHT_INPUT_TOOLBAR} from './custom_input_toolbar';
 import HeaderMessage from './HeaderMessage';
 import Magin from '../../../components/margin/magin';
 import {useConversationMessages} from '../../../hooks/useMessage';
-import {useParticipantsListener} from '../../../hooks/useParticipant';
+import {useConversationParticipants} from "../../../hooks/useParticipant";
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MessageDetail'>;
 
@@ -20,7 +19,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const messages = useConversationMessages(id);
   const [content, setContent] = useState<string>('');
   const {theme} = useTheme();
-  const participants = useParticipantsListener(id);
+  const participants = useConversationParticipants(id);
   const handleBack = () => {
     navigation.goBack();
   };
