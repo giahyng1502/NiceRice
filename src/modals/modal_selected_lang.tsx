@@ -8,12 +8,10 @@ import {useTheme} from '../hooks/useTheme';
 import Margin from '../components/margin/magin';
 import {changeLanguage} from '../i18n';
 interface IProps {
-  visible: boolean;
   onClose: () => void;
 }
 
-const LanguageSheet: React.FC<IProps> = ({visible, onClose}) => {
-  const snapPoints = useMemo(() => ['30%'], []);
+const LanguageSheet: React.FC<IProps> = ({onClose}) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const handleLanguage = (lang: string) => {
@@ -21,11 +19,6 @@ const LanguageSheet: React.FC<IProps> = ({visible, onClose}) => {
     onClose();
   };
   return (
-    <BottomSheetModal
-      visible={visible}
-      onClose={onClose}
-      snapPoints={snapPoints}
-      initialSnapIndex={1}>
       <BottomSheetScrollView
         style={{
           padding: 15,
@@ -78,7 +71,6 @@ const LanguageSheet: React.FC<IProps> = ({visible, onClose}) => {
           </Text>
         </TouchableOpacity>
       </BottomSheetScrollView>
-    </BottomSheetModal>
   );
 };
 

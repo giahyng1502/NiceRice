@@ -1,57 +1,103 @@
-import {StyleSheet} from 'react-native';
+// src/contexts/BottomSheetContext.tsx
+import React, {
+  createContext,
+  ReactNode,
+  useRef,
+  useState,
+  useMemo,
+  useEffect,
+} from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {useTheme} from "../hooks/useTheme";
-import React, {useEffect, useRef} from "react";
 
-type Props = {
-  children: React.ReactNode;
-  visible: boolean;
-  onClose?: () => void;
-  initialSnapIndex?: number; // tùy chọn
-  snapPoints: Array<string>;
+type BottomSheetContextType = {
+  openBottomSheet: (
+      content: ReactNode,
+      snapPoints?: string[],
+      initialIndex?: number,
+  ) => void;
+  closeBottomSheet: () => void;
+  isVisible: boolean;
 };
 
-const BottomSheetModal: React.FC<Props> = ({
-  children,
-  visible,
-  onClose,
-  initialSnapIndex = 0,
-  snapPoints,
-}) => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-    const {theme} = useTheme();
-  // Các mức snap point
 
+export const BottomSheetContext = createContext<
+    BottomSheetContextType | undefined
+>(undefined);
+
+export const BottomSheetProvider: React.FC<{ children: ReactNode }> = ({
+                                                                         children,
+                                                                       }) => {
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const [content, setContent] = useState<ReactNode>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [snapPoints, setSnapPoints] = useState<string[]>(['10%']);
+  const [initialIndex, setInitialIndex] = useState(0);
+  const {theme} = useTheme()
+  // Memo hóa snapPoints tránh tạo mảng mới liên tục
+  const memoizedSnapPoints = useMemo(() => snapPoints, [snapPoints]);
+
+  // Khi isVisible hoặc initialIndex thay đổi, snap BottomSheet
   useEffect(() => {
-    if (visible) {
-      bottomSheetRef.current?.snapToIndex(initialSnapIndex);
+    if (isVisible) {
+      console.log('BottomSheetProvider visible',);
+      bottomSheetRef.current?.snapToIndex(initialIndex);
     } else {
+      // Ẩn BottomSheet bằng cách chuyển index về -1
       bottomSheetRef.current?.close();
     }
-  }, [visible, initialSnapIndex]);
+  }, [isVisible, initialIndex]);
+
+
+  const openBottomSheet = (
+      newContent: ReactNode,
+      newSnapPoints: string[] = ['0%'],
+      snapIndex: number = 0,
+  ) => {
+    setContent(newContent);
+    setSnapPoints(newSnapPoints);
+    setInitialIndex(snapIndex);
+    setIsVisible(true);
+
+    requestAnimationFrame(() => {
+      bottomSheetRef.current?.snapToIndex(snapIndex);
+    });
+  };
+
+  const closeBottomSheet = () => {
+    setIsVisible(false);
+  };
 
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      index={visible ? 0 : -1}
-      snapPoints={snapPoints}
-      enablePanDownToClose
-      onClose={onClose}
-      backgroundStyle={[styles.background,{backgroundColor : theme.bottomSheetColor}]}
-      handleIndicatorStyle={styles.handle}>
-      {children}
-    </BottomSheet>
+      <BottomSheetContext.Provider
+          value={{ openBottomSheet, closeBottomSheet, isVisible }}
+      >
+        {children}
+        <BottomSheet
+            ref={bottomSheetRef}
+            index={1}
+            snapPoints={memoizedSnapPoints}
+            enablePanDownToClose
+            backgroundStyle={{
+              backgroundColor : theme.bottomSheetColor
+            }}
+            onClose={() => setIsVisible(false)}
+        >
+          {content}
+        </BottomSheet>
+      </BottomSheetContext.Provider>
   );
 };
 
-export default BottomSheetModal;
+// src/hooks/useBottomSheet.ts
+import { useContext } from 'react';
+import {useTheme} from "../hooks/useTheme";
 
-const styles = StyleSheet.create({
-  background: {
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-  },
-  handle: {
-    backgroundColor: '#ccc',
-  },
-});
+export const useBottomSheet = () => {
+  const context = useContext(BottomSheetContext);
+  if (!context) {
+    throw new Error('useBottomSheet must be used within a BottomSheetProvider');
+  }
+  return context;
+};
+

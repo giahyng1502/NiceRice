@@ -13,12 +13,13 @@ import EditInfoDialog from '../../modals/modal_edit_profile';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '../../hooks/useAuth';
 import {useSnackbar} from '../../provider/SnackbarProvider';
+import {useBottomSheet} from "../../modals/bottom_sheet_modal";
 
 const ProfileScreen = () => {
   const {theme} = useTheme();
-  const [isVisible, setIsVisible] = useState(false);
   const {logout, loadUser, user} = useAuth();
   const {showSnackbar} = useSnackbar();
+  const {openBottomSheet ,closeBottomSheet} = useBottomSheet();
   // hàm copy nội dung
   const handleCopy = (value: any) => {
     if (value) {
@@ -32,6 +33,18 @@ const ProfileScreen = () => {
     loadUser();
   }, []);
   const {t} = useTranslation();
+
+    // Hàm mở bottom sheet với nội dung sửa thông tin
+    const openEditProfileSheet = () => {
+        openBottomSheet(
+            <EditInfoDialog
+                onClose={() => closeBottomSheet()}
+            />
+            ,
+            ['90%', '95%'], // snap points
+            0 // index mặc định
+        );
+    };
   return (
     <View style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={styles.circle}>
@@ -137,7 +150,7 @@ const ProfileScreen = () => {
           },
         ]}
         onPress={() => {
-          setIsVisible(true);
+            openEditProfileSheet()
         }}>
         <IconUpdateOuline color={theme.iconColor} />
         <Text
@@ -180,12 +193,7 @@ const ProfileScreen = () => {
         </Text>
       </TouchableOpacity>
 
-      <EditInfoDialog
-        isVisible={isVisible}
-        onClose={() => {
-          setIsVisible(false);
-        }}
-      />
+
     </View>
   );
 };

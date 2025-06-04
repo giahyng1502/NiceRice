@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Provider, useSelector} from 'react-redux';
 import AppNavigation from './navigation/AppNavigation';
 import store, {RootState} from './store/store';
@@ -8,7 +8,50 @@ import {StatusBar} from 'react-native';
 import CustomSnackbar from './modals/snackbar';
 import {SnackbarProvider} from './provider/SnackbarProvider';
 import socket from './config/socket/socketClient';
-import {closeRealm, openRealm} from './realm/realm';
+import {closeRealm, getRealm, openRealm} from './realm/realm';
+import {AppState} from 'react-native';
+import {useAppDispatch} from './hooks/useAppDispatch';
+import {fetchConversation} from './store/action/conversationAction';
+import {BottomSheetProvider, useBottomSheet} from './modals/bottom_sheet_modal';
+
+const useAppLifecycle = () => {
+  const appState = useRef(AppState.currentState);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const handleAppStateChange = nextAppState => {
+      if (
+        ['inactive', 'background'].includes(appState.current) &&
+        nextAppState === 'active'
+      ) {
+        console.log('App đã vào lại foreground');
+
+        // 👉 reconnect socket nếu chưa kết nối
+        if (!socket.connected) {
+          socket.connect();
+        }
+        const realm = getRealm();
+        if (!realm || realm.isClosed) {
+          openRealm().then(() => {
+            console.log('Realm đã được mở lại.');
+          });
+        }
+
+        dispatch(fetchConversation());
+      }
+
+      appState.current = nextAppState;
+    };
+
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+};
 
 const AppRealm: React.FC = () => {
   useEffect(() => {
@@ -16,9 +59,7 @@ const AppRealm: React.FC = () => {
       await openRealm();
     };
     init();
-    return () => {
-      closeRealm();
-    };
+
   }, []);
 
   return <AppWrapper />;
@@ -26,7 +67,7 @@ const AppRealm: React.FC = () => {
 
 const AppSocket: React.FC = () => {
   const user = useSelector((state: RootState) => state.user.data);
-
+  const appState = useAppLifecycle();
   useEffect(() => {
     const userId = user?.userId;
     if (userId) {
@@ -63,11 +104,14 @@ const AppWrapper: React.FC = () => {
 };
 
 const App: React.FC = () => {
+
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{flex: 1}}>
         <SnackbarProvider>
-          <AppSocket />
+          <BottomSheetProvider>
+            <AppSocket />
+          </BottomSheetProvider>
         </SnackbarProvider>
       </GestureHandlerRootView>
     </Provider>

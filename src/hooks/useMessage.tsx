@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useLayoutEffect, useState} from 'react';
 import Realm from 'realm';
 import {getRealm} from '../realm/realm';
 import {useAppDispatch} from './useAppDispatch';
@@ -11,12 +11,15 @@ import {SEND_SOCKET_EVENT} from "../store/middleware/socketMiddleware";
 import {createMessageId} from "../utils/createMessageId";
 import {resetUnreadCount} from "../store/reducers/conversationSlice";
 import axiosClient from "../apis/axios";
+import {useAppState} from "./useAppState";
 
 export function useConversationMessages(conversationId: string) {
   const [realmInstance, setRealmInstance] = useState<Realm>();
   const dispatch = useAppDispatch();
   const messages = useSelector((msg: RootState) => msg.message.messages);
   const user = useSelector((state: RootState) => state.user.data);
+  const state = useAppState()
+  const isActive = state === 'active';
   useEffect(() => {
     const realm = getRealm();
     setRealmInstance(realm);
@@ -30,15 +33,16 @@ export function useConversationMessages(conversationId: string) {
     }
   }
 
-  useEffect(() => {
-    dispatch(setCurrentConversationId(conversationId));
-    dispatch(resetUnreadCount(conversationId))
-    return () => {
-      dispatch(setCurrentConversationId(null));
-      readMessages(conversationId);
-
-    }
-  }, [conversationId, dispatch]);
+  useLayoutEffect(() => {
+    if (isActive) {
+      dispatch(setCurrentConversationId(conversationId));
+      dispatch(resetUnreadCount(conversationId))
+      return () => {
+        dispatch(setCurrentConversationId(null));
+        readMessages(conversationId);
+      }
+    };
+  }, [conversationId, dispatch, isActive]);
 
   const getMessageFromServer = async (lastMessageTime: string) => {
     const resultAction = await dispatch(

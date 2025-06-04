@@ -13,26 +13,47 @@ import IconGroup from '../../assets/svgs/ic_groups';
 import IconMute from '../../assets/svgs/ic_mute';
 import IconAbout from '../../assets/svgs/ic_about';
 import IconHelpCenter from '../../assets/svgs/ic_help';
-import IconLogout from '../../assets/svgs/ic_logout';
-import {globalStyles} from '../../styles/globalStyles';
 import CustomHeader from '../../navigation/CustomHeader';
 import {useSharedValue} from 'react-native-reanimated';
 import Margin from '../../components/margin/magin';
 import IconLanguage from '../../assets/svgs/icon_lang';
 import IconMode from '../../assets/svgs/ic_mode';
-import PoliceSheet from '../../modals/PoliceSheet';
-import LanguageSheet from '../../modals/modal_selected_lang';
 import {useModal} from '../../hooks/useModal';
 import {useTranslation} from "react-i18next";
+import {useBottomSheet} from "../../modals/bottom_sheet_modal";
+import EditInfoDialog from "../../modals/modal_edit_profile";
+import PoliceSheet from "../../modals/PoliceSheet";
+import LanguageSheet from "../../modals/modal_selected_lang";
 
 const MoreScreen = () => {
     const {theme} = useTheme();
     const scrollY = useSharedValue(0);
 
-    const {active, open, close} = useModal<'language' | 'police'>();
-
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         scrollY.value = event.nativeEvent.contentOffset.y;
+    };
+
+    const {openBottomSheet ,closeBottomSheet} = useBottomSheet();
+    const openPoliceSheet = () => {
+        openBottomSheet(
+            <PoliceSheet
+                onClose={() => closeBottomSheet()}
+            />
+            ,
+            ['80%','95%'], // snap points
+            0 // index mặc định
+        );
+    };
+
+    const openLanguageSheet = () => {
+        openBottomSheet(
+            <LanguageSheet
+                onClose={() => closeBottomSheet()}
+            />
+            ,
+            ['30%'], // snap points
+            1 // index mặc định
+        );
     };
     const {t} = useTranslation();
     return (
@@ -47,7 +68,7 @@ const MoreScreen = () => {
                 <ItemOption
                     Icon={<IconLanguage color={theme.iconColor} />}
                     title={t('lang.language')}
-                    onPress={() => open('language')}
+                    onPress={openLanguageSheet}
                 />
 
                 <ItemOption
@@ -71,7 +92,7 @@ const MoreScreen = () => {
                     Icon={<IconAbout color={theme.iconColor} />}
                     title={t('moreScreen.aboutApp')}
 
-                    onPress={() => open('police')}
+                    onPress={openPoliceSheet}
                 />
                 <ItemOption
                     Icon={<IconHelpCenter color={theme.iconColor} />}
@@ -81,8 +102,7 @@ const MoreScreen = () => {
             </ScrollView>
             <Margin bottom={2} />
 
-            <PoliceSheet visible={active === 'police'} onClose={close} />
-            <LanguageSheet visible={active === 'language'} onClose={close} />
+
         </View>
     );
 };

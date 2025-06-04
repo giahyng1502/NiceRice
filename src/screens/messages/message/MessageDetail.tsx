@@ -62,6 +62,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
         onSend={() => {
           if (content && content.trim().length > 0) {
             sendMessage(content);
+              setContent('')
           }
         }}
       />
