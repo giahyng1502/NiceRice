@@ -6,11 +6,11 @@ import { getRealm } from '../realm/realm';
 
 export type Participant = {
     _id: string;
-    userId: string;
+    userId: bigint;
     fullName: string;
     avatarUrl: string;
     seenDateTime?: Date;
-    conversationId: string;
+    conversationId: bigint;
     isAdmin: boolean;
 };
 

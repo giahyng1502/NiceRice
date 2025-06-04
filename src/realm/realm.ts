@@ -1,6 +1,7 @@
 import Realm from 'realm';
 import { MessageSchema } from './schema/MessageSchema';
 import { ParticipantConversationSchema } from './schema/participentSchema';
+import {conversationSchema} from "./schema/ConversationSchema";
 
 let realmInstance: Realm | null = null;
 
@@ -10,7 +11,7 @@ export const openRealm = async () => {
     }
     console.log('🔌 Opening Realm...');
     realmInstance = await Realm.open({
-        schema: [MessageSchema, ParticipantConversationSchema],
+        schema: [MessageSchema, ParticipantConversationSchema,conversationSchema],
         schemaVersion: 1,
     });
     return realmInstance;

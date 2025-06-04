@@ -16,7 +16,7 @@ type Props = NativeStackScreenProps<AppStackParamList, 'MessageDetail'>;
 
 const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const {id} = route.params;
-  const messages = useConversationMessages(id);
+  const {messages ,sendMessage} = useConversationMessages(id);
   const [content, setContent] = useState<string>('');
   const {theme} = useTheme();
   const participants = useConversationParticipants(id);
@@ -42,8 +42,13 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
       <HeaderMessage handleBack={handleBack} handleChatOption={() => {}} />
       <FlashList
         data={messages}
-        renderItem={({item}) => <RenderItemMessage currentMessage={item} participants={participants}  />}
-        keyExtractor={item => item.messageId}
+        renderItem={({item}) => (
+          <RenderItemMessage
+            currentMessage={item}
+            participants={participants}
+          />
+        )}
+        keyExtractor={(item, index) => `ms${item.messageId}-${index}`}
         estimatedItemSize={40}
         inverted={true}
         showsVerticalScrollIndicator={false}
@@ -56,8 +61,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
         onChangeText={setContent}
         onSend={() => {
           if (content && content.trim().length > 0) {
-            console.log('Send:', content);
-            setContent('');
+            sendMessage(content);
           }
         }}
       />

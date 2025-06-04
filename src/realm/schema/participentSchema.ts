@@ -1,13 +1,14 @@
 export const ParticipantConversationSchema = {
   name: 'ParticipantConversation',
-  primaryKey: '_id',
+  primaryKey: 'participantId',
   properties: {
-    _id: 'string',
-    userId: 'int',
-    fullName: 'string',
-    avatarUrl: 'string',
-    seenDateTime: 'date?',
+    participantId: 'int',
+    seenDateTime: 'string?',
+    joinedAt: 'string',
     isAdmin: 'bool',
     conversationId: 'int',
+    fullName : 'string',
+    avatarUrl: 'string',
+    userId : 'int',
   },
 };

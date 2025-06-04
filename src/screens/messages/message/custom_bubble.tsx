@@ -2,18 +2,17 @@ import {Dimensions, Image, Text, View} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
 import React, {useEffect, useState} from 'react';
 import IconSeen from '../../../assets/svgs/icon_seen';
-import {Message} from '../../../models/types';
 import {globalStyles} from '../../../styles/globalStyles';
 import {useAuth} from '../../../hooks/useAuth';
 import {
   Participant,
-  useParticipantsListener,
 } from '../../../hooks/useParticipant';
+import {Messages} from "../../../store/reducers/messageSlice";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 interface Props {
-  currentMessage: Message;
+  currentMessage: Messages;
   participants: Participant[];
 }
 
@@ -21,7 +20,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage,participa
   const {theme} = useTheme();
   const {user: currentUser} = useAuth();
   const senderId = currentMessage.senderId;
-  const isUserCurrent = senderId === currentUser?.userId;
+  const isUserCurrent = senderId == currentUser?.userId;
   const images = currentMessage.link || [];
   const extraCount = images.length - 3;
   const [sender, setSender] = useState<Participant>();
@@ -34,7 +33,6 @@ const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage,participa
     );
 
     setSender(participant);
-    console.log(sender);
   }, [participants, currentMessage]);
 
   return (
@@ -159,7 +157,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(({currentMessage,participa
               color: isUserCurrent ? 'white' : 'black',
               marginTop: 4,
             }}>
-            {new Date(currentMessage.timestamp).toLocaleTimeString([], {
+            {new Date(currentMessage.createdAt).toLocaleTimeString([], {
               hour: '2-digit',
               minute: '2-digit',
             })}

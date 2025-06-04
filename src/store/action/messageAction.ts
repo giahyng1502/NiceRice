@@ -23,9 +23,10 @@ export const getMessageByConv = createAsyncThunk<
           },
         });
 
-        return response.data;
+        return response.messages as Messages[];
       } catch (error) {
         return thunkAPI.rejectWithValue('Lỗi mạng');
       }
     }
 );
+

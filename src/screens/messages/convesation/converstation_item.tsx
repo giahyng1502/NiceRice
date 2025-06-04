@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {Conversation} from '../../../models/types';
 import {useTheme} from '../../../hooks/useTheme';
 import {formatDateOrTime} from '../../../utils/formatDate';
 import Column from '../../../components/container/Column';
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {AppStackParamList} from "../../../navigation/AppNavigation";
+import {Conversation} from "../../../store/reducers/conversationSlice";
 
 interface Props {
   conversation: Conversation;
@@ -15,13 +15,15 @@ type NavigationProps = NavigationProp<AppStackParamList, 'Messages'>;
 
 const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
   const {theme} = useTheme();
-  const {lastMessagePreview, unreadCount, updatedAt} =
+  const {unreadCount, lastUpdatedAt} =
     conversation;
   const navigation = useNavigation<NavigationProps>();
 
-  const displayName = conversation.users?.[0]?.fullName || "no name";
-  const avatarUrl = conversation.users?.[0]?.avatarUrl || "";
-
+  const displayName = conversation.participants?.[0]?.fullName || "no name";
+  const avatarUrl = conversation.participants?.[0]?.avatarUrl || "";
+  const lastMessagePreview = conversation.lastMessagePreview;
+  const lastMessagePreviewColor = unreadCount > 0 ? theme.text2 : theme.text3
+  const lastMessagePreviewWeight = unreadCount > 0 ? 'bold' : 'normal'
   return (
     <TouchableOpacity style={styles.container} onPress={()=> {
         navigation.navigate('MessageDetail', {
@@ -44,7 +46,8 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
           style={[
             styles.messagePreview,
             {
-              color: theme.text3,
+              color: lastMessagePreviewColor,
+              fontWeight : lastMessagePreviewWeight
             },
           ]}
           numberOfLines={1}>
@@ -57,7 +60,7 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
           justifyContent: 'space-between',
           gap: 10,
         }}>
-        <Text style={styles.time}>{formatDateOrTime(updatedAt)}</Text>
+        <Text style={styles.time}>{formatDateOrTime(lastUpdatedAt)}</Text>
         {unreadCount > 0 && (
           <View
             style={[

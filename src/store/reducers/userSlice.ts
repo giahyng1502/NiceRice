@@ -8,7 +8,7 @@ import {
 
 // Định nghĩa interface cho user
 export interface User {
-  userId?: string;
+  userId?: number;
   userName: string;
   fullName: string;
   avatarUrl?: string;
@@ -27,15 +27,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  data: {
-    userId: '',
-    gender: '',
-    birthday: '',
-    phoneNumber: '',
-    fullName: '',
-    userName: '',
-    avatarUrl: '',
-  },
+  data: null,
   loading: false,
   error: null,
   isLoggedIn: false,

@@ -1,3 +1,4 @@
+
 export const MessageSchema = {
     name: 'Message',
     primaryKey: 'messageId',
@@ -6,8 +7,9 @@ export const MessageSchema = {
         senderId: 'int',
         conversationId: 'int',
         content: 'string',
-        timestamp: 'date',
+        createdAt: 'string',
+        updatedAt: 'string',
         type: 'string',
-        link: 'string[]'
+        link: 'string?'
     },
 };

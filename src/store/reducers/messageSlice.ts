@@ -14,12 +14,12 @@ export type MessageStatus = 'pending' | 'received' | 'sent' | 'seen';
 
 export type Messages = {
   messageId: string;
-  conversationId: string;
-  senderId: string;
+  conversationId: number;
+  senderId: number;
   content: string;
-  timestamp: string;
+  createdAt: string;
   type?: MessageType;
-  link?: string[];
+  link?: string;
   status?: MessageStatus;
 };
 
@@ -28,12 +28,14 @@ interface MessageState {
   messages: Messages[];
   loading: boolean;
   error: string | null;
+  currentConversationId: number | null;
 }
 
 const initialState: MessageState = {
   messages: [],
   loading: false,
   error: null,
+  currentConversationId: null,
 };
 
 // Slice
@@ -41,9 +43,30 @@ const messageSlice = createSlice({
   name: 'message',
   initialState,
   reducers: {
-    addMessage: (state, action: PayloadAction<Messages>) => {
-      state.messages.push(action.payload);
+    setCurrentConversationId: (state, action: PayloadAction<any>) => {
+      state.currentConversationId = action.payload;
     },
+
+    addMessageRedux: (state, action: PayloadAction<any>) => {
+      state.messages.unshift(action.payload);
+    },
+    onMessageFromSocket: (state, action: PayloadAction<Messages>) => {
+      console.log('onMessageFromSocket', action.payload);
+      const index = state.messages.findIndex(
+        msg => msg.messageId === action.payload.messageId,
+      );
+
+      if (index !== -1) {
+        // Nếu tồn tại -> cập nhật
+        state.messages[index] = action.payload;
+      } else {
+        // Nếu chưa có -> thêm mới vào đầu mảng
+        state.messages.unshift(action.payload);
+      }
+
+      console.log('redux', action.payload);
+    },
+
     setMessages: (state, action: PayloadAction<Messages[]>) => {
       state.messages = action.payload;
     },
@@ -72,7 +95,7 @@ const messageSlice = createSlice({
       .addCase(getMessageByConv.fulfilled, (state, action) => {
         // Khi gọi API thành công, action.payload là mảng messages
         state.loading = false;
-        state.messages = [...action.payload,...state.messages];
+        state.messages = [...action.payload, ...state.messages];
       })
       .addCase(getMessageByConv.rejected, (state, action) => {
         // Khi gọi API thất bại
@@ -82,7 +105,13 @@ const messageSlice = createSlice({
   },
 });
 
-export const {addMessage, setMessages, updateMessageStatus, clearMessages} =
-  messageSlice.actions;
+export const {
+  addMessageRedux,
+  onMessageFromSocket,
+  setMessages,
+  updateMessageStatus,
+  clearMessages,
+  setCurrentConversationId,
+} = messageSlice.actions;
 
 export default messageSlice.reducer;

@@ -7,8 +7,8 @@ import Animated, {
 import CustomHeader from '../../../navigation/CustomHeader';
 import {useTheme} from '../../../hooks/useTheme';
 import ConversationItem from './converstation_item';
-import {Conversation} from '../../../models/types';
 import {useConversation} from '../../../hooks/useConversation';
+import {Conversation} from "../../../store/reducers/conversationSlice";
 
 const ConversationScreen = () => {
   const scrollY = useSharedValue(0);
@@ -29,7 +29,7 @@ const ConversationScreen = () => {
       <CustomHeader scrollY={scrollY} theme={theme} />
       <Animated.FlatList
         data={convs}
-        keyExtractor={item => item.conversationId}
+        keyExtractor={(item, index) => `conv${item.conversationId}-${index}`}
         renderItem={({item}) => <ConversationItem conversation={item} />}
         onScroll={scrollHandler}
         scrollEventThrottle={16}
