@@ -6,19 +6,23 @@ import {FONT_SIZE} from "../../styles/globalStyles";
 import {AppStackParamList} from "../../navigation/AppNavigation";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {createConversationId} from "../../utils/createConversationId";
+import CheckButton from "../../components/buttons/ButtonChecked";
 interface Props {
   member: User;
+  memberSelect: User[];
   memberOnline : number[],
   currentUser : User,
+  isSelect : boolean,
+  onCheck?: (member: User, isChecked: boolean) => void;
 }
 
 type NavigationProps = NavigationProp<AppStackParamList, 'Messages'>;
 
-const MemberItem: React.FC<Props> = React.memo(({member,memberOnline,currentUser}) => {
-  console.log('member', member);
+const MemberItem: React.FC<Props> = React.memo(({member,memberOnline,currentUser,isSelect,onCheck,memberSelect}) => {
+  const initialChecked = memberSelect.includes(member)
   const {theme} = useTheme();
   const navigation = useNavigation<NavigationProps>();
-  const isOnline = memberOnline.includes(member.userId)
+  const isOnline = memberOnline.includes(member?.userId)
 
   const handleMessageDetail = ()=> {
     const userIds = [currentUser.userId, member.userId];
@@ -28,7 +32,7 @@ const MemberItem: React.FC<Props> = React.memo(({member,memberOnline,currentUser
     })
   }
   return (
-    <TouchableOpacity style={styles.container} onPress={handleMessageDetail}>
+    <TouchableOpacity style={styles.container} onPress={handleMessageDetail} disabled={isSelect}>
       <View style={styles.item}>
         <View style={styles.frameAvatar}>
           {isOnline && (
@@ -40,6 +44,7 @@ const MemberItem: React.FC<Props> = React.memo(({member,memberOnline,currentUser
           <Text style={[styles.fullname,{color : theme.text2}]}>{member.fullName}</Text>
           <Text style={[styles.fullname,{color : theme.text3}]}>{member.phoneNumber}</Text>
         </View>
+        {isSelect && <CheckButton onCheck={onCheck} member={member} initialChecked={initialChecked} />}
 
       </View>
     </TouchableOpacity>

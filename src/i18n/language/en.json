@@ -88,5 +88,11 @@
     "Female": "Female",
     "Other": "Other"
   },
-  "isTyping" : "Typing"
+  "isTyping" : "Typing",
+  "memberScreen" : {
+    "cancel" : "Cancel",
+    "select" : "Select",
+    "createGroup" : "Create group",
+    "GroupName" : "Group name (optional)"
+  }
 }

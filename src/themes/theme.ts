@@ -22,6 +22,8 @@ export const themes: Record<Theme, {
     backgroundItem: string;
     iconColor: string;
     inputBar: string;
+    searchContainer: string;
+    deleteSearch: string;
     backgroundLogin1: string;
     backgroundLogin2: string;
 }> = {
@@ -34,6 +36,8 @@ export const themes: Record<Theme, {
         textReceipt: '#2C2D3A',
         textSend: '#FFFFFF',
         dot: '#7FD7FF',
+        searchContainer : '#464646',
+        deleteSearch : '#8d8d8d',
         activeDot: '#40C4FF',
         primary: '#40C4FF',
         borderRadiusColorIcon: '#40C4FF',
@@ -55,6 +59,7 @@ export const themes: Record<Theme, {
         backgroundItem: '#F4F4F4',
         text: '#0D47A1',
         text2: '#212121',
+        deleteSearch : '#c6c6c6',
         text3: '#757575',
         textReceipt: '#2C2D3A',
         textSend: '#FFFFFF',
@@ -65,6 +70,7 @@ export const themes: Record<Theme, {
         inputBar: '#eaeaea',
         bottomSheetColor: '#ECEFF1',
         btnTextColor: '#FFFFFF',
+        searchContainer : '#F0F0F0',
         backgroundModal: '#ECEFF1',
         backgroundMessageReceipt: '#1565C0',
         backgroundMessageSend: '#FFFFFF',

@@ -26,10 +26,6 @@ export const addConversation = (
 ) => {
   try {
     if (realm) {
-
-      const allConvs = realm.objects('Conversation');
-      console.log('Tất cả conv trong realm:', Array.from(allConvs));
-      console.log(allConvs)
       realm.write(() => {
         realm.create('Conversation', conversation, Realm.UpdateMode.Modified);
       });

@@ -86,5 +86,12 @@
     "Female": "Nữ",
     "Other": "Khác"
   },
-  "isTyping" : "Đang nhập"
+  "isTyping" : "Đang nhập",
+  "memberScreen" : {
+    "cancel" : "Huỷ",
+    "select" : "Chọn",
+    "createGroup" : "Tạo nhóm",
+    "GroupName" : "Tên nhóm (Tùy chọn)"
+
+  }
 }
