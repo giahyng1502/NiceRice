@@ -31,7 +31,7 @@ export const BottomSheetProvider: React.FC<{ children: ReactNode }> = ({
 
   const [content, setContent] = useState<ReactNode>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [snapPoints, setSnapPoints] = useState<string[]>(['10%']);
+  const [snapPoints, setSnapPoints] = useState<string[]>(['30%']);
   const [initialIndex, setInitialIndex] = useState(0);
   const {theme} = useTheme()
   // Memo hóa snapPoints tránh tạo mảng mới liên tục
@@ -51,7 +51,7 @@ export const BottomSheetProvider: React.FC<{ children: ReactNode }> = ({
 
   const openBottomSheet = (
       newContent: ReactNode,
-      newSnapPoints: string[] = ['0%'],
+      newSnapPoints: string[] = ['30%'],
       snapIndex: number = 0,
   ) => {
     setContent(newContent);
@@ -82,6 +82,14 @@ export const BottomSheetProvider: React.FC<{ children: ReactNode }> = ({
               backgroundColor : theme.bottomSheetColor
             }}
             onClose={() => setIsVisible(false)}
+            animationConfigs={{
+              damping: 18,
+              mass: 1,
+              stiffness: 150,
+              overshootClamping: false,
+              restDisplacementThreshold: 0.3,
+              restSpeedThreshold: 0.3,
+            }}
         >
           {content}
         </BottomSheet>

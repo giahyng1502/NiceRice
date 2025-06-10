@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -10,16 +10,16 @@ import CustomInputToolbar, {HEIGHT_INPUT_TOOLBAR} from './custom_input_toolbar';
 import HeaderMessage from './HeaderMessage';
 import Magin from '../../../components/margin/magin';
 import {useConversationMessages} from '../../../hooks/useMessage';
-import {useConversationParticipants} from "../../../hooks/useParticipant";
+import {useConversationParticipants} from '../../../hooks/useParticipant';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MessageDetail'>;
 
 const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const {id} = route.params;
-  const {messages ,sendMessage} = useConversationMessages(id);
+  const {messages, sendMessage} = useConversationMessages(id);
   const [content, setContent] = useState<string>('');
   const {theme} = useTheme();
-  const participants = useConversationParticipants(id);
+  const {participants,label,addConversation} = useConversationParticipants(id);
   const handleBack = () => {
     navigation.goBack();
   };
@@ -29,7 +29,12 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   //     image: participant?.avatarUrl || '',
   //   });
   // };
+    useEffect(() => {
+        if (label === 'PARTICIPANT_NOT_FOUND_INCONV') {
 
+            addConversation();
+        }
+    }, [label,id]);
   return (
     <View
       style={[
@@ -55,14 +60,17 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
         ListHeaderComponentStyle={{
           height: HEIGHT_INPUT_TOOLBAR,
         }}
+
+
       />
       <CustomInputToolbar
         value={content}
         onChangeText={setContent}
+        currentConv={id}
         onSend={() => {
           if (content && content.trim().length > 0) {
+            setContent('');
             sendMessage(content);
-              setContent('')
           }
         }}
       />

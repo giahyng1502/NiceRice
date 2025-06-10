@@ -14,9 +14,13 @@
   },
   "bottomNavigation": {
     "Messages": "Tin nhắn",
-    "Group": "Nhóm",
+    "member": "Thành viên",
     "Profile": "Cá nhân",
     "More": "Cài đặt"
+  },
+  "except" : {
+    "disPlayName" : "Người dùng chưa xác định",
+    "Not specified" : "Chưa xác định"
   },
   "modal": {
     "addfriend": "Thêm bạn bè",
@@ -25,6 +29,7 @@
     "gender": "Giới tính",
     "select_gender": "Chọn giới tính",
     "birthday": "Ngày sinh",
+    "selectBirthday" : "Chọn ngày sinh nhật",
     "email": "Email",
     "name": "Tên",
     "editProfile": "Sửa trang cá nhân",
@@ -42,8 +47,7 @@
     "gallery" : "Thư mục ảnh",
     "location" : "Vị trí của bạn",
     "document" : "Tài liệu",
-    "joinedDate" : "Ngày tham gia"
-
+    "joinedDate" : "Ngày tham gia",
   },
   "moreScreen": {
     "muteNotification": "Tắt thông báo",
@@ -81,5 +85,6 @@
     "Male": "Nam",
     "Female": "Nữ",
     "Other": "Khác"
-  }
+  },
+  "isTyping" : "Đang nhập"
 }

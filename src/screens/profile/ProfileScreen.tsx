@@ -13,13 +13,18 @@ import EditInfoDialog from '../../modals/modal_edit_profile';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '../../hooks/useAuth';
 import {useSnackbar} from '../../provider/SnackbarProvider';
-import {useBottomSheet} from "../../modals/bottom_sheet_modal";
+import {useBottomSheet} from '../../modals/bottom_sheet_modal';
+import {useLocalizedDate} from '../../utils/formattedDate';
 
 const ProfileScreen = () => {
   const {theme} = useTheme();
   const {logout, loadUser, user} = useAuth();
   const {showSnackbar} = useSnackbar();
-  const {openBottomSheet ,closeBottomSheet} = useBottomSheet();
+  const {openBottomSheet, closeBottomSheet} = useBottomSheet();
+  const {formatDate} = useLocalizedDate();
+  const formattedBirthday = formatDate(user?.birthday);
+  const formattedcreatedAt = formatDate(user?.createdAt);
+
   // hàm copy nội dung
   const handleCopy = (value: any) => {
     if (value) {
@@ -34,17 +39,14 @@ const ProfileScreen = () => {
   }, []);
   const {t} = useTranslation();
 
-    // Hàm mở bottom sheet với nội dung sửa thông tin
-    const openEditProfileSheet = () => {
-        openBottomSheet(
-            <EditInfoDialog
-                onClose={() => closeBottomSheet()}
-            />
-            ,
-            ['90%', '95%'], // snap points
-            0 // index mặc định
-        );
-    };
+  // Hàm mở bottom sheet với nội dung sửa thông tin
+  const openEditProfileSheet = () => {
+    openBottomSheet(
+      <EditInfoDialog onClose={() => closeBottomSheet()} />,
+      ['90%', '95%'], // snap points
+      0, // index mặc định
+    );
+  };
   return (
     <View style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={styles.circle}>
@@ -79,8 +81,12 @@ const ProfileScreen = () => {
 
       <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
         <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
-          {t('modal.phone')} :{` ${user?.phoneNumber}` || 'Chưa xác định'}
+          {t('modal.phone')}:{' '}
+          {user?.phoneNumber
+            ? user.phoneNumber
+            : `${t('except.Not specified')}`}
         </Text>
+
         <TouchableOpacity
           onPress={() => handleCopy(user?.phoneNumber)}
           disabled={!user?.phoneNumber}>
@@ -97,43 +103,25 @@ const ProfileScreen = () => {
       </Row>
 
       <Margin top={2} />
-      <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
-        <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
-          {t('modal.birthday')}:{' '}
-          {user?.birthday
-            ? new Date(user.birthday).toLocaleDateString('vi-VN')
-            : ''}
-        </Text>
-        <TouchableOpacity
-          onPress={() =>
-            handleCopy(
-              user?.birthday
-                ? new Date(user.birthday).toLocaleDateString('vi-VN')
-                : '',
-            )
-          }>
-          <IconCoppy color={theme.iconColor} />
-        </TouchableOpacity>
-      </Row>
+        <Row styleCustom={{ width: width * 0.8, justifyContent: 'space-between' }}>
+            <Text style={[globalStyles.mediumText, { color: theme.text2 }]}>
+                {t('modal.birthday')}: {formattedBirthday}
+            </Text>
+
+            <TouchableOpacity onPress={() => handleCopy(formattedBirthday)}>
+                <IconCoppy color={theme.iconColor} />
+            </TouchableOpacity>
+        </Row>
       <Margin top={2} />
-      <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
-        <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
-          {t('modal.joinedDate')}:{' '}
-          {user?.createdAt
-            ? new Date(user?.createdAt).toLocaleDateString('vi-VN')
-            : ''}
-        </Text>
-        <TouchableOpacity
-          onPress={() =>
-            handleCopy(
-              user?.createdAt
-                ? new Date(user?.createdAt).toLocaleDateString('vi-VN')
-                : '',
-            )
-          }>
-          <IconCoppy color={theme.iconColor} />
-        </TouchableOpacity>
-      </Row>
+        <Row styleCustom={{ width: width * 0.8, justifyContent: 'space-between' }}>
+            <Text style={[globalStyles.mediumText, { color: theme.text2 }]}>
+                {t('modal.joinedDate')}: {formattedcreatedAt}
+            </Text>
+
+            <TouchableOpacity onPress={() => handleCopy(formattedcreatedAt)}>
+                <IconCoppy color={theme.iconColor} />
+            </TouchableOpacity>
+        </Row>
 
       <Margin top={4} />
 
@@ -150,7 +138,7 @@ const ProfileScreen = () => {
           },
         ]}
         onPress={() => {
-            openEditProfileSheet()
+          openEditProfileSheet();
         }}>
         <IconUpdateOuline color={theme.iconColor} />
         <Text
@@ -192,8 +180,6 @@ const ProfileScreen = () => {
           {t('modal.logout')}
         </Text>
       </TouchableOpacity>
-
-
     </View>
   );
 };

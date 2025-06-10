@@ -7,7 +7,7 @@ import {RootState} from '../store/store';
 import {Messages, setCurrentConversationId, setMessages} from '../store/reducers/messageSlice';
 import {getMessageByConv} from '../store/action/messageAction';
 import {addMessage, saveMessages} from '../realm/service/message_service';
-import {SEND_SOCKET_EVENT} from "../store/middleware/socketMiddleware";
+import {SEND_SOCKET_EVENT} from "../store/middleware/socketMessageMiddleware";
 import {createMessageId} from "../utils/createMessageId";
 import {resetUnreadCount} from "../store/reducers/conversationSlice";
 import axiosClient from "../apis/axios";

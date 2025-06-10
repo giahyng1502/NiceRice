@@ -1,59 +1,117 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
 import {formatDateOrTime} from '../../../utils/formatDate';
 import Column from '../../../components/container/Column';
-import {NavigationProp, useNavigation} from "@react-navigation/native";
-import {AppStackParamList} from "../../../navigation/AppNavigation";
-import {Conversation} from "../../../store/reducers/conversationSlice";
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {AppStackParamList} from '../../../navigation/AppNavigation';
+import {
+  Conversation,
+  TypingState,
+} from '../../../store/reducers/conversationSlice';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../store/store';
+import TypingAnimation from '../../../components/animation/isTypingAnimation';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   conversation: Conversation;
 }
-// 2. Khai báo kiểu navigation
+
 type NavigationProps = NavigationProp<AppStackParamList, 'Messages'>;
 
 const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
   const {theme} = useTheme();
-  const {unreadCount, lastUpdatedAt} =
-    conversation;
   const navigation = useNavigation<NavigationProps>();
+  const {t} = useTranslation();
+  const participants = conversation?.participants || [];
+  const isGroup = conversation.isGroup;
+  const displayName = !isGroup
+    ? participants?.[0]?.fullName || `${t('except.disPlayName')}`
+    : conversation.groupName ||
+      `${participants.map(participant => participant.fullName).join(', ')}`;
+  const avatarUrl = conversation.groupAvatar;
+  const unreadCount = conversation?.unreadCount || 0;
+  const lastUpdatedAt = conversation?.lastUpdatedAt;
+  const lastMessagePreview = conversation?.lastMessagePreview;
+  const conversationId = conversation?.conversationId;
 
-  const displayName = conversation.participants?.[0]?.fullName || "no name";
-  const avatarUrl = conversation.participants?.[0]?.avatarUrl || "";
-  const lastMessagePreview = conversation.lastMessagePreview;
-  const lastMessagePreviewColor = unreadCount > 0 ? theme.text2 : theme.text3
-  const lastMessagePreviewWeight = unreadCount > 0 ? 'bold' : 'normal'
+  const typingRoom = useSelector(
+    (state: RootState) => state.conv.conversationIsTyping,
+  );
+
+  const extraCount = participants.length - 1;
+  const [typingUsers, setTypingUsers] = useState<TypingState[]>([]);
+
+  useEffect(() => {
+    const currentTyping = typingRoom.filter(
+      typing => typing.conversationId === conversationId,
+    );
+    setTypingUsers(currentTyping);
+  }, [conversationId, typingRoom]);
+
+  const lastMessagePreviewStyle = {
+    color: unreadCount > 0 ? theme.text2 : theme.text3,
+    fontWeight: unreadCount > 0 ? 'bold' : 'normal',
+  };
+  const renderGroupAvatars = () => (
+    <View style={styles.avatarContainer}>
+      {participants.slice(0, 2).map((u, index) => {
+        const isLastWithExtra = index === 1 && extraCount > 0;
+        return (
+          <View
+            key={u.userId}
+            style={[
+              styles.avatarWrapper,
+              {
+                marginLeft: index === 0 ? 0 : -35,
+                zIndex: 10 + index,
+                backgroundColor: 'white',
+              },
+            ]}>
+            <Image source={{uri: u.avatarUrl}} style={styles.avatar} />
+            {isLastWithExtra && (
+              <View style={styles.extraOverlay}>
+                <Text style={styles.extraText}>+{extraCount}</Text>
+              </View>
+            )}
+          </View>
+        );
+      })}
+    </View>
+  );
+  if (!conversation.lastMessagePreview) {
+    return;
+  }
   return (
-    <TouchableOpacity style={styles.container} onPress={()=> {
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() =>
         navigation.navigate('MessageDetail', {
-            id: conversation.conversationId
-        });
+          id: conversationId,
+        })
+      }>
+      {!avatarUrl
+        ? renderGroupAvatars()
+        : avatarUrl && (
+            <Image source={{uri: avatarUrl}} style={styles.avatar} />
+          )}
 
-    }}>
-      {avatarUrl && <Image source={{uri: avatarUrl}} style={styles.avatar} />}
       <View style={styles.content}>
-        <Text
-          style={[
-            styles.name,
-            {
-              color: theme.text2,
-            },
-          ]}>
-          {displayName}
-        </Text>
-        <Text
-          style={[
-            styles.messagePreview,
-            {
-              color: lastMessagePreviewColor,
-              fontWeight : lastMessagePreviewWeight
-            },
-          ]}
-          numberOfLines={1}>
-          {lastMessagePreview}
-        </Text>
+        <Text style={[styles.name, {color: theme.text2}]}>{displayName}</Text>
+        {typingUsers.length > 0 ? (
+          <View style={styles.typingContainer}>
+            <TypingAnimation />
+          </View>
+        ) : (
+          <Text
+            style={[styles.messagePreview, lastMessagePreviewStyle]}
+            numberOfLines={1}>
+            {lastMessagePreview}
+          </Text>
+        )}
       </View>
+
       <Column
         styleCustom={{
           alignItems: 'flex-end',
@@ -62,13 +120,7 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
         }}>
         <Text style={styles.time}>{formatDateOrTime(lastUpdatedAt)}</Text>
         {unreadCount > 0 && (
-          <View
-            style={[
-              styles.unreadBadge,
-              {
-                backgroundColor: theme.primary,
-              },
-            ]}>
+          <View style={[styles.unreadBadge, {backgroundColor: theme.primary}]}>
             <Text style={styles.unreadText}>{unreadCount}</Text>
           </View>
         )}
@@ -85,10 +137,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatar: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderRadius: 30,
     marginRight: 15,
+  },
+  avatarContainer: {
+    width: 70,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatarWrapper: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    overflow: 'hidden',
+  },
+  extraOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+  },
+  extraText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   content: {
     flex: 1,
@@ -101,6 +180,13 @@ const styles = StyleSheet.create({
   messagePreview: {
     marginTop: 4,
     fontSize: 14,
+  },
+  typingContainer: {
+    width: 100,
+    height: 30,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   unreadBadge: {
     borderRadius: 8,

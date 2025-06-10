@@ -14,9 +14,14 @@
   },
   "bottomNavigation": {
     "Messages": "Messages",
-    "Group": "Group",
+    "member": "Member",
     "Profile": "Profile",
     "More": "Settings"
+  },
+  "except" : {
+    "disPlayName" : "No Name",
+    "Not specified" : "Not specified"
+
   },
   "modal": {
     "addfriend": "Add Friend",
@@ -26,6 +31,7 @@
     "select_gender": "Select gender",
     "birthday": "Birthday",
     "email": "Email",
+    "selectBirthday" : "Select Birthday",
     "editProfile": "Edit Profile",
     "logout": "Logout",
     "enterName": "Enter your name",
@@ -81,5 +87,6 @@
     "Male": "Male",
     "Female": "Female",
     "Other": "Other"
-  }
+  },
+  "isTyping" : "Typing"
 }

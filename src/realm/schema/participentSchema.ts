@@ -6,7 +6,7 @@ export const ParticipantConversationSchema = {
     seenDateTime: 'string?',
     joinedAt: 'string',
     isAdmin: 'bool',
-    conversationId: 'int',
+    conversationId: 'string',
     fullName : 'string',
     avatarUrl: 'string',
     userId : 'int',

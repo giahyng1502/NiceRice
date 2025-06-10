@@ -4,7 +4,7 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import ConverstationScreen from '../screens/messages/convesation/ConverstationScreen';
-import GroupScreen from '../screens/groups/GroupScreen';
+import GroupScreen from '../screens/member/MemberScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import MoreScreen from '../screens/more/MoreScreen';
 import IconMessage from '../assets/svgs/ic_message';
@@ -31,7 +31,7 @@ const BottomNavigation = () => {
             case 'Messages':
               IconComponent = IconMessage;
               break;
-            case 'Group':
+            case 'member':
               IconComponent = IconGroup;
               break;
             case 'Profile':
@@ -70,7 +70,7 @@ const BottomNavigation = () => {
         },
       })}>
       <Tab.Screen name="Messages" component={ConverstationScreen} />
-      <Tab.Screen name="Group" component={GroupScreen} />
+      <Tab.Screen name="member" component={GroupScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="More" component={MoreScreen} />
     </Tab.Navigator>

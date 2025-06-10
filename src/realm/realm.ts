@@ -23,11 +23,3 @@ export const getRealm = (): Realm => {
     }
     return realmInstance;
 };
-
-export const closeRealm = () => {
-    if (realmInstance && !realmInstance.isClosed) {
-        realmInstance.close();
-        console.log('🛑 Realm closed');
-    }
-    realmInstance = null;
-};

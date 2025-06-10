@@ -66,3 +66,18 @@ export const updateInformation = createAsyncThunk<User>(
     }
 );
 
+export const getAllMember = createAsyncThunk<User[],number>(
+    'user/getAllMember',
+    async (skip, { rejectWithValue }) => {
+        try {
+            const response = await axiosClient.get('/users/getMember', {
+              params: {skip},
+            });
+            return response.members as User[];
+        } catch (error: any) {
+            console.error(error);
+            return rejectWithValue(error.response?.data || 'Có lỗi xảy ra');
+        }
+    }
+);
+

@@ -18,10 +18,8 @@ import {useSharedValue} from 'react-native-reanimated';
 import Margin from '../../components/margin/magin';
 import IconLanguage from '../../assets/svgs/icon_lang';
 import IconMode from '../../assets/svgs/ic_mode';
-import {useModal} from '../../hooks/useModal';
 import {useTranslation} from "react-i18next";
 import {useBottomSheet} from "../../modals/bottom_sheet_modal";
-import EditInfoDialog from "../../modals/modal_edit_profile";
 import PoliceSheet from "../../modals/PoliceSheet";
 import LanguageSheet from "../../modals/modal_selected_lang";
 
@@ -52,7 +50,7 @@ const MoreScreen = () => {
             />
             ,
             ['30%'], // snap points
-            1 // index mặc định
+            0 // index mặc định
         );
     };
     const {t} = useTranslation();

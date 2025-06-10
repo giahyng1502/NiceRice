@@ -7,8 +7,7 @@ import Realm from 'realm';
 import {getRealm} from '../realm/realm';
 import {Conversation, setConv} from '../store/reducers/conversationSlice';
 import {saveConv} from '../realm/service/conversation_service';
-import {convertRealmConversation} from "../utils/convertRealmConversation";
-
+import {convertRealmConversation} from '../utils/convertRealmConversation';
 
 export const useConversation = (): {
   conversations: any;
@@ -43,6 +42,7 @@ export const useConversation = (): {
       const allConvs = realmInstance
         .objects<Conversation>('Conversation')
         .sorted('lastUpdatedAt', true);
+
       const top20Convs = allConvs.slice(0, 20);
 
       // 2. Xóa những conversation không nằm trong top 20
@@ -55,7 +55,6 @@ export const useConversation = (): {
       // 3. Cập nhật redux store với 20 conversation này
       const plainTop20Convs = top20Convs.map(convertRealmConversation);
       dispatch(setConv(plainTop20Convs));
-
     };
 
     loadConvsFromRealm();

@@ -8,27 +8,21 @@ import CustomHeader from '../../../navigation/CustomHeader';
 import {useTheme} from '../../../hooks/useTheme';
 import ConversationItem from './converstation_item';
 import {useConversation} from '../../../hooks/useConversation';
-import {Conversation} from "../../../store/reducers/conversationSlice";
 
 const ConversationScreen = () => {
   const scrollY = useSharedValue(0);
   const {conversations} = useConversation();
-  const [convs, setConvs] = useState<Conversation[]>([]);
-  const scrollHandler = useAnimatedScrollHandler(event => {
-    scrollY.value = event.contentOffset.y;
-  });
+    const scrollHandler = useAnimatedScrollHandler(event => {
+      scrollY.value = event.contentOffset.y;
+    });
 
   const {theme} = useTheme();
-  useEffect(() => {
 
-    const msg = conversations.filter(c => !c.isGroup);
-    setConvs(msg);
-  }, [conversations]);
   return (
     <View style={{flex: 1, backgroundColor: theme.background}}>
       <CustomHeader scrollY={scrollY} theme={theme} />
       <Animated.FlatList
-        data={convs}
+        data={conversations}
         keyExtractor={(item, index) => `conv${item.conversationId}-${index}`}
         renderItem={({item}) => <ConversationItem conversation={item} />}
         onScroll={scrollHandler}

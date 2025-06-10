@@ -8,7 +8,7 @@ import {StatusBar} from 'react-native';
 import CustomSnackbar from './modals/snackbar';
 import {SnackbarProvider} from './provider/SnackbarProvider';
 import socket from './config/socket/socketClient';
-import {closeRealm, getRealm, openRealm} from './realm/realm';
+import {getRealm, openRealm} from './realm/realm';
 import {AppState} from 'react-native';
 import {useAppDispatch} from './hooks/useAppDispatch';
 import {fetchConversation} from './store/action/conversationAction';

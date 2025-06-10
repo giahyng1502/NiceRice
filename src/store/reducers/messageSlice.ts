@@ -14,7 +14,7 @@ export type MessageStatus = 'pending' | 'received' | 'sent' | 'seen';
 
 export type Messages = {
   messageId: string;
-  conversationId: number;
+  conversationId: string;
   senderId: number;
   content: string;
   createdAt: string;

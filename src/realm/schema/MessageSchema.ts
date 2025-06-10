@@ -5,7 +5,7 @@ export const MessageSchema = {
     properties: {
         messageId: 'string',
         senderId: 'int',
-        conversationId: 'int',
+        conversationId: 'string',
         content: 'string',
         createdAt: 'string',
         updatedAt: 'string',

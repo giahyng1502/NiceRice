@@ -5,25 +5,39 @@ import Margin from '../margin/magin';
 import { useTheme } from '../../hooks/useTheme';
 import IconCalendar from '../../assets/svgs/ic_calendar';
 import Modal from 'react-native-modal';
+import { useTranslation } from 'react-i18next';
+import {guessTimeZoneFromLocale} from "../../utils/formattedDate";
 
 type Props = {
     date: Date;
     setDate: (date: Date) => void;
 };
 
+
 const DatePickerExample: React.FC<Props> = ({ date, setDate }) => {
     const [open, setOpen] = useState(false);
-    const {theme} = useTheme();
+    const { theme } = useTheme();
+    const { t, i18n } = useTranslation();
+
+    const locale = i18n.language || 'en-US';
+    const timeZone = guessTimeZoneFromLocale(locale);
+
+    const formattedDate = date.toLocaleDateString(locale, {
+        timeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    });
 
     return (
         <View style={styles.container}>
             <Margin top={1} />
-            <Text style={{ color: theme.text2 }}>Ngày sinh</Text>
+            <Text style={{ color: theme.text2 }}>{t('modal.birthday')}</Text>
             <Margin top={1} />
 
             <View style={styles.inputContainer}>
                 <Text style={[styles.dateText, { color: theme.text2 }]}>
-                    {date.toLocaleDateString()}
+                    {formattedDate}
                 </Text>
                 <TouchableOpacity onPress={() => setOpen(true)} style={styles.iconButton}>
                     <IconCalendar color={theme.iconColor} />
@@ -39,25 +53,30 @@ const DatePickerExample: React.FC<Props> = ({ date, setDate }) => {
                 animationOut="fadeOutRight"
                 useNativeDriver
             >
-                <View style={[styles.modalContent,{backgroundColor: theme.bottomSheetColor}]}>
-                    <Text style={[styles.modalTitle,{color : theme.text2}]}>Select Birthday</Text>
+                <View style={[styles.modalContent, { backgroundColor: theme.bottomSheetColor }]}>
+                    <Text style={[styles.modalTitle, { color: theme.text2 }]}>
+                        {t('modal.selectBirthday')}
+                    </Text>
                     <DatePicker
                         date={date}
                         onDateChange={setDate}
                         mode="date"
+                        locale={locale}
                         dividerColor={theme.text2}
                     />
                     <TouchableOpacity
                         onPress={() => setOpen(false)}
                         style={styles.confirmButton}
                     >
-                        <Text style={{ color: theme.text2 }}>Confirm</Text>
+                        <Text style={{ color: theme.text2 }}>{t('modal.save')}</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
         </View>
     );
 };
+
+
 export default DatePickerExample;
 const styles = StyleSheet.create({
     container: {

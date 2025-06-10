@@ -1,6 +1,23 @@
 import {Dimensions, StyleSheet} from 'react-native';
 export const {width, height} = Dimensions.get('window');
 
+export const FONT_SIZE = {
+    displayLarge: 57,
+    displayMedium: 45,
+    displaySmall: 36,
+    headlineLarge: 32,
+    headlineMedium: 28,
+    headlineSmall: 24,
+    titleLarge: 22,
+    titleMedium: 16,
+    titleSmall: 14,
+    bodyLarge: 16,
+    bodyMedium: 14,
+    bodySmall: 12,
+    labelLarge: 14,
+    labelMedium: 12,
+    labelSmall: 11,
+};
 
 export const globalStyles = StyleSheet.create({
     container: {

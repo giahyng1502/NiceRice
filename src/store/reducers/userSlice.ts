@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
+  getAllMember,
   getInformation,
   loginUser,
   registerUser,
@@ -22,13 +23,19 @@ export interface User {
 interface UserState {
   data: User | null;
   loading: boolean;
+  allUser: User[] | [];
+  memberOnline : number[];
   isLoggedIn: boolean;
   error: string | null;
+  hasMore : boolean
 }
 
 const initialState: UserState = {
   data: null,
   loading: false,
+  allUser: [],
+  hasMore: true,
+  memberOnline : [],
   error: null,
   isLoggedIn: false,
 };
@@ -45,6 +52,9 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.data = action.payload;
     },
+    setUserIdsOnline: (state, action: PayloadAction<number[]>) => {
+      state.memberOnline = action.payload;
+    }
   },
   extraReducers: builder => {
     builder
@@ -107,10 +117,37 @@ const userSlice = createSlice({
           state.loading = false;
           state.error = action.payload as string;
         },
-      );
+      )
+      .addCase(getAllMember.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+        .addCase(getAllMember.fulfilled, (state, action: PayloadAction<User[]>) => {
+          state.loading = false;
+
+          const DEFAULT_LIMIT = 50;
+
+          // Tạo Set chứa các userId đã tồn tại
+          const existingUserIds = new Set(state.allUser.map(user => user.userId));
+
+          // Lọc ra những user mới có id chưa tồn tại
+          const newUsers = action.payload.filter(user => !existingUserIds.has(user.userId));
+
+          // Gộp lại danh sách không trùng
+          state.allUser = [...state.allUser, ...newUsers];
+
+          // Kiểm tra còn trang tiếp theo hay không
+          if (action.payload.length < DEFAULT_LIMIT) {
+            state.hasMore = false;
+          }
+        })
+      .addCase(getAllMember.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
 // Export action & reducer
-export const {clearUser, setUser} = userSlice.actions;
+export const {clearUser, setUser,setUserIdsOnline} = userSlice.actions;
 export default userSlice.reducer;

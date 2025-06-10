@@ -17,9 +17,9 @@ export type AuthStackParamList = {
 
 export type AppStackParamList = {
     Main: undefined;
-    MessageDetail: { id: number };
+    MessageDetail: { id: string };
     ChatOption: { name: string; image: string };
-    Group: undefined;
+    Member: undefined;
     Profile: undefined;
     Messages: undefined;
     More: undefined;

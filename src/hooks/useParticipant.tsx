@@ -1,75 +1,107 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Realm from 'realm';
 import axiosClient from '../apis/axios';
-import { addParticipants } from '../realm/service/participant_service';
-import { getRealm } from '../realm/realm';
+import {addParticipants} from '../realm/service/participant_service';
+import {getRealm} from '../realm/realm';
+import {useAppDispatch} from './useAppDispatch';
+import {SEND_SOCKET_EVENT} from '../store/middleware/socketMessageMiddleware';
+import {createMessageId} from '../utils/createMessageId';
+import {CREATE_CONVERSATION} from '../store/middleware/socketConversationMiddleware';
+import {parseUserIdsFromString} from '../utils/createConversationId';
 
 export type Participant = {
-    _id: string;
-    userId: bigint;
-    fullName: string;
-    avatarUrl: string;
-    seenDateTime?: Date;
-    conversationId: bigint;
-    isAdmin: boolean;
+  _id: string;
+  userId: bigint;
+  fullName: string;
+  avatarUrl: string;
+  seenDateTime?: Date;
+  conversationId: bigint;
+  isAdmin: boolean;
 };
 
 export const useConversationParticipants = (conversationId: string | null) => {
-    const [participants, setParticipants] = useState<Participant[]>([]);
-    const [realmInstance, setRealmInstance] = useState<Realm>();
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [realmInstance, setRealmInstance] = useState<Realm>();
+  const [label, setLabel] = useState<string>('');
+  const dispatch = useAppDispatch();
 
-    // Khởi tạo Realm instance
-    useEffect(() => {
-        const realm = getRealm();
-        setRealmInstance(realm);
-    }, []);
+  // Khởi tạo Realm instance
+  useEffect(() => {
+    const realm = getRealm();
+    setRealmInstance(realm);
+  }, []);
 
-    useEffect(() => {
-        if (!realmInstance || !conversationId) return;
+  const addConversation = () => {
+    if (conversationId) {
+      const participantIds = parseUserIdsFromString(conversationId);
+      dispatch({
+        type: CREATE_CONVERSATION,
+        payload: {
+          data: {
+            conversationId,
+            participantIds,
+          },
+          event: 'createConversation',
+        },
+      });
+    }
+  };
 
-        const filteredParticipants = realmInstance
-            .objects<Participant>('ParticipantConversation')
-            .filtered('conversationId == $0', conversationId);
+  useEffect(() => {
+    if (!realmInstance || !conversationId) return;
 
-        // Load dữ liệu local đầu tiên
-        setParticipants([...filteredParticipants]);
+    const filteredParticipants = realmInstance
+      .objects<Participant>('ParticipantConversation')
+      .filtered('conversationId == $0', conversationId);
 
-        // Listener callback
-        const listenerCallback = (collection: Realm.Results<Participant>, changes: Realm.CollectionChangeSet) => {
-            setParticipants([...collection]);
-        };
+    // Load dữ liệu local đầu tiên
+    setParticipants([...filteredParticipants]);
 
-        // Gắn listener
-        filteredParticipants.addListener(listenerCallback);
+    // Listener callback
+    const listenerCallback = (
+      collection: Realm.Results<Participant>,
+      changes: Realm.CollectionChangeSet,
+    ) => {
+      setParticipants([...collection]);
+    };
 
-        // Cleanup khi unmount hoặc conversationId/realmInstance thay đổi
-        return () => {
-            if (!realmInstance.isClosed && filteredParticipants && filteredParticipants.removeListener) {
-                filteredParticipants.removeListener(listenerCallback);
-            }
-        };
-    }, [realmInstance, conversationId]);
+    // Gắn listener
+    filteredParticipants.addListener(listenerCallback);
 
-    // Fetch API participants và lưu vào Realm
-    useEffect(() => {
-        if (!conversationId || !realmInstance) return;
+    // Cleanup khi unmount hoặc conversationId/realmInstance thay đổi
+    return () => {
+      if (
+        !realmInstance.isClosed &&
+        filteredParticipants &&
+        filteredParticipants.removeListener
+      ) {
+        filteredParticipants.removeListener(listenerCallback);
+      }
+    };
+  }, [realmInstance, conversationId]);
 
-        const fetchParticipantsFromApi = async () => {
-            try {
-                const res = await axiosClient.get('/conversation/participant', {
-                    params: { conversationId },
-                });
+  // Fetch API participants và lưu vào Realm
+  useEffect(() => {
+    if (!conversationId || !realmInstance) return;
 
-                if (res && res.users) {
-                    await addParticipants(res.users, realmInstance);
-                }
-            } catch (error) {
-                console.log('Fetch API participant lỗi:', error);
-            }
-        };
+    const fetchParticipantsFromApi = async () => {
+      try {
+        const data = await axiosClient.get('/conversation/participant', {
+          params: {conversationId},
+        });
+        console.log(data);
+        if (data.users) {
+          await addParticipants(data.users, realmInstance);
+        }
+      } catch (error) {
+        console.log('Fetch API participant lỗi:', error);
+        setLabel(error?.label);
+        console.log(error?.label);
+      }
+    };
 
-        fetchParticipantsFromApi();
-    }, [conversationId, realmInstance]);
+    fetchParticipantsFromApi();
+  }, [conversationId, realmInstance]);
 
-    return participants;
+  return {participants, label, addConversation};
 };

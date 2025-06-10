@@ -2,8 +2,9 @@ import {configureStore} from '@reduxjs/toolkit';
 import themeReducer from './reducers/themeSlice';
 import userSlice from './reducers/userSlice';
 import conversationSlice from './reducers/conversationSlice';
-import socketMiddleware from "./middleware/socketMiddleware";
+import socketMessageMiddleware from "./middleware/socketMessageMiddleware";
 import messageSlice from "./reducers/messageSlice";
+import socketConversationMiddleware from "./middleware/socketConversationMiddleware";
 
 const store = configureStore({
   reducer: {
@@ -17,7 +18,7 @@ const store = configureStore({
         serializableCheck: {
           ignoredActions: ['socket/SEND_SOCKET_EVENT'],
         },
-      }).concat(socketMiddleware),
+      }).concat(socketMessageMiddleware,socketConversationMiddleware),
 
 });
 // Tạo type toàn cục state
