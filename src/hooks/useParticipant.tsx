@@ -3,11 +3,6 @@ import Realm from 'realm';
 import axiosClient from '../apis/axios';
 import {addParticipants} from '../realm/service/participant_service';
 import {getRealm} from '../realm/realm';
-import {useAppDispatch} from './useAppDispatch';
-import {SEND_SOCKET_EVENT} from '../store/middleware/socketMessageMiddleware';
-import {createMessageId} from '../utils/createMessageId';
-import {CREATE_CONVERSATION} from '../store/middleware/socketConversationMiddleware';
-import {parseUserIdsFromString} from '../utils/createConversationId';
 
 export type Participant = {
   _id: string;
@@ -22,8 +17,6 @@ export type Participant = {
 export const useConversationParticipants = (conversationId: string | null) => {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [realmInstance, setRealmInstance] = useState<Realm>();
-  const [label, setLabel] = useState<string>('');
-  const dispatch = useAppDispatch();
 
   // Khởi tạo Realm instance
   useEffect(() => {
@@ -31,24 +24,10 @@ export const useConversationParticipants = (conversationId: string | null) => {
     setRealmInstance(realm);
   }, []);
 
-  const addConversation = () => {
-    if (conversationId) {
-      const participantIds = parseUserIdsFromString(conversationId);
-      dispatch({
-        type: CREATE_CONVERSATION,
-        payload: {
-          data: {
-            conversationId,
-            participantIds,
-          },
-          event: 'createConversation',
-        },
-      });
-    }
-  };
-
   useEffect(() => {
-    if (!realmInstance || !conversationId) return;
+    if (!realmInstance || !conversationId) {
+      return;
+    }
 
     const filteredParticipants = realmInstance
       .objects<Participant>('ParticipantConversation')
@@ -82,7 +61,9 @@ export const useConversationParticipants = (conversationId: string | null) => {
 
   // Fetch API participants và lưu vào Realm
   useEffect(() => {
-    if (!conversationId || !realmInstance) return;
+    if (!conversationId || !realmInstance) {
+      return;
+    }
 
     const fetchParticipantsFromApi = async () => {
       try {
@@ -95,13 +76,11 @@ export const useConversationParticipants = (conversationId: string | null) => {
         }
       } catch (error) {
         console.log('Fetch API participant lỗi:', error);
-        setLabel(error?.label);
-        console.log(error?.label);
       }
     };
 
     fetchParticipantsFromApi();
   }, [conversationId, realmInstance]);
 
-  return {participants, label, addConversation};
+  return {participants};
 };

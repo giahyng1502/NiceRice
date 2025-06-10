@@ -1,12 +1,14 @@
 
-export const createConversationId = (userIds : any[], isGroup : boolean) => {
+export const createConversationId = (userIds: string[], isGroup: boolean): string => {
     if (isGroup) {
-        return `cvg-${Math.random().toString(36).substring(2, 8)}`; // lấy 8 kí tự UUID đầu
+        const uniqueId = Math.random().toString(36).substring(2, 10); // random 8 ký tự
+        return `cvg-${uniqueId}`;
     } else {
-        const sortedIds = userIds.sort();
+        const sortedIds = [...userIds].sort();
         return `cv-${sortedIds[0]}-${sortedIds[1]}`;
     }
 };
+
 
 export function parseUserIdsFromString(cvId: string): [string, string] {
     const parts = cvId.split('-'); // ['cv', 'user1', 'user2']

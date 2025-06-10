@@ -30,14 +30,17 @@ const MemberItem: React.FC<Props> = React.memo(({member,memberOnline,currentUser
   return (
     <TouchableOpacity style={styles.container} onPress={handleMessageDetail}>
       <View style={styles.item}>
-        <Image source={{uri: member.avatarUrl}} style={styles.image}/>
+        <View style={styles.frameAvatar}>
+          {isOnline && (
+              <View style={styles.online}></View>
+          )}
+          <Image source={{uri: member.avatarUrl}} style={styles.image}/>
+        </View>
         <View style={{flexDirection : 'column',flex : 1}}>
           <Text style={[styles.fullname,{color : theme.text2}]}>{member.fullName}</Text>
           <Text style={[styles.fullname,{color : theme.text3}]}>{member.phoneNumber}</Text>
         </View>
-        {isOnline && (
-            <View style={styles.online}></View>
-        )}
+
       </View>
     </TouchableOpacity>
   );
@@ -52,6 +55,9 @@ const styles = StyleSheet.create({
     fontSize : FONT_SIZE.bodyLarge,
     fontWeight : 'bold',
   },
+  frameAvatar : {
+    position : 'relative',
+  },
   image: {
     width : 50,
     height : 50,
@@ -65,8 +71,11 @@ const styles = StyleSheet.create({
   },
   online : {
     width : 12,
+    position : 'absolute',
+    bottom : 0,
+    right : 10,
     height : 12,
-    borderRadius : 4,
+    borderRadius : 6,
     backgroundColor : '#40C4FF'
   }
 });

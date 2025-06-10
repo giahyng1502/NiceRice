@@ -19,7 +19,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const {messages, sendMessage} = useConversationMessages(id);
   const [content, setContent] = useState<string>('');
   const {theme} = useTheme();
-  const {participants,label,addConversation} = useConversationParticipants(id);
+  const {participants} = useConversationParticipants(id);
   const handleBack = () => {
     navigation.goBack();
   };
@@ -29,12 +29,6 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   //     image: participant?.avatarUrl || '',
   //   });
   // };
-    useEffect(() => {
-        if (label === 'PARTICIPANT_NOT_FOUND_INCONV') {
-
-            addConversation();
-        }
-    }, [label,id]);
   return (
     <View
       style={[

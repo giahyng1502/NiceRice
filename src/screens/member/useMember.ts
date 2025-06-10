@@ -27,7 +27,7 @@ const useMember = () => {
 
   useEffect(() => {
     refresh();
-  }, []);
+  }, [refresh]);
 
   return {allUser, refresh, loadMore, loading, memberOnline,user};
 };
