@@ -1,4 +1,4 @@
-import {useEffect, useLayoutEffect, useState} from 'react';
+import {useEffect, useLayoutEffect, useMemo, useState} from 'react';
 import Realm from 'realm';
 import {getRealm} from '../realm/realm';
 import {useAppDispatch} from './useAppDispatch';
@@ -12,6 +12,8 @@ import {createMessageId} from "../utils/createMessageId";
 import {resetUnreadCount} from "../store/reducers/conversationSlice";
 import axiosClient from "../apis/axios";
 import {useAppState} from "./useAppState";
+import {useTranslation} from "react-i18next";
+import {groupMessagesByDate} from "../utils/groupedMessage";
 
 export function useConversationMessages(conversationId: string) {
   const [realmInstance, setRealmInstance] = useState<Realm>();
@@ -20,6 +22,7 @@ export function useConversationMessages(conversationId: string) {
   const user = useSelector((state: RootState) => state.user.data);
   const state = useAppState()
   const isActive = state === 'active';
+  const {i18n} = useTranslation();
   useEffect(() => {
     const realm = getRealm();
     setRealmInstance(realm);
@@ -108,8 +111,10 @@ export function useConversationMessages(conversationId: string) {
   };
 
   useEffect(() => {
-    getMessageFromLocal();
-  }, [conversationId, dispatch, realmInstance]);
+    if (realmInstance && !realmInstance.isClosed) {
+      getMessageFromLocal();
+    }
+  }, [conversationId, realmInstance]);
 
   const sendMessage = (content: string) => {
 
@@ -131,5 +136,9 @@ export function useConversationMessages(conversationId: string) {
     })
   }
 
-  return {messages,sendMessage};
+  const groupedMessages = useMemo(() => {
+    return groupMessagesByDate(messages, i18n.language);
+  }, [messages, i18n.language]);
+
+  return {groupedMessages,sendMessage};
 }

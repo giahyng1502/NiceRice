@@ -130,6 +130,7 @@ const conversationSlice = createSlice({
         (state, action: PayloadAction<Conversation[]>) => {
           state.loading = false;
           state.conversations = action.payload;
+          console.log('dispatch conv' , action.payload);
         },
       )
       .addCase(fetchConversation.rejected, (state, action) => {

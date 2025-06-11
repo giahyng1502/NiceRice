@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import {useTheme} from '../../hooks/useTheme';
 import {useTranslation} from 'react-i18next';
@@ -20,10 +21,17 @@ import MemberItem from './member-item';
 import {FONT_SIZE, width} from '../../styles/globalStyles';
 import {User} from '../../store/reducers/userSlice';
 import HorizontalAnimatedList from './member-create-list';
+import axiosClient from '../../apis/axios';
+import {AppStackParamList} from '../../navigation/AppNavigation';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import LoadingModal from '../../modals/modal_loading';
+
+type NavigationProps = NavigationProp<AppStackParamList, 'Member'>;
 
 const MemberScreen = () => {
   const {theme} = useTheme();
   const {t} = useTranslation();
+  const navigation = useNavigation<NavigationProps>();
   const {memberOnline, allUser, loading, loadMore, user} = useMember();
   const [isSelect, setIsSelect] = useState<boolean>(false);
   const slideRight = useSharedValue(0);
@@ -31,6 +39,7 @@ const MemberScreen = () => {
   const [selectedMembers, setSelectedMembers] = useState<User[]>([]);
   const [groupName, setGroupName] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
+  const [isloading, setIsLoading] = useState<boolean>(false);
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{translateX: slideRight.value}],
@@ -44,6 +53,40 @@ const MemberScreen = () => {
       opacity: interpolate(slideTop.value, [0, 150], [0, 1]),
     };
   });
+
+  //
+  const createGroup = async () => {
+    try {
+      if (!groupName.trim()) {
+        Alert.alert('Lỗi', 'Vui lòng nhập tên nhóm.');
+        return;
+      }
+
+      if (selectedMembers.length < 2) {
+        Alert.alert('Lỗi', 'Nhóm phải có ít nhất 2 thành viên.');
+        return;
+      }
+        setIsLoading(true);
+      const data = await axiosClient.post(`/conversation/createGroup`, {
+        groupName,
+        participantIds: selectedMembers.map(member => member.userId),
+      });
+
+      // ✅ Optional: Chuyển sang màn hình chat nhóm mới
+      navigation.navigate('MessageDetail', {
+        id: data.conversationId,
+      });
+      // ✅ Optional: Reset state
+      setGroupName('');
+      setSelectedMembers([]);
+      setIsSelect(false);
+    } catch (error) {
+      console.error('Lỗi tạo nhóm:', error);
+      Alert.alert('Thất bại', 'Không thể tạo nhóm. Vui lòng thử lại.');
+    } finally {
+        setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (isSelect && selectedMembers.length > 0) {
@@ -67,12 +110,12 @@ const MemberScreen = () => {
     }
   }, []);
 
-    const deleteMemeber = useCallback((userId: string) => {
-        // @ts-ignore
-        setSelectedMembers(prevMembers =>
-            prevMembers.filter(m => m.userId !== userId),
-        );
-    }, []);
+  const deleteMemeber = useCallback((userId: string) => {
+    // @ts-ignore
+    setSelectedMembers(prevMembers =>
+      prevMembers.filter(m => m.userId !== userId),
+    );
+  }, []);
   useEffect(() => {
     console.log(selectedMembers);
   }, [selectedMembers]);
@@ -169,7 +212,10 @@ const MemberScreen = () => {
               </TouchableOpacity>
             )}
           </View>
-          <HorizontalAnimatedList members={selectedMembers} onDelete={deleteMemeber} />
+          <HorizontalAnimatedList
+            members={selectedMembers}
+            onDelete={deleteMemeber}
+          />
         </Animated.View>
 
         <View
@@ -225,6 +271,8 @@ const MemberScreen = () => {
           animatedStyle,
         ]}>
         <TouchableOpacity
+          onPress={createGroup}
+          disabled={!isSelect}
           style={{
             backgroundColor: theme.primary,
             elevation: 8,
@@ -245,6 +293,7 @@ const MemberScreen = () => {
           </Text>
         </TouchableOpacity>
       </Animated.View>
+      <LoadingModal visible={isloading} />
     </View>
   );
 };

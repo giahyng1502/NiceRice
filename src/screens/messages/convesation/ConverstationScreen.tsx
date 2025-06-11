@@ -27,7 +27,7 @@ const ConversationScreen = () => {
         renderItem={({item}) => <ConversationItem conversation={item} />}
         onScroll={scrollHandler}
         scrollEventThrottle={16}
-        contentContainerStyle={{paddingTop: 80}}
+        contentContainerStyle={{paddingTop: 20}}
       />
     </View>
   );

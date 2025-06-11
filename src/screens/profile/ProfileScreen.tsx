@@ -14,16 +14,25 @@ import {useTranslation} from 'react-i18next';
 import {useAuth} from '../../hooks/useAuth';
 import {useSnackbar} from '../../provider/SnackbarProvider';
 import {useBottomSheet} from '../../modals/bottom_sheet_modal';
-import {useLocalizedDate} from '../../utils/formattedDate';
+import {formatSmartDate} from '../../utils/formatDate';
 
 const ProfileScreen = () => {
   const {theme} = useTheme();
   const {logout, loadUser, user} = useAuth();
   const {showSnackbar} = useSnackbar();
+  const {t, i18n} = useTranslation();
+  const locale = i18n.language || 'en-US';
   const {openBottomSheet, closeBottomSheet} = useBottomSheet();
-  const {formatDate} = useLocalizedDate();
-  const formattedBirthday = formatDate(user?.birthday);
-  const formattedcreatedAt = formatDate(user?.createdAt);
+  const formattedBirthday = formatSmartDate(
+    user?.birthday,
+    locale,
+    t('except.Not specified'),
+  );
+  const formattedcreatedAt = formatSmartDate(
+    user?.createdAt,
+    locale,
+    t('except.Not specified'),
+  );
 
   // hàm copy nội dung
   const handleCopy = (value: any) => {
@@ -37,8 +46,6 @@ const ProfileScreen = () => {
     console.log(user);
     loadUser();
   }, []);
-  const {t} = useTranslation();
-
   // Hàm mở bottom sheet với nội dung sửa thông tin
   const openEditProfileSheet = () => {
     openBottomSheet(
@@ -103,25 +110,25 @@ const ProfileScreen = () => {
       </Row>
 
       <Margin top={2} />
-        <Row styleCustom={{ width: width * 0.8, justifyContent: 'space-between' }}>
-            <Text style={[globalStyles.mediumText, { color: theme.text2 }]}>
-                {t('modal.birthday')}: {formattedBirthday}
-            </Text>
+      <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
+        <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
+          {t('modal.birthday')}: {formattedBirthday}
+        </Text>
 
-            <TouchableOpacity onPress={() => handleCopy(formattedBirthday)}>
-                <IconCoppy color={theme.iconColor} />
-            </TouchableOpacity>
-        </Row>
+        <TouchableOpacity onPress={() => handleCopy(formattedBirthday)}>
+          <IconCoppy color={theme.iconColor} />
+        </TouchableOpacity>
+      </Row>
       <Margin top={2} />
-        <Row styleCustom={{ width: width * 0.8, justifyContent: 'space-between' }}>
-            <Text style={[globalStyles.mediumText, { color: theme.text2 }]}>
-                {t('modal.joinedDate')}: {formattedcreatedAt}
-            </Text>
+      <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
+        <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
+          {t('modal.joinedDate')}: {formattedcreatedAt}
+        </Text>
 
-            <TouchableOpacity onPress={() => handleCopy(formattedcreatedAt)}>
-                <IconCoppy color={theme.iconColor} />
-            </TouchableOpacity>
-        </Row>
+        <TouchableOpacity onPress={() => handleCopy(formattedcreatedAt)}>
+          <IconCoppy color={theme.iconColor} />
+        </TouchableOpacity>
+      </Row>
 
       <Margin top={4} />
 

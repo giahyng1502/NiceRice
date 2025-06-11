@@ -6,7 +6,8 @@ import {globalStyles} from '../../../styles/globalStyles';
 import {useAuth} from '../../../hooks/useAuth';
 import {Participant} from '../../../hooks/useParticipant';
 import {Messages} from '../../../store/reducers/messageSlice';
-import Animated, {FadeInUp, Layout} from 'react-native-reanimated';
+import Animated, {FadeInRight, FadeInUp, Layout} from 'react-native-reanimated';
+import {useLocalizedDate} from "../../../hooks/useDateFromLocal";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -23,6 +24,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(
     const isUserCurrent = senderId == currentUser?.userId;
     const images = currentMessage.link || [];
     const extraCount = images.length - 3;
+    const {formatTime} = useLocalizedDate();
     const [sender, setSender] = useState<Participant>();
     useEffect(() => {
       if (!currentMessage) return;
@@ -37,7 +39,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(
 
     return (
       <Animated.View
-        entering={FadeInUp.duration(400)}
+        entering={FadeInRight.duration(400)}
         layout={Layout.springify()}>
         {!isUserCurrent && (
           <View
@@ -159,10 +161,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(
                 color: isUserCurrent ? 'white' : 'black',
                 marginTop: 4,
               }}>
-              {new Date(currentMessage.createdAt).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
+              {formatTime(currentMessage.createdAt)}
             </Text>
             {currentMessage.status === 'sent' && (
               <IconSeen color={theme.iconColor} />
