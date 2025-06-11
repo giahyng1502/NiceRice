@@ -14,6 +14,7 @@ import axiosClient from "../apis/axios";
 import {useAppState} from "./useAppState";
 import {useTranslation} from "react-i18next";
 import {groupMessagesByDate} from "../utils/groupedMessage";
+import {LayoutAnimation} from "react-native";
 
 export function useConversationMessages(conversationId: string) {
   const [realmInstance, setRealmInstance] = useState<Realm>();
@@ -117,7 +118,6 @@ export function useConversationMessages(conversationId: string) {
   }, [conversationId, realmInstance]);
 
   const sendMessage = (content: string) => {
-
     dispatch({
       type: SEND_SOCKET_EVENT,
       payload: {

@@ -25,22 +25,31 @@ export const groupMessagesByDate = (
     lang: string
 ): GroupedMessage[] => {
     const result: GroupedMessage[] = [];
+    let currentGroup: GroupedMessage[] = [];
     let lastDate = '';
 
     moment.locale(lang);
 
-    messages.forEach(msg => {
+    messages.forEach((msg, index) => {
         const displayDate = getDisplayDate(msg.createdAt, lang);
 
-        if (displayDate !== lastDate) {
-            lastDate = displayDate;
-
-            result.push({type: 'message', message: msg});
-            result.push({type: 'header', date: displayDate});
-        } else {
-            result.push({type: 'message', message: msg});
+        if (displayDate !== lastDate && currentGroup.length > 0) {
+            result.push(...currentGroup);
+            result.push({ type: 'header', date: lastDate });
+            currentGroup = [];
         }
+
+        currentGroup.push({ type: 'message', message: msg });
+        lastDate = displayDate;
     });
+
+    // Push the final group
+    if (currentGroup.length > 0) {
+        result.push(...currentGroup);
+        result.push({ type: 'header', date: lastDate });
+    }
 
     return result;
 };
+
+

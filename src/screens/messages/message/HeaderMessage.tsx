@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HeaderMessage;
+export default React.memo(HeaderMessage);

@@ -26,6 +26,8 @@ export const themes: Record<Theme, {
     deleteSearch: string;
     backgroundLogin1: string;
     backgroundLogin2: string;
+    skeletonColor: string;
+    highlightColor: string;
 }> = {
     dark: {
         background: '#292929',
@@ -52,7 +54,10 @@ export const themes: Record<Theme, {
         backgroundLogin1 : "#03A9F4",
         backgroundLogin2 : "#E8F0F9",
         inputBar : '#686A8A',
-        iconColor: '#ffffff'
+        iconColor: '#ffffff',
+        skeletonColor : "#424242",
+        highlightColor : "rgba(255,255,255,0.12)"
+
     },
     light: {
         background: '#FFFFFF',
@@ -79,6 +84,10 @@ export const themes: Record<Theme, {
         backgroundIntroduce2: '#B2EBF2',
         backgroundLogin1 : "#1A47B8",
         backgroundLogin2 : "#9A9BB1",
-        iconColor: '#000000'
+        iconColor: '#000000',
+        skeletonColor : "#E0E0E0",
+
+        highlightColor : "rgba(255,255,255,0.6)"
+
     }
 };

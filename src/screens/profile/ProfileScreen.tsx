@@ -166,7 +166,7 @@ const ProfileScreen = () => {
         style={[
           globalStyles.buttonHeight,
           {
-            backgroundColor: '#FEECEB',
+            backgroundColor: '#ff372d',
             flexDirection: 'row',
             justifyContent: 'center',
             width: width * 0.8,
@@ -180,7 +180,7 @@ const ProfileScreen = () => {
           style={[
             globalStyles.contentSize,
             {
-              color: '#F6695E',
+              color: theme.text2,
               marginLeft: 8,
             },
           ]}>

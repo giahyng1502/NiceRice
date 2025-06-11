@@ -25,6 +25,7 @@ import axiosClient from '../../apis/axios';
 import {AppStackParamList} from '../../navigation/AppNavigation';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import LoadingModal from '../../modals/modal_loading';
+import SkeletonMemberItem from '../../components/skeleton/SkeletonMemberItem';
 
 type NavigationProps = NavigationProp<AppStackParamList, 'Member'>;
 
@@ -66,7 +67,7 @@ const MemberScreen = () => {
         Alert.alert('Lỗi', 'Nhóm phải có ít nhất 2 thành viên.');
         return;
       }
-        setIsLoading(true);
+      setIsLoading(true);
       const data = await axiosClient.post(`/conversation/createGroup`, {
         groupName,
         participantIds: selectedMembers.map(member => member.userId),
@@ -84,7 +85,7 @@ const MemberScreen = () => {
       console.error('Lỗi tạo nhóm:', error);
       Alert.alert('Thất bại', 'Không thể tạo nhóm. Vui lòng thử lại.');
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -242,25 +243,30 @@ const MemberScreen = () => {
           />
         </View>
       </View>
-      <Animated.FlatList
-        data={allUser}
-        keyExtractor={(item, index) => `conv${item.userId}-${index}`}
-        renderItem={({item}) => (
-          <MemberItem
-            onCheck={handleMemberCheck}
-            isSelect={isSelect}
-            currentUser={user}
-            memberSelect={selectedMembers}
-            member={item}
-            memberOnline={memberOnline}
-          />
-        )}
-        scrollEventThrottle={16}
-        refreshing={loading}
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.2}
-        contentContainerStyle={{paddingTop: 10}}
-      />
+      {allUser.length > 0 ? (
+        <Animated.FlatList
+          data={allUser}
+          keyExtractor={(item, index) => `conv${item.userId}-${index}`}
+          renderItem={({item}) => (
+            <MemberItem
+              onCheck={handleMemberCheck}
+              isSelect={isSelect}
+              currentUser={user}
+              memberSelect={selectedMembers}
+              member={item}
+              memberOnline={memberOnline}
+            />
+          )}
+          scrollEventThrottle={16}
+          refreshing={loading}
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.2}
+          contentContainerStyle={{paddingTop: 10}}
+        />
+      ) : (
+        <SkeletonMemberItem repeat={10} />
+      )}
+
       <Animated.View
         style={[
           {

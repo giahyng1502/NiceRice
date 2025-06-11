@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, LayoutAnimation} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppStackParamList} from '../../../navigation/AppNavigation';
@@ -17,9 +17,9 @@ type Props = NativeStackScreenProps<AppStackParamList, 'MessageDetail'>;
 const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const {id} = route.params;
   const {groupedMessages, sendMessage} = useConversationMessages(id);
-    console.log(groupedMessages);
   const [content, setContent] = useState<string>('');
   const {theme} = useTheme();
+    console.log(groupedMessages)
   const {participants} = useConversationParticipants(id);
   const handleBack = () => {
     navigation.goBack();
@@ -42,7 +42,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
       <HeaderMessage handleBack={handleBack} handleChatOption={() => {}} />
       <FlashList
         data={groupedMessages}
-        renderItem={({item}) => {
+        renderItem={({item,index}) => {
           if (item.type === 'header') {
             return (
               <View style={{alignItems: 'center', marginVertical: 8}}>
@@ -50,11 +50,10 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
                   style={{
                     paddingHorizontal: 12,
                     paddingVertical: 4,
-                    borderRadius: 16,
                   }}>
                   <Text
                     style={{
-                      color: theme.text2,
+                      color: theme.text3,
                       fontWeight: '600',
                     }}>
                     {item.date}
@@ -68,6 +67,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
             <RenderItemMessage
               currentMessage={item.message}
               participants={participants}
+              index={index}
             />
           );
         }}
