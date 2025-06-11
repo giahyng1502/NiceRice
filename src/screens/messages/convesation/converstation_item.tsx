@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   avatarContainer: {
-    width: 70,
+    width: 80,
     flexDirection: 'row',
     alignItems: 'center',
   },

@@ -67,7 +67,7 @@ const AppRealm: React.FC = () => {
 
 const AppSocket: React.FC = () => {
   const user = useSelector((state: RootState) => state.user.data);
-  const appState = useAppLifecycle();
+  useAppLifecycle();
   useEffect(() => {
     const userId = user?.userId;
     if (userId) {
