@@ -1,14 +1,13 @@
 import moment from 'moment';
 
-export function formatDateOrTime(dateInput: Date | string): string {
-    const date = moment(dateInput);
-    const now = moment();
+export const formatSmartDate = (
+    date?: string | Date | null,
+    locale: string = 'en-US',
+    fallbackText: string = 'Not specified'
+): string => {
+    if (!date) return fallbackText;
 
-    if (date.isSame(now, 'day')) {
-        // Cùng ngày, trả về giờ phút
-        return date.format('HH:mm');
-    } else {
-        // Khác ngày, trả về dd/MM
-        return date.format('DD/MM');
-    }
-}
+    moment.locale(locale);
+    const dateObj = typeof date === 'string' ? moment(date) : moment(date);
+    return dateObj.format('DD/MM/YYYY');
+};

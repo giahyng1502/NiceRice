@@ -44,10 +44,8 @@ const CustomInputToolbar: React.FC<Props> = ({
   const appState = useAppState();
   const dispatch = useAppDispatch();
   const hasSentTyping = useRef(false);
-
   // Debounce sau 2s không gõ nữa → stop_typing
   const debouncedText = useDebounce(value, 4000);
-
   // Xử lý gửi typing/stop_typing
   const handleTyping = useCallback((event: 'typing' | 'stop_typing') => {
     dispatch({
@@ -149,7 +147,7 @@ const CustomInputToolbar: React.FC<Props> = ({
   );
 };
 
-export default CustomInputToolbar;
+export default React.memo(CustomInputToolbar);
 
 const styles = StyleSheet.create({
   container: {

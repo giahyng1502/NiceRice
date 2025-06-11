@@ -3,7 +3,6 @@ import socket from '../../config/socket/socketClient';
 import { fetchConversationById } from '../action/conversationAction';
 import {addConversation} from "../../realm/service/conversation_service";
 import {getRealm} from "../../realm/realm";
-import {addMessage} from "../../realm/service/message_service";
 
 export const CREATE_CONVERSATION = 'CREATE_CONVERSATION';
 

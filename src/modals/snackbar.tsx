@@ -3,7 +3,7 @@ import {Animated, Text, StyleSheet} from 'react-native';
 import {useSnackbar} from '../provider/SnackbarProvider';
 
 const CustomSnackbar: React.FC = () => {
-    const translateY = useRef(new Animated.Value(100)).current;
+    const translateX = useRef(new Animated.Value(100)).current;
     const {visible, message, type, hideSnackbar} = useSnackbar();
 
     const backgroundColors = {
@@ -15,13 +15,13 @@ const CustomSnackbar: React.FC = () => {
 
     useEffect(() => {
         if (visible) {
-            Animated.timing(translateY, {
+            Animated.timing(translateX, {
                 toValue: 0,
                 duration: 300,
                 useNativeDriver: true,
             }).start(() => {
                 setTimeout(() => {
-                    Animated.timing(translateY, {
+                    Animated.timing(translateX, {
                         toValue: 100,
                         duration: 300,
                         useNativeDriver: true,
@@ -38,7 +38,7 @@ const CustomSnackbar: React.FC = () => {
         <Animated.View
             style={[
                 styles.container,
-                {backgroundColor: backgroundColors[type], transform: [{translateY}]},
+                {backgroundColor: backgroundColors[type], transform: [{translateX}]},
             ]}>
             <Text style={styles.text}>{message}</Text>
         </Animated.View>
@@ -48,9 +48,8 @@ const CustomSnackbar: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: 40,
-        left: 20,
-        right: 20,
+        bottom: 120,
+        right: 10,
         paddingVertical: 14,
         paddingHorizontal: 20,
         borderRadius: 8,

@@ -6,7 +6,7 @@ import { useTheme } from '../../hooks/useTheme';
 import IconCalendar from '../../assets/svgs/ic_calendar';
 import Modal from 'react-native-modal';
 import { useTranslation } from 'react-i18next';
-import {guessTimeZoneFromLocale} from "../../utils/formattedDate";
+import {guessTimeZoneFromLocale} from "../../utils/timeZoneFromLocal";
 
 type Props = {
     date: Date;

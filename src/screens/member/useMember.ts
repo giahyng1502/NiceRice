@@ -19,6 +19,8 @@ const useMember = () => {
     dispatch(getAllMember(0));
   }, [dispatch]);
 
+
+
   const loadMore = useCallback(() => {
     if (!loading && hasMore) {
       dispatch(getAllMember(allUser.length));

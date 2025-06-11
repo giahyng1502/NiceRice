@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
-import {formatDateOrTime} from '../../../utils/formatDate';
 import Column from '../../../components/container/Column';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {AppStackParamList} from '../../../navigation/AppNavigation';
@@ -13,6 +12,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/store';
 import TypingAnimation from '../../../components/animation/isTypingAnimation';
 import {useTranslation} from 'react-i18next';
+import {useLocalizedDate} from "../../../hooks/useDateFromLocal";
 
 interface Props {
   conversation: Conversation;
@@ -26,13 +26,14 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
   const {t} = useTranslation();
   const participants = conversation?.participants || [];
   const isGroup = conversation.isGroup;
-  const displayName = !isGroup
+  const displayName = isGroup !== true
     ? participants?.[0]?.fullName || `${t('except.disPlayName')}`
     : conversation.groupName ||
       `${participants.map(participant => participant.fullName).join(', ')}`;
   const avatarUrl = conversation.groupAvatar;
   const unreadCount = conversation?.unreadCount || 0;
   const lastUpdatedAt = conversation?.lastUpdatedAt;
+  const {formatDate} = useLocalizedDate();
   const lastMessagePreview = conversation?.lastMessagePreview;
   const conversationId = conversation?.conversationId;
 
@@ -118,7 +119,7 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
           justifyContent: 'space-between',
           gap: 10,
         }}>
-        <Text style={styles.time}>{formatDateOrTime(lastUpdatedAt)}</Text>
+        <Text style={styles.time}>{formatDate(lastUpdatedAt)}</Text>
         {unreadCount > 0 && (
           <View style={[styles.unreadBadge, {backgroundColor: theme.primary}]}>
             <Text style={styles.unreadText}>{unreadCount}</Text>
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   avatarContainer: {
-    width: 70,
+    width: 80,
     flexDirection: 'row',
     alignItems: 'center',
   },
