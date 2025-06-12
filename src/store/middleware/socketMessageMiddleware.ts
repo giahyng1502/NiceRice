@@ -61,7 +61,7 @@ export function setupSocketListeners(store: MiddlewareAPI) {
 
 const setupTypingListeners = (store: MiddlewareAPI) => {
   try {
-    socket.on('receiveTyping', (typing: TypingState) => {
+    socket.off('receiveTyping').on('receiveTyping', (typing: TypingState) => {
       store.dispatch(setConvIsTyping(typing));
     });
   } catch (e) {
@@ -71,7 +71,7 @@ const setupTypingListeners = (store: MiddlewareAPI) => {
 
 const memberOnline = (store: MiddlewareAPI) => {
   try {
-    socket.on('memberOnline', userIds => {
+    socket.off('memberOnline').on('memberOnline', userIds => {
       console.log('danh sach thanh vien online ', userIds);
       store.dispatch(setUserIdsOnline(userIds));
     });
@@ -82,7 +82,7 @@ const memberOnline = (store: MiddlewareAPI) => {
 
 const stopTypingListeners = (store: MiddlewareAPI) => {
   try {
-    socket.on('stop_typing', (typing: TypingState) => {
+    socket.off('stop_typing').on('stop_typing', (typing: TypingState) => {
       store.dispatch(removeConvIsTyping(typing));
     });
   } catch (e) {

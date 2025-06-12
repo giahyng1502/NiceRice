@@ -19,21 +19,24 @@ export type Messages = {
   content: string;
   createdAt: string;
   type?: MessageType;
-  link?: string;
+  link?: string[];
   status?: MessageStatus;
 };
 
 // Initial state
 interface MessageState {
-  messages: Messages[];
-  loading: boolean;
+  messages: {
+    [conversationId: string]: Messages[];
+  };
+  loading: {
+    [conversationId: string]: boolean;
+  };
   error: string | null;
   currentConversationId: number | null;
 }
-
 const initialState: MessageState = {
-  messages: [],
-  loading: false,
+  messages: {},
+  loading: {},
   error: null,
   currentConversationId: null,
 };
@@ -47,59 +50,62 @@ const messageSlice = createSlice({
       state.currentConversationId = action.payload;
     },
 
-    addMessageRedux: (state, action: PayloadAction<any>) => {
-      state.messages.unshift(action.payload);
+    addMessageRedux: (state, action: PayloadAction<Messages>) => {
+      const message = action.payload;
+      const convId = message.conversationId;
+
+      if (!state.messages[convId]) {
+        state.messages[convId] = [];
+      }
+
+      state.messages[convId].unshift(message);
     },
+
     onMessageFromSocket: (state, action: PayloadAction<Messages>) => {
-      console.log('onMessageFromSocket', action.payload);
-      const index = state.messages.findIndex(
-        msg => msg.messageId === action.payload.messageId,
+      const message = action.payload;
+      const convId = message.conversationId;
+      console.log(state.messages)
+      if (!state.messages[convId]) {
+        state.messages[convId] = [];
+      }
+
+      const index = state.messages[convId].findIndex(
+        msg => msg.messageId === message.messageId,
       );
 
       if (index !== -1) {
-        // Nếu tồn tại -> cập nhật
-        state.messages[index] = action.payload;
+        state.messages[convId][index] = message;
       } else {
-        // Nếu chưa có -> thêm mới vào đầu mảng
-        state.messages.unshift(action.payload);
+        state.messages[convId].unshift(message);
       }
-
-      console.log('redux', action.payload);
     },
 
-    setMessages: (state, action: PayloadAction<Messages[]>) => {
-      state.messages = action.payload;
-    },
-    updateMessageStatus: (
+    setMessages: (
       state,
-      action: PayloadAction<{messageId: string; status: MessageStatus}>,
+      action: PayloadAction<{conversationId: string; messages: Messages[]}>,
     ) => {
-      const message = state.messages.find(
-        m => m.messageId === action.payload.messageId,
-      );
-      if (message) {
-        message.status = action.payload.status;
-      }
-    },
-    clearMessages: state => {
-      state.messages = [];
+      console.log(action.payload)
+      state.messages[action.payload.conversationId] = action.payload.messages;
     },
   },
   extraReducers: builder => {
     builder
-      .addCase(getMessageByConv.pending, state => {
-        // Khi bắt đầu gọi API, ví dụ set trạng thái loading
-        state.loading = true;
-        state.error = null;
+      .addCase(getMessageByConv.pending, (state, action) => {
+        const {conversationId} = action.meta.arg;
+        state.loading[conversationId] = true;
       })
       .addCase(getMessageByConv.fulfilled, (state, action) => {
-        // Khi gọi API thành công, action.payload là mảng messages
-        state.loading = false;
-        state.messages = [...action.payload, ...state.messages];
+        const {conversationId} = action.meta.arg;
+        state.loading[conversationId] = false;
+
+        state.messages[conversationId] = [
+          ...action.payload,
+          ...(state.messages[conversationId] || []),
+        ];
       })
       .addCase(getMessageByConv.rejected, (state, action) => {
-        // Khi gọi API thất bại
-        state.loading = false;
+        const {conversationId} = action.meta.arg;
+        state.loading[conversationId] = false;
         state.error = action.payload || 'Lỗi không xác định';
       });
   },
@@ -109,8 +115,6 @@ export const {
   addMessageRedux,
   onMessageFromSocket,
   setMessages,
-  updateMessageStatus,
-  clearMessages,
   setCurrentConversationId,
 } = messageSlice.actions;
 

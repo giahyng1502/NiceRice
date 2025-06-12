@@ -4,6 +4,7 @@ import { RootState } from '../store/store';
 import { useAppDispatch } from './useAppDispatch';
 import { clearUser } from '../store/reducers/userSlice';
 import {getInformation, updateInformation} from "../store/action/userAction";
+import {deleteAllConversations} from "../realm/realm";
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ export const useAuth = () => {
         try {
             await AsyncStorage.removeItem('accessToken');
             dispatch(clearUser());
+            deleteAllConversations();
         } catch (error) {
             console.error('Lỗi khi xoá user:', error);
         }

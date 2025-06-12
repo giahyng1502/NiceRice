@@ -29,25 +29,27 @@ export const groupMessagesByDate = (
     let lastDate = '';
 
     moment.locale(lang);
+    if (messages.length > 0) {
+        messages.forEach((msg, index) => {
+            const displayDate = getDisplayDate(msg.createdAt, lang);
 
-    messages.forEach((msg, index) => {
-        const displayDate = getDisplayDate(msg.createdAt, lang);
+            if (displayDate !== lastDate && currentGroup.length > 0) {
+                result.push(...currentGroup);
+                result.push({ type: 'header', date: lastDate });
+                currentGroup = [];
+            }
 
-        if (displayDate !== lastDate && currentGroup.length > 0) {
+            currentGroup.push({ type: 'message', message: msg });
+            lastDate = displayDate;
+        });
+
+        // Push the final group
+        if (currentGroup.length > 0) {
             result.push(...currentGroup);
             result.push({ type: 'header', date: lastDate });
-            currentGroup = [];
         }
-
-        currentGroup.push({ type: 'message', message: msg });
-        lastDate = displayDate;
-    });
-
-    // Push the final group
-    if (currentGroup.length > 0) {
-        result.push(...currentGroup);
-        result.push({ type: 'header', date: lastDate });
     }
+
 
     return result;
 };

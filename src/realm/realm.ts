@@ -23,3 +23,21 @@ export const getRealm = (): Realm => {
     }
     return realmInstance;
 };
+
+
+export const deleteAllConversations = (): void => {
+    try {
+        if (!realmInstance || realmInstance.isClosed) {
+            throw new Error('❌ Realm is not open. Call openRealm() first.');
+        }
+
+        realmInstance.write(() => {
+            const allConversations = realmInstance!.objects('Conversation');
+            realmInstance!.delete(allConversations);
+        });
+
+        console.log('🗑️ Tất cả Conversation đã được xoá.');
+    } catch (error) {
+        console.error('❌ Lỗi khi xoá Conversation:', error);
+    }
+};
