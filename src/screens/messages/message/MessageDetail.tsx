@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, StyleSheet, Text, LayoutAnimation} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -19,7 +19,6 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const {groupedMessages, sendMessage} = useConversationMessages(id);
   const [content, setContent] = useState<string>('');
   const {theme} = useTheme();
-    console.log(groupedMessages)
   const {participants} = useConversationParticipants(id);
   const handleBack = () => {
     navigation.goBack();
@@ -30,6 +29,37 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   //     image: participant?.avatarUrl || '',
   //   });
   // };
+
+  const renderItem = useCallback(
+    ({item, index}: {item: any; index: number}) => {
+      if (item.type === 'header') {
+        return (
+          <View style={{alignItems: 'center', marginVertical: 8}}>
+            <View style={{paddingHorizontal: 12, paddingVertical: 4}}>
+              <Text style={{color: theme.text3, fontWeight: '600'}}>
+                {item.date}
+              </Text>
+            </View>
+          </View>
+        );
+      }
+
+      return (
+        <RenderItemMessage
+          currentMessage={item.message}
+          participants={participants}
+          index={index}
+        />
+      );
+    },
+    [participants, theme.text3],
+  );
+
+  const keyExtractor = useCallback((item: any, index: number) => {
+    if (item.type === 'header') return `header-${item.date}`;
+    return `msg-${item.message.messageId}`;
+  }, []);
+
   return (
     <View
       style={[
@@ -42,39 +72,8 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
       <HeaderMessage handleBack={handleBack} handleChatOption={() => {}} />
       <FlashList
         data={groupedMessages}
-        renderItem={({item,index}) => {
-          if (item.type === 'header') {
-            return (
-              <View style={{alignItems: 'center', marginVertical: 8}}>
-                <View
-                  style={{
-                    paddingHorizontal: 12,
-                    paddingVertical: 4,
-                  }}>
-                  <Text
-                    style={{
-                      color: theme.text3,
-                      fontWeight: '600',
-                    }}>
-                    {item.date}
-                  </Text>
-                </View>
-              </View>
-            );
-          }
-
-          return (
-            <RenderItemMessage
-              currentMessage={item.message}
-              participants={participants}
-              index={index}
-            />
-          );
-        }}
-        keyExtractor={(item, index) => {
-          if (item.type === 'header') return `header-${item.date}-${index}`;
-          return `msg-${item.message?.messageId}-${index}`;
-        }}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
         estimatedItemSize={40}
         inverted
         showsVerticalScrollIndicator={false}

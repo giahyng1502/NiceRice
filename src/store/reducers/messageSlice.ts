@@ -19,7 +19,7 @@ export type Messages = {
   content: string;
   createdAt: string;
   type?: MessageType;
-  link?: string[];
+  link?: string;
   status?: MessageStatus;
 };
 

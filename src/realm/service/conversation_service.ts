@@ -16,7 +16,7 @@ export const saveConv = (
       console.log('Conversation saved successfully.');
     }
   } catch (error) {
-    console.error('Error saving messages:', error);
+    console.error('Error saving conversation:', error);
   }
 
 };
@@ -33,6 +33,6 @@ export const addConversation = (
 
     }
   } catch (e) {
-    console.error('Error saving conversation:', e);
+    console.error('Error add conversation:', e);
   }
 };

@@ -32,5 +32,5 @@ export const useAuth = () => {
         dispatch(updateInformation(information))
     }
 
-    return { user, loading,loadUser, logout, error, isLoggedIn,updateUser };
+    return { user, loading,loadUser, logout, error, isLoggedIn,updateUser,dispatch };
 };

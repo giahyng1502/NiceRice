@@ -8,6 +8,7 @@ import ChatOption from '../screens/option/ChatOption';
 import LoginScreen from '../screens/login/LoginScreen';
 import {useAuth} from '../hooks/useAuth';
 import SplashScreen from '../screens/introduct/splash_screen';
+import GalleryScreen from "../screens/gallery/GalleryScreen";
 
 export type AuthStackParamList = {
     Introduce: undefined;
@@ -23,6 +24,7 @@ export type AppStackParamList = {
     Profile: undefined;
     Messages: undefined;
     More: undefined;
+    Gallery: undefined;
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -41,6 +43,7 @@ const AppStackScreen = () => (
         <AppStack.Screen name="Main" component={BottomNavigation} />
         <AppStack.Screen name="MessageDetail" component={MessageDetail} />
         <AppStack.Screen name="ChatOption" component={ChatOption} />
+        <AppStack.Screen name="Gallery" component={GalleryScreen} />
     </AppStack.Navigator>
 );
 

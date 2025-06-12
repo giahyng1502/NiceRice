@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import  {useCallback, useEffect} from 'react';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
@@ -22,6 +22,8 @@ const useMember = () => {
 
 
   const loadMore = useCallback(() => {
+    console.log('hasMore',hasMore);
+    console.log('loading',loading);
     if (!loading && hasMore) {
       dispatch(getAllMember(allUser.length));
     }

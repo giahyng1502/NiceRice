@@ -14,6 +14,8 @@ export const saveMessages = async (messages: any[], realm: Realm) => {
             realm.write(() => {
                 messages.forEach((message: any) => {
                     // Upsert message theo messageId
+                    console.log(message.link)
+
                     realm.create("Message", message, Realm.UpdateMode.Modified);
                 });
             });

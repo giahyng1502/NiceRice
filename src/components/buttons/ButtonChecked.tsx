@@ -31,21 +31,13 @@ const CheckButton: React.FC<Props> = ({
   };
 
   return (
-    <TouchableOpacity
-      style={styles.button}
-      onPress={onPress} // Gọi hàm onPress đã cập nhật logic
-    >
-      {/* Hiển thị icon tương ứng với trạng thái checked */}
-      {initialChecked ? <IconChecked /> : <IconCheck />}
-    </TouchableOpacity>
+
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
-    justifyContent: 'center', // Đảm bảo icon được căn giữa
-    padding: 8, // Thêm padding để dễ bấm hơn
+
   },
 });
 

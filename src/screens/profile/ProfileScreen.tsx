@@ -15,14 +15,26 @@ import {useAuth} from '../../hooks/useAuth';
 import {useSnackbar} from '../../provider/SnackbarProvider';
 import {useBottomSheet} from '../../modals/bottom_sheet_modal';
 import {formatSmartDate} from '../../utils/formatDate';
-
+import {guessLangFromLocale} from '../../utils/timeZoneFromLocal';
+import useProfile from './useProfileScreen';
+import {updateAvatar} from '../../store/reducers/userSlice';
 const ProfileScreen = () => {
-  const {theme} = useTheme();
-  const {logout, loadUser, user} = useAuth();
+  const {theme, themeType} = useTheme();
+  const {logout, loadUser, user, dispatch} = useAuth();
   const {showSnackbar} = useSnackbar();
   const {t, i18n} = useTranslation();
   const locale = i18n.language || 'en-US';
+  const lang = guessLangFromLocale(locale);
   const {openBottomSheet, closeBottomSheet} = useBottomSheet();
+
+  const {onPicker} = useProfile(lang, themeType, theme, t);
+
+  const handleAvatar = async () => {
+    const res = await onPicker();
+    // @ts-ignore
+    const avatar: string = res[0].path || '';
+    dispatch(updateAvatar(avatar));
+  };
   const formattedBirthday = formatSmartDate(
     user?.birthday,
     locale,
@@ -57,11 +69,9 @@ const ProfileScreen = () => {
   return (
     <View style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={styles.circle}>
-        <Image
-          source={require('../../assets/images/Avatar.png')}
-          style={styles.avatar}
-        />
-        <View
+        <Image source={{uri: user?.avatarUrl}} style={styles.avatar} />
+        <TouchableOpacity
+          onPress={handleAvatar}
           style={{
             borderRadius: 100,
             width: width * 0.1,
@@ -74,7 +84,7 @@ const ProfileScreen = () => {
             right: 2,
           }}>
           <IconUpdateFull color={theme.iconColor} />
-        </View>
+        </TouchableOpacity>
       </View>
 
       <Margin top={5} />
@@ -198,15 +208,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   circle: {
-    width: width * 0.4,
+    width: 150,
     height: 150,
-    borderRadius: '100%',
     position: 'relative',
   },
   avatar: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
+    borderRadius: 100,
+    resizeMode: 'cover',
   },
 });
 

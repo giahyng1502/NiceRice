@@ -49,6 +49,11 @@
     "document" : "Tài liệu",
     "joinedDate" : "Ngày tham gia",
   },
+  "granted": {
+    "PhotoAccessRequired": "Thiếu quyền truy cập ảnh",
+    "OpenSetting" : "Mở cài đặt",
+    "ContentAccess": "Chúng tôi cần quyền truy cập ảnh và video để bạn có thể chọn nội dung từ thư viện. Vui lòng mở Cài đặt và cấp quyền cho ứng dụng."
+  },
   "moreScreen": {
     "muteNotification": "Tắt thông báo",
     "inviteFriend": "Mời bạn bè",

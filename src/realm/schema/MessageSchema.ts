@@ -8,7 +8,7 @@ export const MessageSchema = {
         conversationId: 'string',
         content: 'string',
         createdAt: 'string',
-        updatedAt: 'string',
+        updatedAt: 'string?',
         type: 'string',
         link: 'string?'
     },

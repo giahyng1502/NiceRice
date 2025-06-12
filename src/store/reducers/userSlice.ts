@@ -55,6 +55,12 @@ const userSlice = createSlice({
     },
     setUserIdsOnline: (state, action: PayloadAction<number[]>) => {
       state.memberOnline = action.payload;
+    },
+    updateAvatar : (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+      if (state.data) {
+        state.data.avatarUrl = action.payload;
+      }
     }
   },
   extraReducers: builder => {
@@ -139,6 +145,7 @@ const userSlice = createSlice({
 
           // Kiểm tra còn trang tiếp theo hay không
           if (action.payload.length < DEFAULT_LIMIT) {
+            console.log('data get :', action.payload.length)
             state.hasMore = false;
           }
         })
@@ -150,5 +157,5 @@ const userSlice = createSlice({
 });
 
 // Export action & reducer
-export const {clearUser, setUser,setUserIdsOnline} = userSlice.actions;
+export const {clearUser, setUser,setUserIdsOnline,updateAvatar} = userSlice.actions;
 export default userSlice.reducer;

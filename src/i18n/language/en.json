@@ -6,7 +6,7 @@
   "contactInfo": "If you have any questions, complaints, or need support, please contact:",
   "PhoneNumber": "0963594828",
   "Mail": "hungcy1502@gmail.com",
-  "termsPolicies" : "Terms & Policies",
+  "termsPolicies": "Terms & Policies",
   "lang": {
     "language": "Language",
     "vi": "Vietnamese",
@@ -18,10 +18,14 @@
     "Profile": "Profile",
     "More": "Settings"
   },
-  "except" : {
-    "disPlayName" : "No Name",
-    "Not specified" : "Not specified"
-
+  "except": {
+    "disPlayName": "No Name",
+    "Not specified": "Not specified"
+  },
+  "granted": {
+    "PhotoAccessRequired": "Photo Access Required",
+    "OpenSetting": "Open Settings",
+    "ContentAccess": "We need access to your photos and videos so you can select content from your library. Please open Settings and grant permission to the app."
   },
   "modal": {
     "addfriend": "Add Friend",
@@ -31,7 +35,7 @@
     "select_gender": "Select gender",
     "birthday": "Birthday",
     "email": "Email",
-    "selectBirthday" : "Select Birthday",
+    "selectBirthday": "Select Birthday",
     "editProfile": "Edit Profile",
     "logout": "Logout",
     "enterName": "Enter your name",
@@ -47,8 +51,7 @@
     "gallery": "Gallery",
     "location": "Your Location",
     "document": "Document",
-    "joinedDate" : "Joined Date"
-
+    "joinedDate": "Joined Date"
   },
   "moreScreen": {
     "muteNotification": "Mute Notifications",
@@ -75,12 +78,11 @@
     "prev": "Previous",
     "started": "Get Started Now"
   },
-  "optionScreen" : {
-    "addGroup" : "Add To Group",
-    "customColor" : "Custom Color Chat",
-    "customBackground" : "Custom Background Chat",
-    "writeMessage" : "Write a message"
-
+  "optionScreen": {
+    "addGroup": "Add To Group",
+    "customColor": "Custom Color Chat",
+    "customBackground": "Custom Background Chat",
+    "writeMessage": "Write a message"
   },
 
   "birthday": {
@@ -88,11 +90,11 @@
     "Female": "Female",
     "Other": "Other"
   },
-  "isTyping" : "Typing",
-  "memberScreen" : {
-    "cancel" : "Cancel",
-    "select" : "Select",
-    "createGroup" : "Create group",
-    "GroupName" : "Group name (optional)"
+  "isTyping": "Typing",
+  "memberScreen": {
+    "cancel": "Cancel",
+    "select": "Select",
+    "createGroup": "Create group",
+    "GroupName": "Group name (optional)"
   }
 }
