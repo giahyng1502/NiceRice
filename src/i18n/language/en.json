@@ -80,9 +80,11 @@
   },
   "optionScreen": {
     "addGroup": "Add To Group",
+    "leaveGroup": "Leave group",
     "customColor": "Custom Color Chat",
     "customBackground": "Custom Background Chat",
-    "writeMessage": "Write a message"
+    "writeMessage": "Write a message",
+    "edit": "Edit"
   },
 
   "birthday": {
@@ -94,6 +96,7 @@
   "memberScreen": {
     "cancel": "Cancel",
     "select": "Select",
+    "done" : "Done",
     "createGroup": "Create group",
     "GroupName": "Group name (optional)"
   }

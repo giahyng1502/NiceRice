@@ -38,7 +38,7 @@ const MoreScreen = () => {
                 onClose={() => closeBottomSheet()}
             />
             ,
-            ['80%','95%'], // snap points
+            ['95%'], // snap points
             0 // index mặc định
         );
     };

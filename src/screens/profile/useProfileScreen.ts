@@ -88,7 +88,7 @@ export const requestAndroidPermissions = async (t) => {
  * @param theme Theme object (chứa màu nền, màu chữ...)
  * @param t Hàm dịch i18n
  */
-const useProfile = (lang: string, themeType: 'dark' | 'light', theme: any, t: Function) => {
+const useCamera = (lang: string, themeType: 'dark' | 'light', theme: any, t: Function) => {
     // ✅ Cấu hình crop ảnh
     const cropConfig: PickerCropConfig = {
         circle: true,
@@ -136,4 +136,4 @@ const useProfile = (lang: string, themeType: 'dark' | 'light', theme: any, t: Fu
     return { onPicker };
 };
 
-export default useProfile;
+export default useCamera;

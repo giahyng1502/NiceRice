@@ -16,21 +16,22 @@ interface Props {
   isOnline: boolean;
   currentUser: User;
   onToggle: (member: User, checked: boolean) => void;
+  navigation : any
 }
 
-type NavigationProps = NavigationProp<AppStackParamList, 'Messages'>;
 
 const MemberItem: React.FC<Props> = React.memo(
-  ({member, isChecked, isOnline, onToggle, currentUser}) => {
+  ({member, isChecked, isOnline, onToggle, currentUser,navigation}) => {
     const {theme} = useTheme();
     const isSelect = useSelectMode();
-    const navigation = useNavigation<NavigationProps>();
 
     const handleMessageDetail = () => {
       const userIds = [currentUser.userId, member.userId];
       const conversationId = createConversationId(userIds, false);
       navigation.navigate('MessageDetail', {
-        id: conversationId,
+        conversationId: conversationId,
+        members : [member],
+        isGroup : false,
       });
     };
 

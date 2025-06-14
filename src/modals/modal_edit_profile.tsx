@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, Alert } from 'react-native';
+import {Text, StyleSheet, Alert, View} from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import InputComponent from '../components/input/InputConponent';
 import ButtonCustom from '../components/buttons/Button';
@@ -51,8 +51,7 @@ const EditInfoDialog: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   };
 
   return (
-      <BottomSheetView
-          enableFooterMarginAdjustment={true}
+      <View
           style={[styles.contentContainer, { backgroundColor: theme.bottomSheetColor }]}
       >
         <Text style={[styles.title, { color: theme.text2 }]}>Edit Profile</Text>
@@ -96,7 +95,7 @@ const EditInfoDialog: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               },
             ]}
         />
-      </BottomSheetView>
+      </View>
   );
 };
 

@@ -1,18 +1,25 @@
-import { Dispatch, MiddlewareAPI } from '@reduxjs/toolkit';
+import {Dispatch, MiddlewareAPI} from '@reduxjs/toolkit';
 import socket from '../../config/socket/socketClient';
-import { fetchConversationById } from '../action/conversationAction';
-import { addConversation } from '../../realm/service/conversation_service';
-import { getRealm } from '../../realm/realm';
+import {fetchConversationById} from '../action/conversationAction';
+import {addConversation} from '../../realm/service/conversation_service';
+import {getRealm} from '../../realm/realm';
+import {ADD_MEMBER} from '../action/participantAction';
+import {addParticipants} from '../../realm/service/participant_service';
 
 export const CREATE_CONVERSATION = 'CREATE_CONVERSATION';
 
 let isListenerAttached = false;
 
-const handleNewConversation = async (conversationId: string, store: MiddlewareAPI) => {
+const handleNewConversation = async (
+  conversationId: string,
+  store: MiddlewareAPI,
+) => {
   console.log('📩 [socket] newConversation:', conversationId);
 
   // Fetch full conversation details
-  const action = await store.dispatch<any>(fetchConversationById(conversationId));
+  const action = await store.dispatch<any>(
+    fetchConversationById(conversationId),
+  );
 
   if (fetchConversationById.fulfilled.match(action)) {
     const conversation = action.payload[0];
@@ -48,8 +55,18 @@ const socketConversationMiddleware = (store: MiddlewareAPI) => {
 
   return (next: Dispatch) => (action: any) => {
     if (action.type === CREATE_CONVERSATION) {
-      const { event, data } = action.payload;
+      const {event, data} = action.payload;
       socket.emit(event, data);
+    }
+    if (action.type === ADD_MEMBER) {
+      console.log('✅ Bắt được ADD_MEMBER trong middleware');
+      try {
+        const realm = getRealm();
+        const participants = action.payload;
+        addParticipants(participants, realm);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     return next(action);

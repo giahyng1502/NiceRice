@@ -1,13 +1,29 @@
-// src/contexts/BottomSheetContext.tsx
 import React, {
   createContext,
-  ReactNode,
-  useRef,
+  useContext,
   useState,
-  useMemo,
-  useEffect,
+  useRef,
+  ReactNode,
 } from 'react';
-import BottomSheet from '@gorhom/bottom-sheet';
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+  runOnJS,
+} from 'react-native-reanimated';
+import {
+  Gesture,
+  GestureDetector,
+  ScrollView,
+} from 'react-native-gesture-handler';
+import {useTheme} from '../hooks/useTheme';
 
 type BottomSheetContextType = {
   openBottomSheet: (
@@ -19,87 +35,136 @@ type BottomSheetContextType = {
   isVisible: boolean;
 };
 
+const screenHeight = Dimensions.get('window').height;
 
-export const BottomSheetContext = createContext<
-    BottomSheetContextType | undefined
->(undefined);
+export const BottomSheetContext = createContext<BottomSheetContextType | undefined>(
+    undefined,
+);
 
-export const BottomSheetProvider: React.FC<{ children: ReactNode }> = ({
-                                                                         children,
-                                                                       }) => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
+export const BottomSheetProvider: React.FC<{children: ReactNode}> = ({children}) => {
+  const {theme} = useTheme();
   const [content, setContent] = useState<ReactNode>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [snapPoints, setSnapPoints] = useState<string[]>(['30%']);
-  const [initialIndex, setInitialIndex] = useState(0);
-  const {theme} = useTheme()
-  // Memo hóa snapPoints tránh tạo mảng mới liên tục
-  const memoizedSnapPoints = useMemo(() => snapPoints, [snapPoints]);
-
-  // Khi isVisible hoặc initialIndex thay đổi, snap BottomSheet
-  useEffect(() => {
-    if (isVisible) {
-      console.log('BottomSheetProvider visible',);
-      bottomSheetRef.current?.snapToIndex(initialIndex);
-    } else {
-      // Ẩn BottomSheet bằng cách chuyển index về -1
-      bottomSheetRef.current?.close();
-    }
-  }, [isVisible, initialIndex]);
-
+  const heightRef = useRef(screenHeight * 0.5); // tăng chiều cao default lên 50%
+  const translateY = useSharedValue(screenHeight);
 
   const openBottomSheet = (
       newContent: ReactNode,
-      newSnapPoints: string[] = ['30%'],
+      newSnapPoints: string[] = ['50%'],
       snapIndex: number = 0,
   ) => {
+    const percent = parseFloat(newSnapPoints[snapIndex]) / 100;
+    heightRef.current = screenHeight * percent;
     setContent(newContent);
-    setSnapPoints(newSnapPoints);
-    setInitialIndex(snapIndex);
     setIsVisible(true);
-
-    requestAnimationFrame(() => {
-      bottomSheetRef.current?.snapToIndex(snapIndex);
+    translateY.value = withSpring(0, {
+      damping: 15,
+      stiffness: 120,
     });
   };
 
   const closeBottomSheet = () => {
-    setIsVisible(false);
+    translateY.value = withTiming(heightRef.current, {duration: 200}, finished => {
+      if (finished) {
+        runOnJS(setIsVisible)(false);
+        runOnJS(setContent)(null);
+      }
+    });
   };
 
+  const gesture = Gesture.Pan()
+      .onUpdate(e => {
+        if (e.translationY > 0) {
+          translateY.value = e.translationY;
+        }
+      })
+      .onEnd(e => {
+        if (e.translationY > 100) {
+          runOnJS(closeBottomSheet)();
+        } else {
+          translateY.value = withSpring(0, {
+            damping: 15,
+            stiffness: 120,
+          });
+        }
+      });
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{translateY: translateY.value}],
+  }));
+
   return (
-      <BottomSheetContext.Provider
-          value={{ openBottomSheet, closeBottomSheet, isVisible }}
-      >
+      <BottomSheetContext.Provider value={{openBottomSheet, closeBottomSheet, isVisible}}>
         {children}
-        <BottomSheet
-            ref={bottomSheetRef}
-            index={1}
-            snapPoints={memoizedSnapPoints}
-            enablePanDownToClose
-            backgroundStyle={{
-              backgroundColor : theme.bottomSheetColor
-            }}
-            onClose={() => setIsVisible(false)}
-            animationConfigs={{
-              damping: 18,
-              mass: 1,
-              stiffness: 150,
-              overshootClamping: false,
-              restDisplacementThreshold: 0.3,
-              restSpeedThreshold: 0.3,
-            }}
-        >
-          {content}
-        </BottomSheet>
+
+        {isVisible && (
+            <View style={StyleSheet.absoluteFillObject}>
+              {/* Backdrop */}
+              <TouchableWithoutFeedback onPress={closeBottomSheet}>
+                <View style={styles.backdrop} />
+              </TouchableWithoutFeedback>
+
+              {/* Bottom Sheet */}
+              <GestureDetector gesture={gesture}>
+                <Animated.View
+                    style={[
+                      styles.sheet,
+                      {
+                        height: heightRef.current,
+                        backgroundColor: theme.bottomSheetColor,
+                      },
+                      animatedStyle,
+                    ]}>
+                  <View style={styles.handleContainer}>
+                    <View style={styles.handleBar} />
+                  </View>
+
+                  <View
+                      style={{flex: 1}}
+                  >
+                    {content}
+                  </View>
+                </Animated.View>
+              </GestureDetector>
+            </View>
+        )}
       </BottomSheetContext.Provider>
   );
 };
 
-// src/hooks/useBottomSheet.ts
-import { useContext } from 'react';
-import {useTheme} from "../hooks/useTheme";
+const styles = StyleSheet.create({
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  sheet: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    zIndex: 1000,
+    elevation: 10,
+    overflow: 'hidden',
+  },
+  handleContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  handleBar: {
+    width: 40,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: '#ccc',
+  },
+  scrollContent: {
+    paddingBottom: 32,
+  },
+});
 
 export const useBottomSheet = () => {
   const context = useContext(BottomSheetContext);
@@ -108,4 +173,3 @@ export const useBottomSheet = () => {
   }
   return context;
 };
-

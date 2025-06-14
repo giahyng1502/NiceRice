@@ -27,7 +27,7 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import LoadingModal from '../../modals/modal_loading';
 import SkeletonMemberItem from '../../components/skeleton/SkeletonMemberItem';
 import {SelectModeContext} from '../../provider/SelectMemberProvider';
-import {FlashList} from "@shopify/flash-list";
+import {FlashList} from '@shopify/flash-list';
 
 type NavigationProps = NavigationProp<AppStackParamList, 'Member'>;
 
@@ -43,6 +43,7 @@ const MemberScreen = () => {
   const [groupName, setGroupName] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
   const [isloading, setIsLoading] = useState<boolean>(false);
+
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{translateX: slideRight.value}],
@@ -77,7 +78,10 @@ const MemberScreen = () => {
 
       // ✅ Optional: Chuyển sang màn hình chat nhóm mới
       navigation.navigate('MessageDetail', {
-        id: data.conversationId,
+        conversationId: data?.conversationId,
+        members: selectedMembers,
+        isGroup: true,
+        groupName: groupName,
       });
       // ✅ Optional: Reset state
       setGroupName('');
@@ -250,14 +254,15 @@ const MemberScreen = () => {
           <FlashList
             data={allUser}
             keyExtractor={(item, index) => `conv${item.userId}-${index}`}
-            renderItem={({ item }) => (
-                <MemberItem
-                    member={item}
-                    isChecked={selectedMembers.some(m => m.userId === item.userId)}
-                    isOnline={memberOnline.includes(item.userId)}
-                    currentUser={user}
-                    onToggle={handleMemberCheck}
-                />
+            renderItem={({item}) => (
+              <MemberItem
+                member={item}
+                isChecked={selectedMembers.some(m => m.userId === item.userId)}
+                isOnline={memberOnline.includes(item.userId)}
+                currentUser={user}
+                navigation={navigation}
+                onToggle={handleMemberCheck}
+              />
             )}
             extraData={[selectedMembers, memberOnline]}
             scrollEventThrottle={16}

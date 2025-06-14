@@ -19,7 +19,7 @@ const LanguageSheet: React.FC<IProps> = ({onClose}) => {
     onClose();
   };
   return (
-      <BottomSheetScrollView
+      <View
         style={{
           padding: 15,
         }}>
@@ -70,7 +70,7 @@ const LanguageSheet: React.FC<IProps> = ({onClose}) => {
             {t('lang.vi')}
           </Text>
         </TouchableOpacity>
-      </BottomSheetScrollView>
+      </View>
   );
 };
 

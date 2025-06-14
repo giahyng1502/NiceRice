@@ -12,7 +12,7 @@ import SkeletonConversationItem from "../../../components/skeleton/SkeletonConve
 
 const ConversationScreen = () => {
   const scrollY = useSharedValue(0);
-  const {conversations} = useConversation();
+  const {conversations,loading} = useConversation();
     const scrollHandler = useAnimatedScrollHandler(event => {
       scrollY.value = event.contentOffset.y;
     });
@@ -23,7 +23,7 @@ const ConversationScreen = () => {
     <View style={{flex: 1, backgroundColor: theme.background}}>
       <CustomHeader scrollY={scrollY} theme={theme} />
       {
-        conversations.length > 0 ? <Animated.FlatList
+        !loading ? <Animated.FlatList
             data={conversations}
             keyExtractor={(item, index) => `conv${item.conversationId}-${index}`}
             renderItem={({item}) => <ConversationItem conversation={item} />}

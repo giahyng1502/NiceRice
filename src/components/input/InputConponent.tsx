@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, TextInputProps, ViewStyle, TextStyle } from 'react-native';
+import {View, StyleSheet, Text, TextInputProps, ViewStyle, TextStyle, TextInput} from 'react-native';
 import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 
 type InputComponentProps = {
@@ -28,7 +28,7 @@ const InputComponent = ({
     return (
         <View style={[styles.container, containerStyle]}>
             {label && <Text style={[labelStyle,styles.label]}>{label}</Text>}
-            <BottomSheetTextInput
+            <TextInput
                 style={[styles.input, inputStyle]}
                 placeholder={placeholder}
                 value={value}

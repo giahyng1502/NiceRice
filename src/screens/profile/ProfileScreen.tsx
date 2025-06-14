@@ -16,8 +16,8 @@ import {useSnackbar} from '../../provider/SnackbarProvider';
 import {useBottomSheet} from '../../modals/bottom_sheet_modal';
 import {formatSmartDate} from '../../utils/formatDate';
 import {guessLangFromLocale} from '../../utils/timeZoneFromLocal';
-import useProfile from './useProfileScreen';
 import {updateAvatar} from '../../store/reducers/userSlice';
+import useCamera from "./useProfileScreen";
 const ProfileScreen = () => {
   const {theme, themeType} = useTheme();
   const {logout, loadUser, user, dispatch} = useAuth();
@@ -26,8 +26,7 @@ const ProfileScreen = () => {
   const locale = i18n.language || 'en-US';
   const lang = guessLangFromLocale(locale);
   const {openBottomSheet, closeBottomSheet} = useBottomSheet();
-
-  const {onPicker} = useProfile(lang, themeType, theme, t);
+    const {onPicker} = useCamera(lang, themeType, theme, t);
 
   const handleAvatar = async () => {
     const res = await onPicker();

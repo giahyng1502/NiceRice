@@ -5,6 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {globalStyles} from '../styles/globalStyles';
 import {useTheme} from '../hooks/useTheme';
 import Margin from '../components/margin/magin';
+import {ScrollView} from "react-native-gesture-handler";
 interface IProps {
   onClose: () => void;
 }
@@ -13,11 +14,15 @@ const PoliceSheet: React.FC<IProps> = ({onClose}) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   return (
-    <BottomSheetScrollView
-      style={{
-        padding: 15,
-        backgroundColor: theme.bottomSheetColor,
-      }}>
+      <ScrollView
+          style={{flex: 1}}
+          contentContainerStyle={{
+              paddingBottom: 32,
+
+          }}
+          showsVerticalScrollIndicator={true}
+          bounces={true}
+      >
       <Text
         style={[
           globalStyles.title,
@@ -99,7 +104,7 @@ const PoliceSheet: React.FC<IProps> = ({onClose}) => {
         {t('Mail')}
       </Text>
       <Margin bottom={3} />
-    </BottomSheetScrollView>
+    </ScrollView>
   );
 };
 

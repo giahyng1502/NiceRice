@@ -38,7 +38,7 @@ export const themes: Record<Theme, {
         textReceipt: '#2C2D3A',
         textSend: '#FFFFFF',
         dot: '#7FD7FF',
-        searchContainer : '#464646',
+        searchContainer : '#5B5C72',
         deleteSearch : '#8d8d8d',
         activeDot: '#40C4FF',
         primary: '#40C4FF',

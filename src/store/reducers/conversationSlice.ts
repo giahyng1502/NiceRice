@@ -1,5 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {fetchConversation, fetchConversationById} from '../action/conversationAction';
+import {
+  fetchConversation,
+  fetchConversationById,
+} from '../action/conversationAction';
+import {
+  addMemberIntoConversation,
+  ReturnAddMember,
+} from '../action/participantAction';
+import {Participant} from '../../hooks/useParticipant';
 
 export interface Conversation {
   conversationId: string;
@@ -130,28 +138,53 @@ const conversationSlice = createSlice({
         (state, action: PayloadAction<Conversation[]>) => {
           state.loading = false;
           state.conversations = action.payload;
-          console.log('dispatch conv' , action.payload);
+          console.log('dispatch conv', action.payload);
         },
       )
       .addCase(fetchConversation.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
-        .addCase(fetchConversationById.pending, state => {
-          state.loading = true;
-          state.error = null;
-        })
-        .addCase(
-            fetchConversationById.fulfilled,
-            (state, action: PayloadAction<Conversation[]>) => {
-              state.loading = false;
-              state.conversations = [...action.payload , ...state.conversations];
-            },
-        )
-        .addCase(fetchConversationById.rejected, (state, action) => {
+      .addCase(fetchConversationById.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchConversationById.fulfilled,
+        (state, action: PayloadAction<Conversation[]>) => {
           state.loading = false;
-          state.error = action.payload as string;
-        });
+          state.conversations = [...action.payload, ...state.conversations];
+        },
+      )
+      .addCase(fetchConversationById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(addMemberIntoConversation.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        addMemberIntoConversation.fulfilled,
+        (state, action: PayloadAction<ReturnAddMember>) => {
+          state.loading = false;
+          const {conversationId, participants} = action.payload;
+
+          const index = state.conversations.findIndex(
+            conv => conv.conversationId === conversationId,
+          );
+
+          if (index !== -1) {
+            state.conversations[index].participants =
+              state.conversations[index].participants.concat(participants);
+          }
+        },
+      )
+
+      .addCase(addMemberIntoConversation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
@@ -162,6 +195,6 @@ export const {
   resetUnreadCount,
   setConvIsTyping,
   removeConvIsTyping,
-  addConv
+  addConv,
 } = conversationSlice.actions;
 export default conversationSlice.reducer;

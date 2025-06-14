@@ -12,7 +12,8 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/store';
 import TypingAnimation from '../../../components/animation/isTypingAnimation';
 import {useTranslation} from 'react-i18next';
-import {useLocalizedDate} from "../../../hooks/useDateFromLocal";
+import {useLocalizedDate} from '../../../hooks/useDateFromLocal';
+import RenderGroupAvatar from '../message/renderGroupAvatar';
 
 interface Props {
   conversation: Conversation;
@@ -20,13 +21,13 @@ interface Props {
 
 type NavigationProps = NavigationProp<AppStackParamList, 'Messages'>;
 
-const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
+const ConversationItem: React.FC<Props> = ({conversation}) => {
   const {theme} = useTheme();
   const navigation = useNavigation<NavigationProps>();
   const {t} = useTranslation();
-  const participants = conversation?.participants || [];
+  const participants: any[] = conversation?.participants || [];
   const isGroup = conversation.isGroup;
-  const displayName = isGroup !== true
+  const displayName = !isGroup
     ? participants?.[0]?.fullName || `${t('except.disPlayName')}`
     : conversation.groupName ||
       `${participants.map(participant => participant.fullName).join(', ')}`;
@@ -41,7 +42,6 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
     (state: RootState) => state.conv.conversationIsTyping,
   );
 
-  const extraCount = participants.length - 1;
   const [typingUsers, setTypingUsers] = useState<TypingState[]>([]);
 
   useEffect(() => {
@@ -55,48 +55,30 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
     color: unreadCount > 0 ? theme.text2 : theme.text3,
     fontWeight: unreadCount > 0 ? 'bold' : 'normal',
   };
-  const renderGroupAvatars = () => (
-    <View style={styles.avatarContainer}>
-      {participants.slice(0, 2).map((u, index) => {
-        const isLastWithExtra = index === 1 && extraCount > 0;
-        return (
-          <View
-            key={u.userId}
-            style={[
-              styles.avatarWrapper,
-              {
-                marginLeft: index === 0 ? 0 : -35,
-                zIndex: 10 + index,
-                backgroundColor: 'white',
-              },
-            ]}>
-            <Image source={{uri: u.avatarUrl}} style={styles.avatar} />
-            {isLastWithExtra && (
-              <View style={styles.extraOverlay}>
-                <Text style={styles.extraText}>+{extraCount}</Text>
-              </View>
-            )}
-          </View>
-        );
-      })}
-    </View>
-  );
   if (!conversation.lastMessagePreview) {
-    return;
+    return null;
   }
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() =>
+      onPress={() => {
         navigation.navigate('MessageDetail', {
-          id: conversationId,
-        })
-      }>
-      {!avatarUrl
-        ? renderGroupAvatars()
-        : avatarUrl && (
-            <Image source={{uri: avatarUrl}} style={styles.avatar} />
-          )}
+          conversationId: conversationId,
+          members: participants,
+          isGroup: conversation.isGroup,
+          groupName: conversation?.groupName,
+          groupAvatar : conversation.groupAvatar
+        });
+      }}>
+      {!avatarUrl ? (
+        <RenderGroupAvatar
+          participants={participants}
+          styleAvatar={styles.avatar}
+          containerStyle={styles.avatarContainer}
+        />
+      ) : (
+        avatarUrl && <Image source={{uri: avatarUrl}} style={styles.avatar} />
+      )}
 
       <View style={styles.content}>
         <Text style={[styles.name, {color: theme.text2}]}>{displayName}</Text>
@@ -128,7 +110,7 @@ const ConversationItem: React.FC<Props> = React.memo(({conversation}) => {
       </Column>
     </TouchableOpacity>
   );
-});
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -141,18 +123,12 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 30,
-    marginRight: 15,
   },
   avatarContainer: {
     width: 80,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  avatarWrapper: {
-    width: 50,
-    height: 50,
-    borderRadius: 30,
-    overflow: 'hidden',
+    justifyContent : 'flex-start',
   },
   extraOverlay: {
     position: 'absolute',
@@ -205,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ConversationItem;
+export default React.memo(ConversationItem);

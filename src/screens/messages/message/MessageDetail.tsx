@@ -11,24 +11,35 @@ import HeaderMessage from './HeaderMessage';
 import Magin from '../../../components/margin/magin';
 import {useConversationMessages} from '../../../hooks/useMessage';
 import {useConversationParticipants} from '../../../hooks/useParticipant';
+import {useTranslation} from 'react-i18next';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MessageDetail'>;
 
 const MessageDetail: React.FC<Props> = ({route, navigation}) => {
-  const {id} = route.params;
-  const {groupedMessages, sendMessage} = useConversationMessages(id);
+  const {conversationId, members, isGroup, groupName, groupAvatar} =
+    route.params;
+  const {groupedMessages, sendMessage} =
+    useConversationMessages(conversationId);
   const [content, setContent] = useState<string>('');
   const {theme} = useTheme();
-  const {participants} = useConversationParticipants(id);
+  const {t} = useTranslation();
+  const {participants} = useConversationParticipants(conversationId);
+  const displayName = !isGroup
+    ? members?.[0]?.fullName || `${t('except.disPlayName')}`
+    : groupName ||
+      `${members.map(participant => participant.fullName).join(', ')}`;
   const handleBack = () => {
     navigation.goBack();
   };
-  // const handleChatOption = () => {
-  //   navigation.navigate('ChatOption', {
-  //     name: participant?.fullName || '',
-  //     image: participant?.avatarUrl || '',
-  //   });
-  // };
+  const handleChatOption = () => {
+    const avatar = isGroup ? groupAvatar : members?.[0]?.avatarUrl;
+    navigation.navigate('ChatOption', {
+      isGroup: isGroup,
+      displayName: displayName,
+      avatar: avatar,
+      conversationId: conversationId,
+    });
+  };
 
   const renderItem = useCallback(
     ({item, index}: {item: any; index: number}) => {
@@ -56,7 +67,9 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   );
 
   const keyExtractor = useCallback((item: any, index: number) => {
-    if (item.type === 'header') return `header-${item.date}`;
+    if (item.type === 'header') {
+      return `header-${item.date}`;
+    }
     return `msg-${item.message.messageId}`;
   }, []);
 
@@ -69,7 +82,13 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
         },
       ]}>
       <Magin top={1} />
-      <HeaderMessage handleBack={handleBack} handleChatOption={() => {}} />
+      <HeaderMessage
+        participant={members}
+        handleBack={handleBack}
+        groupAvatar={groupAvatar}
+        handleChatOption={handleChatOption}
+        title={displayName}
+      />
       <FlashList
         data={groupedMessages}
         renderItem={renderItem}
@@ -85,7 +104,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
       <CustomInputToolbar
         value={content}
         onChangeText={setContent}
-        currentConv={id}
+        currentConv={conversationId}
         onSend={() => {
           if (content && content.trim().length > 0) {
             setContent('');
@@ -102,6 +121,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingBottom: 15,
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    marginRight: 15,
   },
 });
 

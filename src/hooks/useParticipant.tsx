@@ -5,7 +5,7 @@ import {addParticipants} from '../realm/service/participant_service';
 import {getRealm} from '../realm/realm';
 
 export type Participant = {
-  _id: string;
+  participantId: string;
   userId: bigint;
   fullName: string;
   avatarUrl: string;
