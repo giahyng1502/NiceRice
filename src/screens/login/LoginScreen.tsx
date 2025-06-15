@@ -88,7 +88,7 @@ const LoginScreen: React.FC = () => {
             <Text
               style={[
                 styles.tabText,
-                {color: activeTab === index ? '#0072ff' : '#aaa'},
+                {color: activeTab === index ? '#06B6D4' : '#aaa'},
               ]}>
               {tab}
             </Text>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   activeIndicator: {
     height: 2,
-    backgroundColor: 'red',
+    backgroundColor: '#3B82F6',
     width: '100%',
     marginTop: 5,
   },

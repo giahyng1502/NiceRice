@@ -14,6 +14,7 @@ import {getRealm, openRealm} from "./realm/realm";
 import {fetchConversation} from "./store/action/conversationAction";
 import {SnackbarProvider} from "./provider/SnackbarProvider";
 import {RealmProvider} from "./provider/RealmProvider";
+import {GoogleSignin} from "@react-native-google-signin/google-signin";
 
 
 const AppStateChange: React.FC = () => {
@@ -79,13 +80,21 @@ const AppSocket: React.FC = () => {
   return <AppWrapper />;
 };
 
-
+const AppFirebaseAuth = () => {
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '116526348710-2hp3bfsjf6pmp2u0mg2d4uaejud4j8u5.apps.googleusercontent.com',
+      offlineAccess: true,
+    });
+  }, []);
+}
 const AppWrapper: React.FC = () => {
   const { loadTheme } = useThemeManager();
   const { themeType } = useTheme();
-
+  AppFirebaseAuth();
   useEffect(() => {
     loadTheme();
+
   }, []);
 
   return (

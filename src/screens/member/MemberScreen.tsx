@@ -35,7 +35,7 @@ const MemberScreen = () => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const navigation = useNavigation<NavigationProps>();
-  const {memberOnline, allUser, loading, loadMore, user} = useMember();
+  const {memberOnline, filteredUser, loading, loadMore, user} = useMember({});
   const [isSelect, setIsSelect] = useState<boolean>(false);
   const slideRight = useSharedValue(0);
   const slideTop = useSharedValue(0);
@@ -249,10 +249,10 @@ const MemberScreen = () => {
           />
         </View>
       </View>
-      {allUser.length > 0 ? (
+      {filteredUser.length > 0 ? (
         <SelectModeContext.Provider value={isSelect}>
           <FlashList
-            data={allUser}
+            data={filteredUser}
             keyExtractor={(item, index) => `conv${item.userId}-${index}`}
             renderItem={({item}) => (
               <MemberItem

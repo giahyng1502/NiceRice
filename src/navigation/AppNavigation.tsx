@@ -9,6 +9,7 @@ import LoginScreen from '../screens/login/LoginScreen';
 import {useAuth} from '../hooks/useAuth';
 import SplashScreen from '../screens/introduct/splash_screen';
 import GalleryScreen from '../screens/gallery/GalleryScreen';
+import {Participant} from '../hooks/useParticipant';
 
 export type AuthStackParamList = {
   Introduce: undefined;
@@ -25,7 +26,12 @@ export type AppStackParamList = {
     groupName?: string;
     groupAvatar?: string;
   };
-  ChatOption: {isGroup: boolean; displayName: string; avatar: string,conversationId: string};
+  ChatOption: {
+    isGroup: boolean;
+    displayName: string;
+    avatar: string;
+    conversationId: string;
+  };
   Member: undefined;
   Profile: undefined;
   Messages: undefined;

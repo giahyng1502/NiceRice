@@ -3,6 +3,7 @@ import {
   getAllMember,
   getInformation,
   loginUser,
+  loginWithGoogle,
   registerUser,
   updateInformation,
 } from '../action/userAction';
@@ -24,10 +25,10 @@ interface UserState {
   data: User | null;
   loading: boolean;
   allUser: User[] | [];
-  memberOnline : number[];
+  memberOnline: number[];
   isLoggedIn: boolean;
   error: string | null;
-  hasMore : boolean
+  hasMore: boolean;
 }
 
 const initialState: UserState = {
@@ -35,7 +36,7 @@ const initialState: UserState = {
   loading: false,
   allUser: [],
   hasMore: true,
-  memberOnline : [],
+  memberOnline: [],
   error: null,
   isLoggedIn: false,
 };
@@ -56,12 +57,12 @@ const userSlice = createSlice({
     setUserIdsOnline: (state, action: PayloadAction<number[]>) => {
       state.memberOnline = action.payload;
     },
-    updateAvatar : (state, action: PayloadAction<string>) => {
+    updateAvatar: (state, action: PayloadAction<string>) => {
       console.log(action.payload);
       if (state.data) {
         state.data.avatarUrl = action.payload;
       }
-    }
+    },
   },
   extraReducers: builder => {
     builder
@@ -91,6 +92,19 @@ const userSlice = createSlice({
         state.isLoggedIn = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(loginWithGoogle.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginWithGoogle.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.loading = false;
+        state.isLoggedIn = true;
+      })
+      .addCase(loginWithGoogle.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
@@ -129,26 +143,33 @@ const userSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-        .addCase(getAllMember.fulfilled, (state, action: PayloadAction<User[]>) => {
+      .addCase(
+        getAllMember.fulfilled,
+        (state, action: PayloadAction<User[]>) => {
           state.loading = false;
 
           const DEFAULT_LIMIT = 50;
 
           // Tạo Set chứa các userId đã tồn tại
-          const existingUserIds = new Set(state.allUser.map(user => user.userId));
+          const existingUserIds = new Set(
+            state.allUser.map(user => user.userId),
+          );
 
           // Lọc ra những user mới có id chưa tồn tại
-          const newUsers = action.payload.filter(user => !existingUserIds.has(user.userId));
+          const newUsers = action.payload.filter(
+            user => !existingUserIds.has(user.userId),
+          );
 
           // Gộp lại danh sách không trùng
           state.allUser = [...state.allUser, ...newUsers];
 
           // Kiểm tra còn trang tiếp theo hay không
           if (action.payload.length < DEFAULT_LIMIT) {
-            console.log('data get :', action.payload.length)
+            console.log('data get :', action.payload.length);
             state.hasMore = false;
           }
-        })
+        },
+      )
       .addCase(getAllMember.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload as string;
@@ -157,5 +178,6 @@ const userSlice = createSlice({
 });
 
 // Export action & reducer
-export const {clearUser, setUser,setUserIdsOnline,updateAvatar} = userSlice.actions;
+export const {clearUser, setUser, setUserIdsOnline, updateAvatar} =
+  userSlice.actions;
 export default userSlice.reducer;

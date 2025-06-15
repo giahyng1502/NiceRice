@@ -19,6 +19,7 @@ export const themes: Record<Theme, {
     backgroundMessageSend: string;
     backgroundMessage: string;
     borderRadiusColorIcon: string;
+    borderColor: string;
     backgroundItem: string;
     iconColor: string;
     inputBar: string;
@@ -34,6 +35,7 @@ export const themes: Record<Theme, {
         backgroundItem: '#1b1b1b',
         text: '#40C4FF',
         text2: '#F0F0F3',
+        borderColor: '#444444',
         text3: '#9A9BB1',
         textReceipt: '#2C2D3A',
         textSend: '#FFFFFF',
@@ -71,6 +73,8 @@ export const themes: Record<Theme, {
         dot: '#B0BEC5',
         activeDot: '#0D47A1',
         primary: '#40C4FF',
+        borderColor: '#444444',
+
         borderRadiusColorIcon: '#40C4FF',
         inputBar: '#eaeaea',
         bottomSheetColor: '#ECEFF1',

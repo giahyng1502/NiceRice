@@ -28,14 +28,17 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {useBottomSheet} from "../../modals/bottom_sheet_modal";
-import ModalAddMember from "../../modals/bottom_sheet_addGroup";
+import {useBottomSheet} from '../../modals/bottom_sheet_modal';
+import ModalAddMember from '../../modals/bottom_sheet_addGroup';
+import {useConversationParticipants} from '../../hooks/useParticipant';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'ChatOption'>;
 
 const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
-  const {isGroup, displayName, avatar,conversationId} = route.params;
+  const {isGroup, displayName, avatar, conversationId} = route.params;
   const {t, i18n} = useTranslation();
+  const {participants} = useConversationParticipants(conversationId);
+
   const locale = i18n.language || 'en-US';
   const lang = guessLangFromLocale(locale);
   const {theme, themeType} = useTheme();
@@ -44,8 +47,7 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
   const [groupName, setGroupName] = useState<string>();
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [avatarSelected, setAvatarSelected] = useState<string>('');
-    const {openBottomSheet, closeBottomSheet} = useBottomSheet();
-
+  const {openBottomSheet, closeBottomSheet} = useBottomSheet();
   const slideRight = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -85,13 +87,18 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
     }
   }, [avatar, avatarSelected, displayName, groupName]);
 
-  const bottomSheetAddMember = ()=> {
-      openBottomSheet(
-          <ModalAddMember onClose={() => closeBottomSheet()} navigation={navigation} conversationId={conversationId} />,
-          ['95%'], // snap points
-          0, // index mặc định
-      );
-  }
+  const bottomSheetAddMember = () => {
+    openBottomSheet(
+      <ModalAddMember
+        participantCurrent={participants}
+        onClose={() => closeBottomSheet()}
+        navigation={navigation}
+        conversationId={conversationId}
+      />,
+      ['95%'], // snap points
+      0, // index mặc định
+    );
+  };
   return (
     <View
       style={[
@@ -131,19 +138,19 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
           )}
         </View>
         {isGroup ? (
-              <TextInput
-                  value={groupName}
-                  onChangeText={setGroupName}
-                  style={{
-                      color: theme.text2,
-                      fontSize: FONT_SIZE.customMedium,
-                      fontWeight: '900',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      alignContent: 'center',
-                      alignSelf: 'center',
-                  }}
-              />
+          <TextInput
+            value={groupName}
+            onChangeText={setGroupName}
+            style={{
+              color: theme.text2,
+              fontSize: FONT_SIZE.customMedium,
+              fontWeight: '900',
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignContent: 'center',
+              alignSelf: 'center',
+            }}
+          />
         ) : (
           <Text
             style={[
@@ -156,9 +163,8 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
             {displayName}
           </Text>
         )}
-
       </View>
-        <Magin bottom={2} />
+      <Magin bottom={2} />
 
       <View
         style={{

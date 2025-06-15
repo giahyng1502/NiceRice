@@ -28,6 +28,26 @@ export const loginUser = createAsyncThunk(
 
             // Lưu token vào AsyncStorage
             await AsyncStorage.setItem('accessToken', accessToken);
+            await AsyncStorage.setItem('loginType', 'normal');
+            return profile as User;
+        } catch (error: any) {
+            return rejectWithValue(error?.message || 'Đăng nhập thất bại');
+        }
+    }
+);
+
+export const loginWithGoogle = createAsyncThunk(
+    'user/loginWithGoogle',
+    async (idToken, { rejectWithValue }) => {
+        try {
+            console.log('loginWithGoogle');
+            console.log(idToken);
+            const response : any  = await axiosClient.post('/users/loginWithGoogle', {idToken});
+            const { accessToken, profile } = response;
+
+            // Lưu token vào AsyncStorage
+            await AsyncStorage.setItem('accessToken', accessToken);
+            await AsyncStorage.setItem('loginType', 'google');
 
             return profile as User;
         } catch (error: any) {

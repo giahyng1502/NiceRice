@@ -11,9 +11,11 @@ import Margin from '../../components/margin/magin';
 import {User} from '../../store/reducers/userSlice';
 import {useTheme} from '../../hooks/useTheme';
 import {width} from '../../styles/globalStyles';
-import {loginUser} from '../../store/action/userAction';
+import {loginUser, loginWithGoogle} from '../../store/action/userAction';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useSnackbar} from '../../provider/SnackbarProvider';
+import {getDataGoogle} from './loginwithGoogle';
+import IconGoogle from '../../assets/svgs/ic_google';
 
 const Login = () => {
   const [information, setInformation] = useState({
@@ -44,16 +46,31 @@ const Login = () => {
     }
     showSnackbar('Đăng nhập thành công', 'success');
   };
+  const handleLoginWithGoogle = async () => {
+    try {
+      const idToken = await getDataGoogle();
+      const res = await dispatch(loginWithGoogle(idToken));
+      if (loginWithGoogle.rejected.match(res)) {
+        showSnackbar(res.payload as string, 'error');
+        return;
+      }
+      showSnackbar('Đăng nhập thành công', 'success');
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View style={[styles.screen, {backgroundColor: theme.background}]}>
       <TextInput
-        placeholder="Email"
+        placeholder="User name"
         placeholderTextColor={theme.text2}
         style={[
           styles.textInput,
           {
-            backgroundColor: theme.inputBar,
+            backgroundColor: theme.background,
             color: theme.text2,
+            borderWidth: 1,
+            borderColor: theme.borderColor,
           },
         ]}
         value={information.userName}
@@ -64,11 +81,14 @@ const Login = () => {
       <TextInput
         placeholder="Password"
         placeholderTextColor={theme.text2}
+        secureTextEntry
         style={[
           styles.textInput,
           {
-            backgroundColor: theme.inputBar,
+            backgroundColor: theme.background,
             color: theme.text2,
+            borderWidth: 1,
+            borderColor: theme.borderColor,
           },
         ]}
         value={information.password}
@@ -80,8 +100,10 @@ const Login = () => {
 
       <TouchableOpacity
         style={{
-          backgroundColor: theme.primary,
-          width: width * 0.4,
+          backgroundColor: theme.background,
+          width: width * 0.6,
+          elevation: 6,
+
           height: 50,
           justifyContent: 'center',
           alignItems: 'center',
@@ -93,7 +115,31 @@ const Login = () => {
             color: theme.text2,
             fontSize: 16,
           }}>
-          SingIn
+          Login
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={{
+          backgroundColor: theme.background,
+          width: width * 0.6,
+          flexDirection: 'row',
+          height: 50,
+          elevation: 6,
+          gap: 10,
+          marginTop: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 8,
+        }}
+        onPress={handleLoginWithGoogle}>
+        <IconGoogle />
+        <Text
+          style={{
+            color: theme.text2,
+            fontSize: 16,
+          }}>
+          Google
         </Text>
       </TouchableOpacity>
     </View>

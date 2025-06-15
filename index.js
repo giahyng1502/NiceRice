@@ -7,3 +7,4 @@ import './src/i18n';
 import App from "./src/App";
 
 AppRegistry.registerComponent(appName, () => App);
+

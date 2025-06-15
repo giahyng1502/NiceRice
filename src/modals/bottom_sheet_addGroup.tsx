@@ -27,23 +27,30 @@ import LoadingModal from './modal_loading';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAppDispatch} from '../hooks/useAppDispatch';
 import {addMemberIntoConversation} from '../store/action/participantAction';
+import {Participant} from "../hooks/useParticipant";
 
 type Props = {
   onClose: () => void;
   navigation: any;
   conversationId: string;
+  participantCurrent: Participant[];
 };
 
-const ModalAddMember = ({onClose, navigation, conversationId}: Props) => {
+const ModalAddMember = ({
+  onClose,
+  navigation,
+  conversationId,
+  participantCurrent,
+}: Props) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
-  const {memberOnline, allUser, loading, loadMore, user} = useMember();
+  const {memberOnline,  filteredUser, loading, loadMore, user} = useMember({participantCurrent});
   const slideTop = useSharedValue(0);
   const [selectedMembers, setSelectedMembers] = useState<User[]>([]);
   const [searchText, setSearchText] = useState<string>('');
   const [isloading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const isDone = selectedMembers.length > 1;
+  const isDone = selectedMembers.length > 0;
   const animatedTopSlide = useAnimatedStyle(() => {
     return {
       height: slideTop.value,
@@ -66,7 +73,7 @@ const ModalAddMember = ({onClose, navigation, conversationId}: Props) => {
       const memberIds = selectedMembers.map(member => member.userId) || [];
       console.log(memberIds);
       dispatch(addMemberIntoConversation({conversationId, memberIds}));
-      Alert.alert("Thành công","Thêm thành viên thành công")
+      Alert.alert('Thành công', 'Thêm thành viên thành công');
       // ✅ Optional: Reset state
       setSelectedMembers([]);
     } catch (error) {
@@ -188,10 +195,10 @@ const ModalAddMember = ({onClose, navigation, conversationId}: Props) => {
             }}
           />
         </View>
-        {allUser.length > 0 ? (
+        {filteredUser.length > 0 ? (
           <SelectModeContext.Provider value={true}>
             <FlashList
-              data={allUser}
+              data={filteredUser}
               keyExtractor={(item, index) => `conv${item.userId}-${index}`}
               renderItem={({item}) => (
                 <MemberItem
