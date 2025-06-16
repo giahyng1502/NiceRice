@@ -78,7 +78,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
       style={[
         styles.container,
         {
-          backgroundColor: theme.backgroundMessage,
+          backgroundColor: theme.background,
         },
       ]}>
       <Magin top={1} />
@@ -108,7 +108,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
         onSend={() => {
           if (content && content.trim().length > 0) {
             setContent('');
-            sendMessage(content);
+            isGroup ? sendMessage(content, displayName) : sendMessage(content);
           }
         }}
       />

@@ -181,11 +181,13 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
           alignItems: 'flex-start',
           gap: 10,
         }}>
-        <ItemOption
-          Icon={<IconGroup color={theme.iconColor} />}
-          title={t('optionScreen.addGroup')}
-          onPress={bottomSheetAddMember}
-        />
+        {isGroup && (
+          <ItemOption
+            Icon={<IconGroup color={theme.iconColor} />}
+            title={t('optionScreen.addGroup')}
+            onPress={bottomSheetAddMember}
+          />
+        )}
         <ItemOption
           Icon={<IconColor color={theme.iconColor} />}
           title={t('optionScreen.customColor')}

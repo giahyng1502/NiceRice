@@ -87,13 +87,17 @@ const EditInfoDialog: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             styleCustom={[
               globalStyles.buttonHeight,
               {
-                backgroundColor: theme.primary,
+                backgroundColor: theme.background,
+                elevation : 6,
                 width: '100%',
                 borderRadius: 8,
                 justifyContent: 'center',
                 alignItems: 'center',
               },
             ]}
+            styleText={{
+              color: theme.text2
+            }}
         />
       </View>
   );

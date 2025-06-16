@@ -23,9 +23,16 @@
     "Not specified": "Not specified"
   },
   "granted": {
-    "PhotoAccessRequired": "Photo Access Required",
-    "OpenSetting": "Open Settings",
-    "ContentAccess": "We need access to your photos and videos so you can select content from your library. Please open Settings and grant permission to the app."
+    "PhotoAccessRequired": "Photo access required",
+    "OpenSetting": "Open settings",
+    "notification_request_title": "Allow notifications",
+    "notification_request_message": "The app needs permission to send notifications for new messages, calls, and conversation updates. Would you like to enable notifications?",
+    "notification_blocked_title": "Notifications blocked",
+    "notification_blocked_message": "You have blocked notification permission. Please go to Settings to enable it.",
+    "no": "No",
+    "yes": "Enable notifications",
+    "later": "Later",
+    "ContentAccess": "We need access to your photos and videos so you can select content from the library. Please open Settings and grant access to the app."
   },
   "modal": {
     "addfriend": "Add Friend",

@@ -19,12 +19,12 @@ let hasSetupListeners = false;
 
 export function setupSocketListeners(store: MiddlewareAPI) {
   if (hasSetupListeners) return;
-  const handleReceiveMessage = (data : any ) =>{
+  const handleReceiveMessage = (data: any) => {
     const state = store.getState();
     const currentConversationId = state.message.currentConversationId;
 
     console.log(
-        `Current: ${currentConversationId} - Received: ${data.conversationId}`,
+      `Current: ${currentConversationId} - Received: ${data.conversationId}`,
     );
 
     // Thêm message vào redux
@@ -37,11 +37,11 @@ export function setupSocketListeners(store: MiddlewareAPI) {
 
     // Cập nhật conversation preview + thời gian
     store.dispatch(
-        updateConversation({
-          conversationId: data.conversationId,
-          lastMessagePreview: data.content,
-          lastUpdatedAt: data.createdAt,
-        }),
+      updateConversation({
+        conversationId: data.conversationId,
+        lastMessagePreview: data.content,
+        lastUpdatedAt: data.createdAt,
+      }),
     );
 
     // Lưu Realm
@@ -51,12 +51,12 @@ export function setupSocketListeners(store: MiddlewareAPI) {
       console.log('data', data);
       addMessage(data, realm);
       addConversation(
-          {
-            conversationId: data.conversationId,
-            lastMessagePreview: data.content,
-            lastUpdatedAt: data.createdAt,
-          },
-          realm,
+        {
+          conversationId: data.conversationId,
+          lastMessagePreview: data.content,
+          lastUpdatedAt: data.createdAt,
+        },
+        realm,
       );
     } catch (error) {
       console.error('Realm chưa được mở:', error);
@@ -90,9 +90,6 @@ export function setupSocketListeners(store: MiddlewareAPI) {
   hasSetupListeners = true;
 }
 
-
-
-
 const socketMessageMiddleware: any = (store: MiddlewareAPI) => {
   // Lắng nghe sự kiện server trả về
   setupSocketListeners(store);
@@ -100,31 +97,31 @@ const socketMessageMiddleware: any = (store: MiddlewareAPI) => {
 
   return (next: Dispatch) => (action: any) => {
     if (action.type === SEND_SOCKET_EVENT) {
-      const {event, data} = action.payload;
+      const {event, message, title} = action.payload;
 
       // dispatch message vào redux
-      store.dispatch(addMessageRedux(data));
+      store.dispatch(addMessageRedux(message));
 
       // dispatch update conv vào redux
       store.dispatch(
         updateConversation({
-          conversationId: data.conversationId,
-          lastMessagePreview: data.content,
-          lastUpdatedAt: data.createdAt,
+          conversationId: message.conversationId,
+          lastMessagePreview: message.content,
+          lastUpdatedAt: message.createdAt,
         }),
       );
 
       // gửi socket lên server
-      socket.emit(event, data);
+      socket.emit(event, {message, title});
       // lưu vào realm
       try {
         const realm = getRealm();
-        addMessage(data, realm);
+        addMessage(message, realm);
         addConversation(
           {
-            conversationId: data.conversationId,
-            lastMessagePreview: data.content,
-            lastUpdatedAt: data.createdAt,
+            conversationId: message.conversationId,
+            lastMessagePreview: message.content,
+            lastUpdatedAt: message.createdAt,
           },
           realm,
         );

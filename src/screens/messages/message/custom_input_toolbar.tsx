@@ -115,12 +115,12 @@ const CustomInputToolbar: React.FC<Props> = ({
               </View>
           )}
 
-          <TouchableOpacity
-              style={[styles.addButton, { backgroundColor: theme.primary }]}
-              onPress={() => setOptionModalVisible(true)}
-          >
-            <IconAdd color="#FFFFFF" />
-          </TouchableOpacity>
+          {/*<TouchableOpacity*/}
+          {/*    style={[styles.addButton, { backgroundColor: theme.primary }]}*/}
+          {/*    onPress={() => setOptionModalVisible(true)}*/}
+          {/*>*/}
+          {/*  <IconAdd color="#FFFFFF" />*/}
+          {/*</TouchableOpacity>*/}
 
           <TextInput
               value={value}
@@ -141,7 +141,7 @@ const CustomInputToolbar: React.FC<Props> = ({
             <IconSend color="#FFFFFF" />
           </TouchableOpacity>
 
-          <ModalOption visible={optionModalVisible} onClose={() => setOptionModalVisible(false)} />
+          {/*<ModalOption visible={optionModalVisible} onClose={() => setOptionModalVisible(false)} />*/}
         </View>
       </TouchableWithoutFeedback>
   );

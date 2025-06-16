@@ -47,11 +47,18 @@
     "gallery" : "Thư mục ảnh",
     "location" : "Vị trí của bạn",
     "document" : "Tài liệu",
-    "joinedDate" : "Ngày tham gia",
+    "joinedDate" : "Ngày tham gia"
   },
   "granted": {
     "PhotoAccessRequired": "Thiếu quyền truy cập ảnh",
-    "OpenSetting" : "Mở cài đặt",
+    "OpenSetting": "Mở cài đặt",
+    "notification_request_title": "Cho phép gửi thông báo",
+    "notification_request_message": "Ứng dụng cần quyền gửi thông báo để hiển thị tin nhắn mới, cuộc gọi và cập nhật trong các cuộc trò chuyện. Bạn có muốn bật thông báo không?",
+    "notification_blocked_title": "Thông báo bị chặn",
+    "notification_blocked_message": "Bạn đã chặn quyền gửi thông báo. Vui lòng vào phần Cài đặt để bật lại quyền.",
+    "no": "Không",
+    "yes": "Bật thông báo",
+    "later": "Để sau",
     "ContentAccess": "Chúng tôi cần quyền truy cập ảnh và video để bạn có thể chọn nội dung từ thư viện. Vui lòng mở Cài đặt và cấp quyền cho ứng dụng."
   },
   "moreScreen": {

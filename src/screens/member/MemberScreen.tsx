@@ -233,7 +233,8 @@ const MemberScreen = () => {
             paddingHorizontal: 15,
             borderRadius: 8,
             marginBottom: 10,
-            backgroundColor: theme.searchContainer,
+              elevation : 4,
+            backgroundColor: theme.background,
           }}>
           <TextInput
             value={searchText}
@@ -290,7 +291,7 @@ const MemberScreen = () => {
           onPress={createGroup}
           disabled={!isSelect}
           style={{
-            backgroundColor: theme.primary,
+            backgroundColor: theme.background,
             elevation: 8,
             width: 120,
             height: 50,

@@ -3,7 +3,7 @@ import {
   getAllMember,
   getInformation,
   loginUser,
-  loginWithGoogle,
+  loginWithGoogle, logOut,
   registerUser,
   updateInformation,
 } from '../action/userAction';
@@ -67,19 +67,16 @@ const userSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getInformation.pending, state => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(
         getInformation.fulfilled,
         (state, action: PayloadAction<User>) => {
-          state.loading = false;
           state.data = action.payload;
           state.isLoggedIn = true;
         },
       )
       .addCase(getInformation.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
         state.error = action.payload as string;
       })
       .addCase(loginUser.pending, state => {
@@ -108,6 +105,20 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
+        .addCase(logOut.pending, state => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(logOut.fulfilled, (state) => {
+          state.loading = false;
+          state.data = null;
+          state.allUser = [];
+          state.isLoggedIn = false;
+        })
+        .addCase(logOut.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        })
       .addCase(registerUser.pending, state => {
         state.loading = true;
         state.error = null;

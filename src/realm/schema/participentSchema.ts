@@ -4,11 +4,11 @@ export const ParticipantConversationSchema = {
   properties: {
     participantId: 'int',
     seenDateTime: 'string?',
-    joinedAt: 'string',
+    joinedAt: 'string?',
     isAdmin: 'bool',
-    conversationId: 'string',
-    fullName : 'string',
-    avatarUrl: 'string',
+    conversationId: 'string?',
+    fullName : 'string?',
+    avatarUrl: 'string?',
     userId : 'int',
   },
 };

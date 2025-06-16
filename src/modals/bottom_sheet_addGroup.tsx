@@ -27,7 +27,7 @@ import LoadingModal from './modal_loading';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAppDispatch} from '../hooks/useAppDispatch';
 import {addMemberIntoConversation} from '../store/action/participantAction';
-import {Participant} from "../hooks/useParticipant";
+import {Participant} from '../hooks/useParticipant';
 
 type Props = {
   onClose: () => void;
@@ -44,7 +44,9 @@ const ModalAddMember = ({
 }: Props) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
-  const {memberOnline,  filteredUser, loading, loadMore, user} = useMember({participantCurrent});
+  const {memberOnline, filteredUser, loading, loadMore, user} = useMember({
+    participantCurrent,
+  });
   const slideTop = useSharedValue(0);
   const [selectedMembers, setSelectedMembers] = useState<User[]>([]);
   const [searchText, setSearchText] = useState<string>('');
@@ -119,7 +121,7 @@ const ModalAddMember = ({
       style={[
         styles.container,
         {
-          backgroundColor: theme.backgroundModal,
+          backgroundColor: theme.background,
         },
       ]}>
       <View style={styles.header}>
@@ -177,10 +179,12 @@ const ModalAddMember = ({
             width: '100%',
             marginTop: 20,
             height: 50,
+            margin: 2,
             paddingHorizontal: 15,
             borderRadius: 8,
             marginBottom: 10,
-            backgroundColor: theme.searchContainer,
+            elevation: 4,
+            backgroundColor: theme.background,
           }}>
           <TextInput
             value={searchText}

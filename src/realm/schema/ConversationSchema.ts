@@ -5,7 +5,7 @@ export const conversationSchema = {
     properties: {
         conversationId: 'string',
         createdAt: 'string?',
-        unreadCount: 'int',
+        unreadCount: 'int?',
         groupName: 'string?',
         groupAvatar: 'string?',
         isGroup: 'bool',

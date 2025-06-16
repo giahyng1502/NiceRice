@@ -1,24 +1,24 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import {useEffect, useLayoutEffect, useMemo, useState} from 'react';
 import Realm from 'realm';
-import { getRealm } from '../realm/realm';
-import { useAppDispatch } from './useAppDispatch';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import {getRealm} from '../realm/realm';
+import {useAppDispatch} from './useAppDispatch';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/store';
 import {
   Messages,
   setCurrentConversationId,
   setMessages,
 } from '../store/reducers/messageSlice';
-import { getMessageByConv } from '../store/action/messageAction';
-import { saveMessages } from '../realm/service/message_service';
-import { SEND_SOCKET_EVENT } from '../store/middleware/socketMessageMiddleware';
-import { createMessageId } from '../utils/createMessageId';
-import { resetUnreadCount } from '../store/reducers/conversationSlice';
+import {getMessageByConv} from '../store/action/messageAction';
+import {saveMessages} from '../realm/service/message_service';
+import {SEND_SOCKET_EVENT} from '../store/middleware/socketMessageMiddleware';
+import {createMessageId} from '../utils/createMessageId';
+import {resetUnreadCount} from '../store/reducers/conversationSlice';
 import axiosClient from '../apis/axios';
-import { useAppState } from './useAppState';
-import { useTranslation } from 'react-i18next';
-import { groupMessagesByDate } from '../utils/groupedMessage';
-import {makeSelectMessagesByConversation} from "./makeSelectMessagesByConversation";
+import {useAppState} from './useAppState';
+import {useTranslation} from 'react-i18next';
+import {groupMessagesByDate} from '../utils/groupedMessage';
+import {makeSelectMessagesByConversation} from './makeSelectMessagesByConversation';
 
 export function useConversationMessages(conversationId: string) {
   const [realmInstance, setRealmInstance] = useState<Realm>();
@@ -27,18 +27,18 @@ export function useConversationMessages(conversationId: string) {
 
   const user = useSelector((state: RootState) => state.user.data);
   const selectMessages = useMemo(
-      () => makeSelectMessagesByConversation(conversationId),
-      [conversationId]
+    () => makeSelectMessagesByConversation(conversationId),
+    [conversationId],
   );
 
   const reduxMessages = useSelector(selectMessages);
   const isLoading = useSelector(
-      (state: RootState) => state.message.loading[conversationId]
+    (state: RootState) => state.message.loading[conversationId],
   );
 
   const state = useAppState();
   const isActive = state === 'active';
-  const { i18n } = useTranslation();
+  const {i18n} = useTranslation();
 
   // Khởi tạo realm
   useEffect(() => {
@@ -69,7 +69,7 @@ export function useConversationMessages(conversationId: string) {
 
   const getMessageFromServer = async (lastMessageTime: string) => {
     const resultAction = await dispatch(
-        getMessageByConv({ conversationId, since: lastMessageTime })
+      getMessageByConv({conversationId, since: lastMessageTime}),
     );
 
     if (getMessageByConv.fulfilled.match(resultAction)) {
@@ -88,8 +88,8 @@ export function useConversationMessages(conversationId: string) {
     realmInstance.write(() => {
       const allMessages = realmInstance.objects<Messages>('Message');
       const conversationMessages = allMessages
-          .filtered('conversationId = $0', conversationId)
-          .sorted('createdAt', true); // mới -> cũ
+        .filtered('conversationId = $0', conversationId)
+        .sorted('createdAt', true); // mới -> cũ
 
       const recentMessages = conversationMessages.slice(0, 50);
 
@@ -100,11 +100,11 @@ export function useConversationMessages(conversationId: string) {
         content: msg.content,
         createdAt: new Date(msg.createdAt).toISOString(),
         type: msg.type,
-        link: msg?.link ?? ''
+        link: msg?.link ?? '',
       }));
 
       // Lưu Redux để đồng bộ toàn cục
-      dispatch(setMessages({ conversationId, messages: messagesPlain }));
+      dispatch(setMessages({conversationId, messages: messagesPlain}));
 
       // Cập nhật local để hiển thị ngay
       setLocalMessages(messagesPlain);
@@ -116,7 +116,7 @@ export function useConversationMessages(conversationId: string) {
         const oldMessages = conversationMessages.slice(50);
         realmInstance.delete(oldMessages);
         console.log(
-            `Đã xoá ${oldMessages.length} tin nhắn cũ của ${conversationId}`
+          `Đã xoá ${oldMessages.length} tin nhắn cũ của ${conversationId}`,
         );
       }
     });
@@ -137,7 +137,7 @@ export function useConversationMessages(conversationId: string) {
   }, [reduxMessages]);
 
   // Gửi tin nhắn với update UI tức thì
-  const sendMessage = (content: string) => {
+  const sendMessage = (content: string, title?: string) => {
     const newMessage: Messages = {
       messageId: createMessageId(),
       senderId: user?.userId,
@@ -155,15 +155,19 @@ export function useConversationMessages(conversationId: string) {
     dispatch({
       type: SEND_SOCKET_EVENT,
       payload: {
-        data: newMessage,
+        message: newMessage,
         event: 'sendMessage',
+        title: title || user?.fullName
       },
+
     });
   };
 
   const groupedMessages = useMemo(() => {
-    return localMessages ? groupMessagesByDate(localMessages, i18n.language) : [];
+    return localMessages
+      ? groupMessagesByDate(localMessages, i18n.language)
+      : [];
   }, [localMessages, i18n.language]);
 
-  return { groupedMessages, sendMessage, isLoading };
+  return {groupedMessages, sendMessage, isLoading};
 }

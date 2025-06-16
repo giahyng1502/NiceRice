@@ -25,22 +25,22 @@ const CustomHeader: React.FC<Props> = ({scrollY, theme}) => {
     };
   });
 
-  const animatedIconStyle = useAnimatedStyle(() => {
-    const scrollYValue = scrollY.value as number;
-    const rotation = interpolate(scrollYValue, [0, 100], [0, 180], 'clamp');
-    return {
-      transform: [{rotate: `${rotation}deg`}],
-    };
-  });
-
-  const handleAddPress = () => {
-    if (iconRef.current) {
-      iconRef.current.measure((fx, fy, width, height, px, py) => {
-        setPosition({x: px, y: py});
-      });
-    }
-    setVisible(true);
-  };
+  // const animatedIconStyle = useAnimatedStyle(() => {
+  //   const scrollYValue = scrollY.value as number;
+  //   const rotation = interpolate(scrollYValue, [0, 100], [0, 180], 'clamp');
+  //   return {
+  //     transform: [{rotate: `${rotation}deg`}],
+  //   };
+  // });
+  //
+  // const handleAddPress = () => {
+  //   if (iconRef.current) {
+  //     iconRef.current.measure((fx, fy, width, height, px, py) => {
+  //       setPosition({x: px, y: py});
+  //     });
+  //   }
+  //   setVisible(true);
+  // };
 
   return (
     <Animated.View
@@ -58,11 +58,11 @@ const CustomHeader: React.FC<Props> = ({scrollY, theme}) => {
         ]}>
         NiceRice
       </Text>
-      <Animated.View ref={iconRef} style={[animatedIconStyle]}>
-        <TouchableOpacity onPress={handleAddPress} activeOpacity={0.7}>
-          <IconAdd color={theme.iconColor} />
-        </TouchableOpacity>
-      </Animated.View>
+      {/*<Animated.View ref={iconRef} style={[animatedIconStyle]}>*/}
+      {/*  <TouchableOpacity onPress={handleAddPress} activeOpacity={0.7}>*/}
+      {/*    <IconAdd color={theme.iconColor} />*/}
+      {/*  </TouchableOpacity>*/}
+      {/*</Animated.View>*/}
 
       <CreateGroupModal
         visible={visible}

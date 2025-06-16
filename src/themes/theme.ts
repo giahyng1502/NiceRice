@@ -45,7 +45,7 @@ export const themes: Record<Theme, {
         activeDot: '#40C4FF',
         primary: '#40C4FF',
         borderRadiusColorIcon: '#40C4FF',
-        bottomSheetColor: '#4A4B62',
+        bottomSheetColor: '#292929',
         btnTextColor: '#292929',
         backgroundModal: '#4A4B62',
         backgroundMessageReceipt: '#1565C0',

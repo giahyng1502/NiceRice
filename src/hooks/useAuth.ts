@@ -3,7 +3,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootState} from '../store/store';
 import {useAppDispatch} from './useAppDispatch';
 import {clearUser} from '../store/reducers/userSlice';
-import {getInformation, updateInformation} from '../store/action/userAction';
+import {
+  getInformation,
+  logOut,
+  updateInformation,
+} from '../store/action/userAction';
 import {deleteAllConversations} from '../realm/realm';
 import {onGoogleSignOut} from '../screens/login/loginwithGoogle';
 
@@ -17,13 +21,15 @@ export const useAuth = () => {
   const logout = async () => {
     try {
       await AsyncStorage.removeItem('accessToken');
+      await AsyncStorage.removeItem('fcmToken');
       const loginType = await AsyncStorage.getItem('loginType');
-
       if (loginType === 'google') {
         await onGoogleSignOut();
       }
-      dispatch(clearUser());
       deleteAllConversations();
+      dispatch(logOut());
+      dispatch(clearUser());
+      console.log('Đã đăng xuất thành công');
     } catch (error) {
       console.error('Lỗi khi xoá user:', error);
     }

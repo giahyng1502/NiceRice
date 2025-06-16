@@ -14,19 +14,20 @@ import {useTranslation} from 'react-i18next';
 import {useAuth} from '../../hooks/useAuth';
 import {useSnackbar} from '../../provider/SnackbarProvider';
 import {useBottomSheet} from '../../modals/bottom_sheet_modal';
-import {formatSmartDate} from '../../utils/formatDate';
+import {AvatarDefault, formatSmartDate} from '../../utils/formatDate';
 import {guessLangFromLocale} from '../../utils/timeZoneFromLocal';
 import {updateAvatar} from '../../store/reducers/userSlice';
-import useCamera from "./useProfileScreen";
+import useCamera from './useProfileScreen';
+import LoadingModal from '../../modals/modal_loading';
 const ProfileScreen = () => {
   const {theme, themeType} = useTheme();
-  const {logout, loadUser, user, dispatch} = useAuth();
+  const {logout, loadUser, user, dispatch, loading} = useAuth();
   const {showSnackbar} = useSnackbar();
   const {t, i18n} = useTranslation();
   const locale = i18n.language || 'en-US';
   const lang = guessLangFromLocale(locale);
   const {openBottomSheet, closeBottomSheet} = useBottomSheet();
-    const {onPicker} = useCamera(lang, themeType, theme, t);
+  const {onPicker} = useCamera(lang, themeType, theme, t);
 
   const handleAvatar = async () => {
     const res = await onPicker();
@@ -68,7 +69,10 @@ const ProfileScreen = () => {
   return (
     <View style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={styles.circle}>
-        <Image source={{uri: user?.avatarUrl}} style={styles.avatar} />
+        <Image
+          source={{uri: user?.avatarUrl || AvatarDefault}}
+          style={styles.avatar}
+        />
         <TouchableOpacity
           onPress={handleAvatar}
           style={{
@@ -114,7 +118,8 @@ const ProfileScreen = () => {
 
       <Row styleCustom={{width: width * 0.8, justifyContent: 'space-between'}}>
         <Text style={[globalStyles.mediumText, {color: theme.text2}]}>
-          {t('modal.gender')}: {t(`birthday.${user?.gender}`) || ''}
+          {t('modal.gender')}:{' '}
+          {t(`birthday.${user?.gender}`) || `${t('except.Not specified')}`}
         </Text>
       </Row>
 
@@ -145,7 +150,8 @@ const ProfileScreen = () => {
         style={[
           globalStyles.buttonHeight,
           {
-            backgroundColor: theme.primary,
+            backgroundColor: theme.background,
+            elevation: 6,
             flexDirection: 'row',
             justifyContent: 'center',
             width: width * 0.8,
@@ -175,8 +181,9 @@ const ProfileScreen = () => {
         style={[
           globalStyles.buttonHeight,
           {
-            backgroundColor: '#ff372d',
+            backgroundColor: theme.background,
             flexDirection: 'row',
+            elevation: 6,
             justifyContent: 'center',
             width: width * 0.8,
             borderRadius: 8,
@@ -196,6 +203,7 @@ const ProfileScreen = () => {
           {t('modal.logout')}
         </Text>
       </TouchableOpacity>
+      <LoadingModal visible={loading} />
     </View>
   );
 };

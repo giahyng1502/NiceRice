@@ -1,11 +1,8 @@
-import React, {useMemo} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import BottomSheetModal from './bottom_sheet_modal';
-import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {globalStyles, width} from '../styles/globalStyles';
+import {globalStyles} from '../styles/globalStyles';
 import {useTheme} from '../hooks/useTheme';
-import Margin from '../components/margin/magin';
 import {changeLanguage} from '../i18n';
 interface IProps {
   onClose: () => void;

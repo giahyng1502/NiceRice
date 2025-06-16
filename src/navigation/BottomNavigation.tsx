@@ -1,8 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import {
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ConverstationScreen from '../screens/messages/convesation/ConverstationScreen';
 import GroupScreen from '../screens/member/MemberScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
@@ -13,8 +11,8 @@ import IconProfile from '../assets/svgs/ic_profile';
 import IconMore from '../assets/svgs/icon_more';
 import {height, width} from '../styles/globalStyles';
 import {useTheme} from '../hooks/useTheme';
-import {useTranslation} from "react-i18next";
-import {AppStackParamList} from "./AppNavigation";
+import {useTranslation} from 'react-i18next';
+import {AppStackParamList} from './AppNavigation';
 
 const Tab = createBottomTabNavigator<AppStackParamList>();
 
@@ -46,16 +44,19 @@ const BottomNavigation = () => {
 
           return (
             <View
-              style={[styles.iconWrapper, focused && styles.iconWrapperActive]}>
+              style={[styles.iconWrapper, focused && {
+                  backgroundColor : theme.background,
+                  elevation : 8,
+              }]}>
               <IconComponent color={theme.iconColor} />
               <Text
                 style={{
                   fontSize: 10,
-                  color: focused ? 'white' : theme.text3,
+                  color: focused ? theme.text2 : theme.text3,
                   marginTop: 8,
                   fontWeight: '700',
                 }}>
-                  {t(`bottomNavigation.${route.name}`)}
+                {t(`bottomNavigation.${route.name}`)}
               </Text>
             </View>
           );
@@ -85,9 +86,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  iconWrapperActive: {
-    backgroundColor: '#40C4FF',
   },
 });
 

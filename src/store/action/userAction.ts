@@ -101,3 +101,16 @@ export const getAllMember = createAsyncThunk<User[],number>(
     }
 );
 
+export const logOut = createAsyncThunk(
+    'user/logout',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await axiosClient.get('/users/logout');
+        } catch (error: any) {
+            console.error(error);
+            return rejectWithValue(error.response?.data || 'Có lỗi xảy ra');
+        }
+    }
+);
+
+

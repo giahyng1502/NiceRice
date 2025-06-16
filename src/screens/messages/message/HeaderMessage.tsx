@@ -25,7 +25,7 @@ const HeaderMessage: React.FC<Props> = ({
       style={[
         styles.container,
         {
-          backgroundColor: theme.backgroundMessage,
+          backgroundColor: theme.background,
         },
       ]}>
       <TouchableOpacity onPress={handleBack}>
