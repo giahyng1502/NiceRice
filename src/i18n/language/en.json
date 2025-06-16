@@ -104,6 +104,7 @@
     "cancel": "Cancel",
     "select": "Select",
     "done" : "Done",
+    "noResult" : "No results found",
     "createGroup": "Create group",
     "GroupName": "Group name (optional)"
   }

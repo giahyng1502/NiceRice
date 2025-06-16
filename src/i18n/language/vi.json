@@ -103,6 +103,7 @@
   "memberScreen" : {
     "cancel" : "Huỷ",
     "done" : "Xong",
+    "noResult" : "Không có kết quả",
     "select" : "Chọn",
     "createGroup" : "Tạo nhóm",
     "GroupName" : "Tên nhóm (Tùy chọn)"

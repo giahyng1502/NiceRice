@@ -28,6 +28,8 @@ import LoadingModal from '../../modals/modal_loading';
 import SkeletonMemberItem from '../../components/skeleton/SkeletonMemberItem';
 import {SelectModeContext} from '../../provider/SelectMemberProvider';
 import {FlashList} from '@shopify/flash-list';
+import {useDebounce} from "../../hooks/useDebound";
+import {searchUserFromServer} from "../../apis/service/search-user";
 
 type NavigationProps = NavigationProp<AppStackParamList, 'Member'>;
 
@@ -42,6 +44,8 @@ const MemberScreen = () => {
   const [selectedMembers, setSelectedMembers] = useState<User[]>([]);
   const [groupName, setGroupName] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
+    const searchDebounced = useDebounce(searchText, 300);
+    const [searchUser, setSearchUser] = useState<User[]>([]);
   const [isloading, setIsLoading] = useState<boolean>(false);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -94,7 +98,17 @@ const MemberScreen = () => {
       setIsLoading(false);
     }
   };
-
+    useEffect(() => {
+        const filterUser = async () => {
+            if (searchDebounced.trim() === '') {
+                setSearchUser(filteredUser);
+            } else {
+                const filtered = await searchUserFromServer(searchDebounced);
+                setSearchUser(filtered);
+            }
+        };
+        filterUser();
+    }, [searchDebounced]);
   useEffect(() => {
     if (isSelect && selectedMembers.length > 0) {
       slideRight.value = withTiming(-100, {duration: 500});
@@ -250,33 +264,53 @@ const MemberScreen = () => {
           />
         </View>
       </View>
-      {filteredUser.length > 0 ? (
-        <SelectModeContext.Provider value={isSelect}>
-          <FlashList
-            data={filteredUser}
-            keyExtractor={(item, index) => `conv${item.userId}-${index}`}
-            renderItem={({item}) => (
-              <MemberItem
-                member={item}
-                isChecked={selectedMembers.some(m => m.userId === item.userId)}
-                isOnline={memberOnline.includes(item.userId)}
-                currentUser={user}
-                navigation={navigation}
-                onToggle={handleMemberCheck}
-              />
-            )}
-            extraData={[selectedMembers, memberOnline]}
-            scrollEventThrottle={16}
-            refreshing={loading}
-            onEndReached={loadMore}
-            onEndReachedThreshold={0.5}
-            estimatedItemSize={80}
-            contentContainerStyle={{paddingTop: 10}}
-          />
-        </SelectModeContext.Provider>
-      ) : (
-        <SkeletonMemberItem repeat={10} />
-      )}
+        {filteredUser.length > 0 ? (
+            <SelectModeContext.Provider value={true}>
+                {
+                    searchUser.length > 0 ? (
+                        <FlashList
+                            data={searchUser}
+                            keyExtractor={(item, index) => `conv${item.userId}-${index}`}
+                            renderItem={({item}) => (
+                                <MemberItem
+                                    member={item}
+                                    isChecked={selectedMembers.some(
+                                        m => m.userId === item.userId,
+                                    )}
+                                    isOnline={memberOnline.includes(item.userId)}
+                                    currentUser={user}
+                                    navigation={navigation}
+                                    onToggle={handleMemberCheck}
+                                />
+                            )}
+                            extraData={[selectedMembers, memberOnline]}
+                            scrollEventThrottle={16}
+                            onEndReached={loadMore}
+                            onEndReachedThreshold={0.5}
+                            estimatedItemSize={80}
+                            contentContainerStyle={{paddingTop: 10}}
+                        />
+                    ) : (
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            <Text
+                                style={{
+                                    color: theme.text2,
+                                    fontSize: FONT_SIZE.bodyLarge,
+                                }}>
+                                {t('memberScreen.noResult')}
+                            </Text>
+                        </View>
+                    )
+                }
+            </SelectModeContext.Provider>
+        ) : (
+            <SkeletonMemberItem repeat={10} />
+        )}
 
       <Animated.View
         style={[

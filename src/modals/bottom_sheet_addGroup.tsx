@@ -28,6 +28,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAppDispatch} from '../hooks/useAppDispatch';
 import {addMemberIntoConversation} from '../store/action/participantAction';
 import {Participant} from '../hooks/useParticipant';
+import {useDebounce} from '../hooks/useDebound';
+import {searchUserFromServer} from '../apis/service/search-user';
 
 type Props = {
   onClose: () => void;
@@ -50,6 +52,8 @@ const ModalAddMember = ({
   const slideTop = useSharedValue(0);
   const [selectedMembers, setSelectedMembers] = useState<User[]>([]);
   const [searchText, setSearchText] = useState<string>('');
+  const [searchUser, setSearchUser] = useState<User[]>([]);
+  const searchDebounced = useDebounce(searchText, 300);
   const [isloading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const isDone = selectedMembers.length > 0;
@@ -71,12 +75,32 @@ const ModalAddMember = ({
         Alert.alert('Lỗi', 'Bạn phải thêm ít nhất 1 thành viên.');
         return;
       }
+      if (participantCurrent.length + selectedMembers.length > 20) {
+        Alert.alert(
+          'Lỗi',
+          'Số lượng thành viên trong nhóm đã đạt giới hạn tối đa (20 thành viên).',
+        );
+        return;
+      }
+
       setIsLoading(true);
-      const memberIds = selectedMembers.map(member => member.userId) || [];
+
+      const memberIds = selectedMembers.map(member => member.userId);
       console.log(memberIds);
-      dispatch(addMemberIntoConversation({conversationId, memberIds}));
-      Alert.alert('Thành công', 'Thêm thành viên thành công');
-      // ✅ Optional: Reset state
+
+      // ⚠️ Cần await để nhận kết quả từ dispatch thunk
+      const res = await dispatch(
+        addMemberIntoConversation({conversationId, memberIds}),
+      );
+
+      if (res.meta.requestStatus === 'rejected') {
+        Alert.alert('Lỗi', 'Không thể thêm thành viên vào nhóm.');
+        return;
+      }
+
+      // ✅ Nếu thành công, reset lại danh sách
+      Alert.alert('Thành công', 'Thêm thành viên thành công.');
+
       setSelectedMembers([]);
     } catch (error) {
       console.error('Lỗi tạo nhóm:', error);
@@ -94,7 +118,7 @@ const ModalAddMember = ({
       slideTop.value = withTiming(0, {duration: 500});
     }
   }, [selectedMembers.length]);
-
+  // Hàm xử lý khi người dùng chọn hoặc bỏ chọn thành viên
   const handleMemberCheck = useCallback((member: User, isChecked: boolean) => {
     if (isChecked) {
       // Nếu isChecked là true, thêm thành viên vào danh sách
@@ -116,6 +140,19 @@ const ModalAddMember = ({
   useEffect(() => {
     console.log(selectedMembers);
   }, [selectedMembers]);
+
+  //
+  useEffect(() => {
+    const filterUser = async () => {
+      if (searchDebounced.trim() === '') {
+        setSearchUser(filteredUser);
+      } else {
+        const filtered = await searchUserFromServer(searchDebounced);
+        setSearchUser(filtered);
+      }
+    };
+      filterUser();
+  }, [searchDebounced]);
   return (
     <View
       style={[
@@ -201,29 +238,47 @@ const ModalAddMember = ({
         </View>
         {filteredUser.length > 0 ? (
           <SelectModeContext.Provider value={true}>
-            <FlashList
-              data={filteredUser}
-              keyExtractor={(item, index) => `conv${item.userId}-${index}`}
-              renderItem={({item}) => (
-                <MemberItem
-                  member={item}
-                  isChecked={selectedMembers.some(
-                    m => m.userId === item.userId,
-                  )}
-                  isOnline={memberOnline.includes(item.userId)}
-                  currentUser={user}
-                  navigation={navigation}
-                  onToggle={handleMemberCheck}
-                />
-              )}
-              extraData={[selectedMembers, memberOnline]}
-              scrollEventThrottle={16}
-              refreshing={loading}
-              onEndReached={loadMore}
-              onEndReachedThreshold={0.5}
-              estimatedItemSize={80}
-              contentContainerStyle={{paddingTop: 10}}
-            />
+              {
+                  searchUser.length > 0 ? (
+                      <FlashList
+                          data={searchUser}
+                          keyExtractor={(item, index) => `conv${item.userId}-${index}`}
+                          renderItem={({item}) => (
+                              <MemberItem
+                                  member={item}
+                                  isChecked={selectedMembers.some(
+                                      m => m.userId === item.userId,
+                                  )}
+                                  isOnline={memberOnline.includes(item.userId)}
+                                  currentUser={user}
+                                  navigation={navigation}
+                                  onToggle={handleMemberCheck}
+                              />
+                          )}
+                          extraData={[selectedMembers, memberOnline]}
+                          scrollEventThrottle={16}
+                          onEndReached={loadMore}
+                          onEndReachedThreshold={0.5}
+                          estimatedItemSize={80}
+                          contentContainerStyle={{paddingTop: 10}}
+                      />
+                  ) : (
+                      <View
+                          style={{
+                              flex: 1,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                          }}>
+                          <Text
+                              style={{
+                                  color: theme.text2,
+                                  fontSize: FONT_SIZE.bodyLarge,
+                              }}>
+                              {t('memberScreen.noResult')}
+                          </Text>
+                      </View>
+                  )
+              }
           </SelectModeContext.Provider>
         ) : (
           <SkeletonMemberItem repeat={10} />
