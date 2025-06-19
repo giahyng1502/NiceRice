@@ -87,11 +87,13 @@
   },
   "optionScreen": {
     "addGroup": "Add To Group",
+    "seeChatMember": "See chat members",
     "leaveGroup": "Leave group",
     "customColor": "Custom Color Chat",
     "customBackground": "Custom Background Chat",
     "writeMessage": "Write a message",
-    "edit": "Edit"
+    "edit": "Edit",
+    "invite": "Invite"
   },
 
   "birthday": {

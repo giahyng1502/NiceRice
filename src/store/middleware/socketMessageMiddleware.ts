@@ -12,6 +12,7 @@ import {
 } from '../reducers/conversationSlice';
 import {addConversation} from '../../realm/service/conversation_service';
 import {setUserIdsOnline} from '../reducers/userSlice';
+import {logCriticalError} from '../../utils/errorHandler';
 export const SEND_SOCKET_EVENT = 'socket/SEND_SOCKET_EVENT';
 export const SEND_TYPING_EVENT = 'socket/SEND_TYPING_EVENT';
 
@@ -60,6 +61,11 @@ export function setupSocketListeners(store: MiddlewareAPI) {
       );
     } catch (error) {
       console.error('Realm chưa được mở:', error);
+      logCriticalError('reciveive Message fail', error, {
+        messageId: data.messageId,
+        timeStamp: data.createdAt,
+        senderId: data.senderId,
+      });
     }
   };
   socket.off('receiveMessage', handleReceiveMessage);
@@ -126,6 +132,10 @@ const socketMessageMiddleware: any = (store: MiddlewareAPI) => {
           realm,
         );
       } catch (error) {
+        logCriticalError('send Message fail', error, {
+          timeStamp: message.createdAt,
+          conversationId: message.conversationId,
+        });
         console.error('Lỗi khi thêm vào realm:', error);
       }
     }

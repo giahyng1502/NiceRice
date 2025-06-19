@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axiosClient from '../../apis/axios';
 import {Conversation} from '../reducers/conversationSlice';
+import crashlytics from "@react-native-firebase/crashlytics";
 
 const conversationReturn = (conversations: any[]): Conversation[] => {
   return conversations.map((conv: any) => ({
@@ -37,6 +38,8 @@ export const fetchConversation = createAsyncThunk<Conversation[], void>(
       console.log(conversations);
       return conversations;
     } catch (error: any) {
+      crashlytics().log('Error at fetchConversation');
+      crashlytics().recordError(error);
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   },
@@ -59,6 +62,8 @@ export const fetchConversationById = createAsyncThunk<Conversation[], string>(
         console.log(conversations);
         return conversations;
       } catch (error: any) {
+        crashlytics().log('Error at fetchConversationById');
+        crashlytics().recordError(error);
         return rejectWithValue(error.response?.data?.message || error.message);
       }
     },

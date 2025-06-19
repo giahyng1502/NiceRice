@@ -1,24 +1,24 @@
-// src/utils/customNotifee.ts
 import messaging from '@react-native-firebase/messaging';
 import notifee, { AndroidImportance } from '@notifee/react-native';
 
 export const registerBackgroundNotificationHandler = () => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
         console.log('📥 [Background] FCM:', remoteMessage);
-
-        // Tạo channel nếu chưa có
-        await notifee.createChannel({
+        // @ts-ignore
+        const { title, body } = remoteMessage.data;
+        const channelId = await notifee.createChannel({
             id: 'niceRice',
-            name: 'Thông báo Chat',
+            name: 'NiceRice Channel',
+            sound: 'nicesound',
             importance: AndroidImportance.HIGH,
         });
+        console.log('✅ Created notification channel:', channelId);
 
-        // Hiển thị thông báo
         await notifee.displayNotification({
-            title: remoteMessage.notification?.title || 'Tin nhắn mới',
-            body: remoteMessage.notification?.body || 'Bạn có tin nhắn mới.',
+            title: title || 'Tin nhắn mới',
+            body: body || 'Bạn có tin nhắn mới.',
             android: {
-                channelId: 'niceRice',
+                channelId,
                 smallIcon: 'ic_launcher',
                 pressAction: {
                     id: 'default',

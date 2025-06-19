@@ -16,6 +16,7 @@ import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useSnackbar} from '../../provider/SnackbarProvider';
 import {getDataGoogle} from './loginwithGoogle';
 import IconGoogle from '../../assets/svgs/ic_google';
+import {logInfo} from '../../utils/errorHandler';
 
 const Login = () => {
   const [information, setInformation] = useState({
@@ -45,6 +46,7 @@ const Login = () => {
       return;
     }
     showSnackbar('Đăng nhập thành công', 'success');
+    logInfo('User logged in', {username: information.userName});
   };
   const handleLoginWithGoogle = async () => {
     try {
@@ -55,6 +57,8 @@ const Login = () => {
         return;
       }
       showSnackbar('Đăng nhập thành công', 'success');
+
+      logInfo('Đăng nhập thành công');
     } catch (e) {
       console.log(e);
     }

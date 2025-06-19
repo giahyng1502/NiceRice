@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "116526348710-29p5r3cg4hh83lqhl18lo1s91p2nnh80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.riceapp",
+            "certificate_hash": "af11e0c2467271b9b60196844f3b8a8078eb91be"
+          }
+        },
+        {
           "client_id": "116526348710-no85rj862eafrkv97fs1ml2jh4tcjfjr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

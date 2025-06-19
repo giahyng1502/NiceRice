@@ -127,7 +127,7 @@ const CustomInputToolbar: React.FC<Props> = ({
               onChangeText={onInputChange}
               placeholder={t('optionScreen.writeMessage')}
               placeholderTextColor="#ccc"
-              style={[styles.input, { backgroundColor: theme.inputBar }]}
+              style={[styles.input, { backgroundColor: theme.inputBar,color : theme.text2 }]}
               onSubmitEditing={() => {
                 onSendPress();
                 Keyboard.dismiss();
@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingHorizontal: 12,
     marginHorizontal: 10,
-    color: 'white',
   },
   sendButton: {
     width: 40,

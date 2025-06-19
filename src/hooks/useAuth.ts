@@ -20,6 +20,7 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
+      dispatch(logOut());
       await AsyncStorage.removeItem('accessToken');
       await AsyncStorage.removeItem('fcmToken');
       const loginType = await AsyncStorage.getItem('loginType');
@@ -27,7 +28,6 @@ export const useAuth = () => {
         await onGoogleSignOut();
       }
       deleteAllConversations();
-      dispatch(logOut());
       dispatch(clearUser());
       console.log('Đã đăng xuất thành công');
     } catch (error) {

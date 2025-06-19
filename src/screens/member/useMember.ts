@@ -3,13 +3,9 @@ import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
 import {getAllMember} from '../../store/action/userAction';
-import {Participant} from '../../hooks/useParticipant';
-type Props = {
-  participantCurrent?: Participant[];
-};
-const useMember = ({participantCurrent = []}: Props) => {
+
+const useMember = () => {
   const dispatch = useAppDispatch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const allUser = useSelector((state: RootState) => state.user.allUser) || [];
   const loading = useSelector((state: RootState) => state.user.loading);
   const hasMore = useSelector((state: RootState) => state.user.hasMore);
@@ -34,22 +30,20 @@ const useMember = ({participantCurrent = []}: Props) => {
   useEffect(() => {
     refresh();
   }, [refresh]);
-  const filteredUser = useMemo(() => {
-    const participantIds = new Set(participantCurrent.map(p => p.userId));
+  const members = useMemo(() => {
     const onlineIds = new Set(memberOnline);
 
-    const result = allUser
-      .filter(user => !participantIds.has(user.userId))
-      .sort((a, b) => {
-        const aOnline = onlineIds.has(a.userId) ? 1 : 0;
-        const bOnline = onlineIds.has(b.userId) ? 1 : 0;
-        return bOnline - aOnline; // online users first
-      });
+    const result = [...allUser].sort((a, b) => {
+      const aOnline = onlineIds.has(a.userId) ? 1 : 0;
+      const bOnline = onlineIds.has(b.userId) ? 1 : 0;
+      return bOnline - aOnline; // online users first
+    });
 
     return result;
-  }, [allUser, participantCurrent, memberOnline]);
+  }, [allUser, memberOnline]);
 
-  return {filteredUser, refresh, loadMore, loading, memberOnline, user};
+
+  return {members, refresh, loadMore, loading, memberOnline, user};
 };
 
 export default useMember;

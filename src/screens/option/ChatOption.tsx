@@ -47,7 +47,6 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
   const [groupName, setGroupName] = useState<string>();
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [avatarSelected, setAvatarSelected] = useState<string>('');
-  const {openBottomSheet, closeBottomSheet} = useBottomSheet();
   const slideRight = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -74,6 +73,12 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
   const handleBack = () => {
     navigation.goBack();
   };
+
+    const handleMemberScreenGroup = () => {
+        navigation.navigate('GroupChatMember',{
+            conversationId : conversationId
+        });
+    };
   useEffect(() => {
     setGroupName(displayName);
     setAvatarSelected(avatar);
@@ -87,18 +92,7 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
     }
   }, [avatar, avatarSelected, displayName, groupName]);
 
-  const bottomSheetAddMember = () => {
-    openBottomSheet(
-      <ModalAddMember
-        participantCurrent={participants}
-        onClose={() => closeBottomSheet()}
-        navigation={navigation}
-        conversationId={conversationId}
-      />,
-      ['95%'], // snap points
-      0, // index mặc định
-    );
-  };
+
   return (
     <View
       style={[
@@ -181,13 +175,13 @@ const ChatOptionScreen: React.FC<Props> = ({navigation, route}) => {
           alignItems: 'flex-start',
           gap: 10,
         }}>
-        {isGroup && (
-          <ItemOption
-            Icon={<IconGroup color={theme.iconColor} />}
-            title={t('optionScreen.addGroup')}
-            onPress={bottomSheetAddMember}
-          />
-        )}
+          {isGroup && (
+              <ItemOption
+                  Icon={<IconGroup color={theme.iconColor} />}
+                  title={t('optionScreen.seeChatMember')}
+                  onPress={handleMemberScreenGroup}
+              />
+          )}
         <ItemOption
           Icon={<IconColor color={theme.iconColor} />}
           title={t('optionScreen.customColor')}

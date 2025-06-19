@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import {width} from '../../styles/globalStyles';
+import {logInfo} from "../../utils/errorHandler";
 
 const GalleryScreen = () => {
   const [photos, setPhotos] = useState([]);
@@ -78,6 +79,7 @@ const GalleryScreen = () => {
       setPhotos(photoUris);
     } catch (err) {
       console.warn('Lỗi khi lấy ảnh:', err);
+      logInfo('Lỗi khi lấy ảnh từ CameraRoll', err);
     }
   };
 

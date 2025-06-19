@@ -1,8 +1,7 @@
 import axiosClient from '../axios';
-import {FirebaseAuthTypes} from "@react-native-firebase/auth";
-import User = FirebaseAuthTypes.User;
+import {User} from "../../store/reducers/userSlice";
 
-export const searchUserFromServer = async (searchString: string) => {
+export const searchUserFromServer = async (searchString: string) :  Promise<User[]> => {
   try {
     const data = await axiosClient.get('users/searchUser', {
       params: {

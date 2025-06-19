@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Participant } from '../../hooks/useParticipant';
 import axiosClient from '../../apis/axios';
+import crashlytics from "@react-native-firebase/crashlytics";
 
 export const ADD_MEMBER = 'ADD_MEMBER';
 
@@ -44,6 +45,8 @@ export const addMemberIntoConversation = createAsyncThunk<
         };
 
       } catch (error: any) {
+        crashlytics().log('Error at addMemberIntoConversation');
+        crashlytics().recordError(error);
         console.error('❌ Lỗi thêm thành viên:', error?.response?.data);
         return thunkAPI.rejectWithValue(
             error?.response?.data?.message || 'Thêm thành viên thất bại',

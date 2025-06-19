@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -42,18 +42,16 @@ const ModalAddMember = ({
   onClose,
   navigation,
   conversationId,
-  participantCurrent,
+  participantCurrent = [],
 }: Props) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
-  const {memberOnline, filteredUser, loading, loadMore, user} = useMember({
-    participantCurrent,
-  });
+  const {memberOnline, members, loading, loadMore, user} = useMember();
   const slideTop = useSharedValue(0);
   const [selectedMembers, setSelectedMembers] = useState<User[]>([]);
   const [searchText, setSearchText] = useState<string>('');
   const [searchUser, setSearchUser] = useState<User[]>([]);
-  const searchDebounced = useDebounce(searchText, 300);
+  const searchDebounced = useDebounce(searchText, 500);
   const [isloading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const isDone = selectedMembers.length > 0;
@@ -144,15 +142,22 @@ const ModalAddMember = ({
   //
   useEffect(() => {
     const filterUser = async () => {
+      const participantIds = new Set(participantCurrent.map(p => p.userId));
+
       if (searchDebounced.trim() === '') {
-        setSearchUser(filteredUser);
+        // Lọc members để loại bỏ những người đã là participant
+        const result = members.filter(u => !participantIds.has(u?.userId));
+        setSearchUser(result);
       } else {
         const filtered = await searchUserFromServer(searchDebounced);
-        setSearchUser(filtered);
+        const result = filtered.filter(u => !participantIds.has(u?.userId));
+        setSearchUser(result);
       }
     };
-      filterUser();
-  }, [searchDebounced]);
+
+    filterUser();
+  }, [searchDebounced, members, participantCurrent]);
+
   return (
     <View
       style={[
@@ -236,49 +241,47 @@ const ModalAddMember = ({
             }}
           />
         </View>
-        {filteredUser.length > 0 ? (
+        {members.length > 0 ? (
           <SelectModeContext.Provider value={true}>
-              {
-                  searchUser.length > 0 ? (
-                      <FlashList
-                          data={searchUser}
-                          keyExtractor={(item, index) => `conv${item.userId}-${index}`}
-                          renderItem={({item}) => (
-                              <MemberItem
-                                  member={item}
-                                  isChecked={selectedMembers.some(
-                                      m => m.userId === item.userId,
-                                  )}
-                                  isOnline={memberOnline.includes(item.userId)}
-                                  currentUser={user}
-                                  navigation={navigation}
-                                  onToggle={handleMemberCheck}
-                              />
-                          )}
-                          extraData={[selectedMembers, memberOnline]}
-                          scrollEventThrottle={16}
-                          onEndReached={loadMore}
-                          onEndReachedThreshold={0.5}
-                          estimatedItemSize={80}
-                          contentContainerStyle={{paddingTop: 10}}
-                      />
-                  ) : (
-                      <View
-                          style={{
-                              flex: 1,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                          }}>
-                          <Text
-                              style={{
-                                  color: theme.text2,
-                                  fontSize: FONT_SIZE.bodyLarge,
-                              }}>
-                              {t('memberScreen.noResult')}
-                          </Text>
-                      </View>
-                  )
-              }
+            {searchUser.length > 0 ? (
+              <FlashList
+                data={searchUser}
+                keyExtractor={(item, index) => `conv${item.userId}-${index}`}
+                renderItem={({item}) => (
+                  <MemberItem
+                    member={item}
+                    isChecked={selectedMembers.some(
+                      m => m.userId === item.userId,
+                    )}
+                    isOnline={memberOnline.includes(item.userId)}
+                    currentUser={user}
+                    navigation={navigation}
+                    onToggle={handleMemberCheck}
+                  />
+                )}
+                extraData={[selectedMembers, memberOnline]}
+                scrollEventThrottle={16}
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.5}
+                estimatedItemSize={80}
+                contentContainerStyle={{paddingTop: 10}}
+              />
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: theme.text2,
+                    fontSize: FONT_SIZE.bodyLarge,
+                  }}>
+                  {t('memberScreen.noResult')}
+                </Text>
+              </View>
+            )}
           </SelectModeContext.Provider>
         ) : (
           <SkeletonMemberItem repeat={10} />

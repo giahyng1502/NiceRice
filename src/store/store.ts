@@ -5,6 +5,7 @@ import conversationSlice from './reducers/conversationSlice';
 import socketMessageMiddleware from "./middleware/socketMessageMiddleware";
 import messageSlice from "./reducers/messageSlice";
 import socketConversationMiddleware from "./middleware/socketConversationMiddleware";
+import memberSlice from "./reducers/memberSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     user: userSlice,
     conv: conversationSlice,
     message: messageSlice,
+    memberGroup : memberSlice
   },
   middleware: getDefaultMiddleware =>
       getDefaultMiddleware({

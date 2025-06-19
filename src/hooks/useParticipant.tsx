@@ -6,12 +6,13 @@ import {getRealm} from '../realm/realm';
 
 export type Participant = {
   participantId: string;
-  userId: bigint;
+  userId: number;
   fullName: string;
   avatarUrl: string;
   seenDateTime?: Date;
-  conversationId: bigint;
+  conversationId: number;
   isAdmin: boolean;
+  joinedAt?: Date;
 };
 
 export const useConversationParticipants = (conversationId: string | null) => {

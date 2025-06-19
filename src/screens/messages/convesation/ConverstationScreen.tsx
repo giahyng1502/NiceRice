@@ -23,15 +23,22 @@ const ConversationScreen = () => {
     <View style={{flex: 1, backgroundColor: theme.background}}>
       <CustomHeader scrollY={scrollY} theme={theme} />
       {
-        !loading ? <Animated.FlatList
-            data={conversations}
-            keyExtractor={(item, index) => `conv${item.conversationId}-${index}`}
-            renderItem={({item}) => <ConversationItem conversation={item} />}
-            onScroll={scrollHandler}
-            scrollEventThrottle={16}
-            contentContainerStyle={{paddingTop: 20}}
-        /> : (<SkeletonConversationItem repeat={10}/>)
+        loading && conversations.length > 0 ? (
+            <SkeletonConversationItem repeat={10} />
+        ) : (
+            conversations.length > 0 && (
+                <Animated.FlatList
+                    data={conversations}
+                    keyExtractor={(item, index) => `conv${item.conversationId}-${index}`}
+                    renderItem={({ item }) => <ConversationItem conversation={item} />}
+                    onScroll={scrollHandler}
+                    scrollEventThrottle={16}
+                    contentContainerStyle={{ paddingTop: 20 }}
+                />
+            )
+        )
       }
+
     </View>
   );
 };

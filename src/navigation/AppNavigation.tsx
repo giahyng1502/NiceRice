@@ -10,6 +10,7 @@ import {useAuth} from '../hooks/useAuth';
 import SplashScreen from '../screens/introduct/splash_screen';
 import GalleryScreen from '../screens/gallery/GalleryScreen';
 import {Participant} from '../hooks/useParticipant';
+import MemberGroupScreen from "../screens/option/member-chat-screen/MemberGroupScreen";
 
 export type AuthStackParamList = {
   Introduce: undefined;
@@ -37,6 +38,9 @@ export type AppStackParamList = {
   Messages: undefined;
   More: undefined;
   Gallery: undefined;
+  GroupChatMember: {
+      conversationId: string;
+  };
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -56,6 +60,7 @@ const AppStackScreen = () => (
     <AppStack.Screen name="MessageDetail" component={MessageDetail} />
     <AppStack.Screen name="ChatOption" component={ChatOption} />
     <AppStack.Screen name="Gallery" component={GalleryScreen} />
+    <AppStack.Screen name="GroupChatMember" component={MemberGroupScreen} />
   </AppStack.Navigator>
 );
 

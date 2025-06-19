@@ -2,6 +2,7 @@ import Realm from 'realm';
 import { MessageSchema } from './schema/MessageSchema';
 import { ParticipantConversationSchema } from './schema/participentSchema';
 import {conversationSchema} from "./schema/ConversationSchema";
+import {logCriticalError} from "../utils/errorHandler";
 
 let realmInstance: Realm | null = null;
 
@@ -19,7 +20,10 @@ export const openRealm = async () => {
 
 export const getRealm = (): Realm => {
     if (!realmInstance) {
+        const errorMessage = 'Realm has not been initialized. Call openRealm() first.';
+        logCriticalError('Error at getRealm', errorMessage);
         throw new Error('Realm has not been initialized. Call openRealm() first.');
+
     }
     return realmInstance;
 };

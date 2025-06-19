@@ -1,4 +1,5 @@
 import Realm from 'realm';
+import {logInfo} from "../../utils/errorHandler";
 
 export const addParticipants = async (participants, realm: Realm) => {
   try {
@@ -13,6 +14,7 @@ export const addParticipants = async (participants, realm: Realm) => {
     });
   } catch (error) {
     console.error('Error adding participants:', error);
+    logInfo('Error adding participants:', error);
   }
 };
 
@@ -31,5 +33,7 @@ export const deleteParticipant = async (_id, realm) => {
     });
   } catch (error) {
     console.error('Error deleting participant:', error);
+    logInfo('Error adding participants:', error);
+
   }
 };

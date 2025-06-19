@@ -16,7 +16,8 @@ import {SnackbarProvider} from './provider/SnackbarProvider';
 import {RealmProvider} from './provider/RealmProvider';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import useFirebaseCloudeMessage from './hooks/useFirebaseCloudeMessage';
-import {useTranslation} from "react-i18next";
+import crashlytics from '@react-native-firebase/crashlytics';
+import {checkIfRecoveredFromCrash, setUserId} from "./utils/errorHandler";
 
 const AppStateChange: React.FC = () => {
   const appState = useRef(AppState.currentState);
@@ -68,6 +69,8 @@ const AppSocket: React.FC = () => {
   // fireabse auth
   AppFirebaseAuth();
 
+  useCrashlytics(user?.userId);
+
   // Chỉ gọi khi đã có userId và Realm sẵn sàng
   useEffect(() => {
     if (!ready) return;
@@ -93,6 +96,17 @@ const AppFirebaseAuth = () => {
         '116526348710-2hp3bfsjf6pmp2u0mg2d4uaejud4j8u5.apps.googleusercontent.com',
       offlineAccess: true,
     });
+  }, []);
+};
+
+const useCrashlytics = (userId: number) => {
+  useEffect(() => {
+    if (!userId) return;
+    setUserId(userId)
+  }, [userId]);
+
+  useEffect(() => {
+    checkIfRecoveredFromCrash();
   }, []);
 };
 const AppWrapper: React.FC = () => {

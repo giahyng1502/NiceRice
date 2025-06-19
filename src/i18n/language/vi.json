@@ -89,10 +89,12 @@
   "optionScreen" : {
     "addGroup" : "Thêm vào nhóm",
     "leaveGroup" : "Rời khỏi nhóm",
+    "seeChatMember": "Xem thành viên trong nhóm",
     "customColor" : "Tùy chỉnh màu của đoạn chat",
     "customBackground" : "Tùy chỉnh nền của đoạn chat",
     "writeMessage" : "Soạn tin nhắn",
-    "edit": "Chỉnh sửa"
+    "edit": "Chỉnh sửa",
+    "invite": "Mời"
   },
   "birthday": {
     "Male": "Nam",

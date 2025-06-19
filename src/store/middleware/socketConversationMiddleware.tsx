@@ -5,6 +5,7 @@ import {addConversation} from '../../realm/service/conversation_service';
 import {getRealm} from '../../realm/realm';
 import {ADD_MEMBER} from '../action/participantAction';
 import {addParticipants} from '../../realm/service/participant_service';
+import {logInfo} from "../../utils/errorHandler";
 
 export const CREATE_CONVERSATION = 'CREATE_CONVERSATION';
 
@@ -15,6 +16,7 @@ const handleNewConversation = async (
   store: MiddlewareAPI,
 ) => {
   console.log('📩 [socket] newConversation:', conversationId);
+  logInfo('📩 [socket] newConversation:', {conversationId});
 
   // Fetch full conversation details
   const action = await store.dispatch<any>(
@@ -46,7 +48,7 @@ const setupConversationListener = (store: MiddlewareAPI) => {
 
   socket.off('newConversation'); // đề phòng reload hot module
   socket.on('newConversation', (conversationId: string) => {
-    handleNewConversation(conversationId, store);
+      handleNewConversation(conversationId, store);
   });
 };
 

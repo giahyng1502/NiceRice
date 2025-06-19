@@ -11,6 +11,8 @@ import notifee, {
 import axiosClient from '../apis/axios';
 import {getApp} from '@react-native-firebase/app';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import crashlytics from "@react-native-firebase/crashlytics";
+import {logCriticalError, logInfo} from "../utils/errorHandler";
 
 const addTokenDrive = async (fcmToken: string) => {
   try {
@@ -20,8 +22,10 @@ const addTokenDrive = async (fcmToken: string) => {
     }
     await axiosClient.post('/users/saveToken', {fcmToken});
     await AsyncStorage.setItem('fcmToken', fcmToken);
-  } catch (e) {
-    console.log('có lỗi xẩy ra khi lưu token', e);
+    logInfo('addTokenDrive');
+  } catch (error) {
+    logCriticalError('addTokenDrive', error);
+    console.log('có lỗi xẩy ra khi lưu token',error);
   }
 };
 
@@ -53,6 +57,8 @@ export async function requestNotifyPermissionWithConfirm(t: any) {
 
       if (!userConfirmed) {
         console.log('🚫 Người dùng từ chối xác nhận lại.');
+        logInfo('Người dùng từ chối xác nhận lại.');
+
         return null;
       }
 
@@ -66,7 +72,7 @@ export async function requestNotifyPermissionWithConfirm(t: any) {
       // Nếu vẫn không được cấp quyền → đề nghị mở cài đặt
       if (!isGranted) {
         console.log('❌ Người dùng vẫn không cấp quyền sau lần thử lại.');
-
+        logInfo('Người dùng vẫn không cấp quyền thông báo sau lần thử lại.');
         Alert.alert(
           t('granted.notification_blocked_title'),
           t('granted.notification_blocked_message'),
@@ -89,13 +95,6 @@ export async function requestNotifyPermissionWithConfirm(t: any) {
       }
     }
 
-    // ✅ Đã được cấp quyền → tiếp tục
-    await notifee.createChannel({
-      id: 'niceRice',
-      name: 'NiceRice Channel',
-      importance: AndroidImportance.HIGH,
-    });
-
     const app = getApp(); // lấy app mặc định
     const messaging = getMessaging(app); // khởi tạo messaging modular
 
@@ -111,8 +110,9 @@ export async function requestNotifyPermissionWithConfirm(t: any) {
     });
 
     return token;
-  } catch (error) {
+  } catch (error ) {
     console.log('Lỗi khi xin quyền thông báo:', error);
+    logCriticalError('requestNotifyPermissionWithConfirm', error);
     return null;
   }
 }
