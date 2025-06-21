@@ -3,7 +3,8 @@ import axios from 'axios';
 import crashlytics from "@react-native-firebase/crashlytics";
 import {logCriticalError} from "../utils/errorHandler";
 // src/config/apiConfig.ts
-export const API_BASE_URL = 'https://api.devpull.top';
+// export const API_BASE_URL = 'https://api.devpull.top';
+export const API_BASE_URL = 'http://10.0.2.2:3000';
 
 const axiosClient = axios.create({
     baseURL: `${API_BASE_URL}/api`,

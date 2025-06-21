@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     width: 50,
+    elevation : 4,
     height: 50,
     borderRadius: 30,
   },

@@ -1,4 +1,4 @@
-package com.riceapp
+package com.hungcy.nicerice;
 
 import android.app.Application
 import com.facebook.react.PackageList

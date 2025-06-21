@@ -58,7 +58,10 @@
     "gallery": "Gallery",
     "location": "Your Location",
     "document": "Document",
-    "joinedDate": "Joined Date"
+    "joinedDate": "Joined Date",
+    "Block": "Block",
+    "UnBlock": "Unblock",
+    "Report": "Report"
   },
   "moreScreen": {
     "muteNotification": "Mute Notifications",
@@ -105,9 +108,29 @@
   "memberScreen": {
     "cancel": "Cancel",
     "select": "Select",
-    "done" : "Done",
-    "noResult" : "No results found",
+    "done": "Done",
+    "noResult": "No results found",
     "createGroup": "Create group",
     "GroupName": "Group name (optional)"
+  },
+  "report": {
+    "harassment": "Harassment",
+    "suicide_or_self_injury": "Suicide or self-injury",
+    "pretending_to_be_someone_else": "Pretending to be someone else",
+    "violence_or_dangerous_organizations": "Violence or dangerous organizations",
+    "nudity_or_sexual_activity": "Nudity or sexual activity",
+    "selling_or_promoting_restricted_item": "Selling or promoting restricted item",
+    "scam_or_fraud": "Scam or fraud",
+    "other": "Other",
+    "submit": "Submit",
+    "select_problem": "Select a problem to report",
+    "dont_wait": "We won'n let the person know who reported them. It someone is immediate danger, call local emergency services. Don't wait.",
+    "provider": "Please provide us with more specific information."
+  },
+  "userProfile": {
+    "bio" : "Biography",
+    "Message" : "Messages",
+    "more" : "See more",
+    "less" : "Collapse"
   }
 }

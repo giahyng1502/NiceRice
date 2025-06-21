@@ -25,14 +25,10 @@ const MemberItem: React.FC<Props> = React.memo(
     const {theme} = useTheme();
     const isSelect = useSelectMode();
 
-    const handleMessageDetail = () => {
-      const userIds = [currentUser.userId, member.userId];
-      const conversationId = createConversationId(userIds, false);
-      navigation.navigate('MessageDetail', {
-        conversationId: conversationId,
-        members : [member],
-        isGroup : false,
-      });
+    const handleUserProfile = () => {
+      navigation.navigate("UserProfile",{
+        userId : member.userId
+      })
     };
 
     const handleCheckToggle = () => {
@@ -42,7 +38,7 @@ const MemberItem: React.FC<Props> = React.memo(
     return (
       <TouchableOpacity
         style={styles.container}
-        onPress={handleMessageDetail}
+        onPress={handleUserProfile}
         disabled={isSelect}>
         <View style={styles.item}>
           <View style={styles.frameAvatar}>

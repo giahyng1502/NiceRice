@@ -4,11 +4,11 @@
   "contentPolicy": "Người dùng không được phép chia sẻ các nội dung độc hại, phản cảm, khiêu dâm, kích động bạo lực, hoặc thông tin sai sự thật. Bất kỳ hành vi nào vi phạm sẽ bị xử lý bằng việc cảnh cáo, khóa tài khoản hoặc báo cáo cơ quan chức năng theo mức độ nghiêm trọng. Chúng tôi cung cấp chức năng báo cáo nội dung để cộng đồng cùng tham gia kiểm soát và duy trì môi trường an toàn.",
   "childProtectionPolicy": "Ứng dụng không dành cho trẻ em dưới 13 tuổi. Chúng tôi không cố ý thu thập thông tin từ người dùng dưới 13 tuổi. Nếu phát hiện tài khoản vi phạm, chúng tôi sẽ khóa và xóa dữ liệu liên quan ngay lập tức.",
   "contactInfo": "Nếu bạn có bất kỳ thắc mắc, khiếu nại hoặc cần hỗ trợ, vui lòng liên hệ:",
-  "PhoneNumber" : "0963594828",
-  "Mail" : "hungcy1502@gmail.com",
-  "termsPolicies" : "Điều khoản & chính sách",
+  "PhoneNumber": "0963594828",
+  "Mail": "hungcy1502@gmail.com",
+  "termsPolicies": "Điều khoản & chính sách",
   "lang": {
-    "language" : "Ngôn ngữ",
+    "language": "Ngôn ngữ",
     "vi": "Tiếng Việt",
     "en": "Tiếng Anh"
   },
@@ -18,9 +18,9 @@
     "Profile": "Cá nhân",
     "More": "Cài đặt"
   },
-  "except" : {
-    "disPlayName" : "Người dùng chưa xác định",
-    "Not specified" : "Chưa xác định"
+  "except": {
+    "disPlayName": "Người dùng chưa xác định",
+    "Not specified": "Chưa xác định"
   },
   "modal": {
     "addfriend": "Thêm bạn bè",
@@ -29,25 +29,28 @@
     "gender": "Giới tính",
     "select_gender": "Chọn giới tính",
     "birthday": "Ngày sinh",
-    "selectBirthday" : "Chọn ngày sinh nhật",
+    "selectBirthday": "Chọn ngày sinh nhật",
     "email": "Email",
     "name": "Tên",
     "editProfile": "Sửa trang cá nhân",
     "logout": "Đăng xuất",
-    "enterName" : "Nhập tên của bạn",
-    "enterPhone" : "Nhập số điện thoại của bạn",
-    "enterMail" : "Nhập email của bạn",
-    "save" : "Lưu",
-    "congratulations" : "Thành công !",
-    "readyAccount" : "Tài khoản của bạn bây giờ đã có thể sử dụng",
-    "beDiriced" : "Bạn sẽ được chuyển hướng đến màn hình chính ngay bây giờ",
-    "camera" : "Máy ảnh",
-    "record" : "Ghi âm",
-    "contact" : "Danh bạ",
-    "gallery" : "Thư mục ảnh",
-    "location" : "Vị trí của bạn",
-    "document" : "Tài liệu",
-    "joinedDate" : "Ngày tham gia"
+    "enterName": "Nhập tên của bạn",
+    "enterPhone": "Nhập số điện thoại của bạn",
+    "enterMail": "Nhập email của bạn",
+    "save": "Lưu",
+    "congratulations": "Thành công !",
+    "readyAccount": "Tài khoản của bạn bây giờ đã có thể sử dụng",
+    "beDiriced": "Bạn sẽ được chuyển hướng đến màn hình chính ngay bây giờ",
+    "camera": "Máy ảnh",
+    "record": "Ghi âm",
+    "contact": "Danh bạ",
+    "gallery": "Thư mục ảnh",
+    "location": "Vị trí của bạn",
+    "document": "Tài liệu",
+    "joinedDate": "Ngày tham gia",
+    "Block": "Chặn người dùng",
+    "UnBlock": "Bỏ chặn",
+    "Report": "Báo cáo hành vi"
   },
   "granted": {
     "PhotoAccessRequired": "Thiếu quyền truy cập ảnh",
@@ -66,7 +69,7 @@
     "inviteFriend": "Mời bạn bè",
     "aboutApp": "Về ứng dụng",
     "helpCenter": "Hướng dẫn",
-    "darkMode" : "Chế độ tối"
+    "darkMode": "Chế độ tối"
   },
   "introduceScreen": {
     "groupChating": {
@@ -81,18 +84,18 @@
       "sub": "Tương thích đa nền tảng",
       "subtitle": "Dễ dàng trò chuyện trên bất kỳ thiết bị nào."
     },
-    "skip" : "Bỏ qua",
-    "next" : "Tiếp",
-    "prev" : "Trước",
-    "started" : "Bắt đầu bây giờ"
+    "skip": "Bỏ qua",
+    "next": "Tiếp",
+    "prev": "Trước",
+    "started": "Bắt đầu bây giờ"
   },
-  "optionScreen" : {
-    "addGroup" : "Thêm vào nhóm",
-    "leaveGroup" : "Rời khỏi nhóm",
+  "optionScreen": {
+    "addGroup": "Thêm vào nhóm",
+    "leaveGroup": "Rời khỏi nhóm",
     "seeChatMember": "Xem thành viên trong nhóm",
-    "customColor" : "Tùy chỉnh màu của đoạn chat",
-    "customBackground" : "Tùy chỉnh nền của đoạn chat",
-    "writeMessage" : "Soạn tin nhắn",
+    "customColor": "Tùy chỉnh màu của đoạn chat",
+    "customBackground": "Tùy chỉnh nền của đoạn chat",
+    "writeMessage": "Soạn tin nhắn",
     "edit": "Chỉnh sửa",
     "invite": "Mời"
   },
@@ -101,14 +104,34 @@
     "Female": "Nữ",
     "Other": "Khác"
   },
-  "isTyping" : "Đang nhập",
-  "memberScreen" : {
-    "cancel" : "Huỷ",
-    "done" : "Xong",
-    "noResult" : "Không có kết quả",
-    "select" : "Chọn",
-    "createGroup" : "Tạo nhóm",
-    "GroupName" : "Tên nhóm (Tùy chọn)"
+  "isTyping": "Đang nhập",
+  "memberScreen": {
+    "cancel": "Huỷ",
+    "done": "Xong",
+    "noResult": "Không có kết quả",
+    "select": "Chọn",
+    "createGroup": "Tạo nhóm",
+    "GroupName": "Tên nhóm (Tùy chọn)"
+  },
+  "report": {
+    "harassment": "Quấy rối",
+    "suicide_or_self_injury": "Tự tử hoặc tự làm hại bản thân",
+    "pretending_to_be_someone_else": "Giả mạo người khác",
+    "violence_or_dangerous_organizations": "Bạo lực hoặc tổ chức nguy hiểm",
+    "nudity_or_sexual_activity": "Ảnh khỏa thân hoặc hành vi tình dục",
+    "selling_or_promoting_restricted_item": "Rao bán hoặc quảng bá sản phẩm bị hạn chế",
+    "scam_or_fraud": "Lừa đảo hoặc gian lận",
+    "other": "Khác",
+    "submit": "Gửi báo cáo",
+    "provider": " Hãy cung cấp cho chúng tôi thêm thông tin cụ thể.",
+    "select_problem": "Hãy chọn hành vi bạn muốn báo cáo",
+    "dont_wait": "Chúng tôi sẽ không cho người bị báo cáo biết ai đã báo cáo họ. Nếu ai đó đang gặp nguy hiểm khẩn cấp, hãy gọi dịch vụ khẩn cấp địa phương. Đừng chờ đợi."
+  },
 
+  "userProfile": {
+    "bio" : "Thông tin mô tả ngắn gọn về bản thân",
+    "Message" : "Nhắn tin",
+    "more" : "Xem thêm",
+    "less" : "Thu gọn"
   }
 }

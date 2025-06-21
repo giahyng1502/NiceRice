@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axiosClient from '../../apis/axios';
 import {RegisterForm} from '../../screens/register/registerForm';
 import {logCriticalError, logInfo} from '../../utils/errorHandler';
+import userProfile from "../../screens/member/information/UserProfile";
 // This should return a promise that resolves to the user data
 export const getInformation = createAsyncThunk<User>(
   'user/getInformation',
@@ -136,3 +137,12 @@ export const logOut = createAsyncThunk(
     }
   },
 );
+
+export const getOneProfileOfUser = async (userId: number) => {
+  try {
+    return  axiosClient.get(`/users/getUserById/${userId}`);
+  } catch (error) {
+    logCriticalError('Error at getOneProfileOfUser', error, {userId : userId.toString()});
+    return null;
+  }
+};

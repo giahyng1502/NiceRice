@@ -1,44 +1,46 @@
-import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
-import IconChecked from '../../assets/svgs/ic_checked';
-import IconCheck from '../../assets/svgs/icon_check';
-import {User} from '../../store/reducers/userSlice';
+import React from 'react';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {useTheme} from '../../hooks/useTheme';
+import {FONT_SIZE} from "../../styles/globalStyles";
 
-type Props = {
-  onCheck?: (member: User, isChecked: boolean) => void;
-  member?: User;
-  initialChecked?: boolean;
-};
-
-const CheckButton: React.FC<Props> = ({
-  onCheck,
-  member,
-  initialChecked = false,
-}) => {
-  // Khởi tạo trạng thái checked từ prop initialChecked
-  const [checked, setChecked] = useState(initialChecked);
-  useEffect(() => {
-    console.log(initialChecked);
-  }, [initialChecked]);
-  const onPress = () => {
-    // Đảo ngược trạng thái checked hiện tại
-    const newCheckedState = !checked;
-    setChecked(newCheckedState); // Cập nhật trạng thái hiển thị của nút
-
-    if (onCheck && member) {
-      onCheck(member, newCheckedState);
-    }
-  };
-
+const ButtonChecked = ({label, checked, onPress}) => {
+  const {theme} = useTheme();
   return (
-
+    <TouchableOpacity
+      style={[
+        styles.container,
+        {backgroundColor: theme.background},
+        checked && {
+          backgroundColor : theme.activeColor
+        },
+      ]}
+      onPress={onPress}
+      activeOpacity={0.8}>
+      <Text
+        style={[
+          styles.text,
+          {color: theme.text2},
+          checked && {color: theme.text3}
+        ]}>
+        {label}
+      </Text>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-
+  container: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 8,
+      height : 50,
+      justifyContent : 'center',
+    marginBottom: 15,
+      elevation : 6,
+  },
+  text: {
+    fontSize: FONT_SIZE.bodyLarge,
   },
 });
 
-export default CheckButton;
+export default ButtonChecked;

@@ -10,7 +10,9 @@ import {useAuth} from '../hooks/useAuth';
 import SplashScreen from '../screens/introduct/splash_screen';
 import GalleryScreen from '../screens/gallery/GalleryScreen';
 import {Participant} from '../hooks/useParticipant';
-import MemberGroupScreen from "../screens/option/member-chat-screen/MemberGroupScreen";
+import MemberGroupScreen from '../screens/option/member-chat-screen/MemberGroupScreen';
+import UserProfile from '../screens/member/information/UserProfile';
+import ReportScreen from '../screens/report/ReportScreen';
 
 export type AuthStackParamList = {
   Introduce: undefined;
@@ -38,8 +40,14 @@ export type AppStackParamList = {
   Messages: undefined;
   More: undefined;
   Gallery: undefined;
+  ReportScreen: {
+    userId: number;
+  };
+  UserProfile: {
+    userId: number;
+  };
   GroupChatMember: {
-      conversationId: string;
+    conversationId: string;
   };
 };
 
@@ -61,6 +69,8 @@ const AppStackScreen = () => (
     <AppStack.Screen name="ChatOption" component={ChatOption} />
     <AppStack.Screen name="Gallery" component={GalleryScreen} />
     <AppStack.Screen name="GroupChatMember" component={MemberGroupScreen} />
+    <AppStack.Screen name="UserProfile" component={UserProfile} />
+    <AppStack.Screen name="ReportScreen" component={ReportScreen} />
   </AppStack.Navigator>
 );
 

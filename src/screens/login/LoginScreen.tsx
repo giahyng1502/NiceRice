@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
-    width: width * 0.3,
-    height: width * 0.3,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
   },
   tabContainer: {

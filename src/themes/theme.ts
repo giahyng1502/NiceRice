@@ -29,6 +29,7 @@ export const themes: Record<Theme, {
     backgroundLogin2: string;
     skeletonColor: string;
     highlightColor: string;
+    activeColor: string;
 }> = {
     dark: {
         background: '#292929',
@@ -58,7 +59,8 @@ export const themes: Record<Theme, {
         inputBar : '#686A8A',
         iconColor: '#ffffff',
         skeletonColor : "#424242",
-        highlightColor : "rgba(255,255,255,0.12)"
+        highlightColor : "rgba(255,255,255,0.12)",
+        activeColor : "#333C4D"
 
     },
     light: {
@@ -91,7 +93,8 @@ export const themes: Record<Theme, {
         iconColor: '#000000',
         skeletonColor : "#E0E0E0",
 
-        highlightColor : "rgba(255,255,255,0.6)"
+        highlightColor : "rgba(255,255,255,0.6)",
+        activeColor : "#E6ECF5"
 
     }
 };

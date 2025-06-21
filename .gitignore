@@ -23,7 +23,10 @@ DerivedData
 **/.xcode.env.local
 
 # Android/IntelliJ
-#
+# Firebase config
+android/app/google-services.json
+# Android keystore
+android/app/*.jks
 build/
 .idea
 .gradle
