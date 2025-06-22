@@ -93,7 +93,7 @@ const AppFirebaseAuth = () => {
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
-        'webClientId.apps.googleusercontent.com', // Thay thế bằng webClientId của bạn
+        '116526348710-c2tre25rv98n6l4ebb5tcitunapcc51n.apps.googleusercontent.com',
       offlineAccess: true,
     });
   }, []);
