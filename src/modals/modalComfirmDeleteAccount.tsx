@@ -33,7 +33,7 @@ const ModalComfirmDeleteAccount = ({isVisible, onClose}) => {
         }}>
         <Text
           style={{
-            fontSize: FONT_SIZE.titleLarge,
+            fontSize: FONT_SIZE.titleMedium,
             color: theme.text2,
             fontWeight: 'bold',
             marginBottom: 10,

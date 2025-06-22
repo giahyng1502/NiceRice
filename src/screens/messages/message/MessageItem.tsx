@@ -1,4 +1,4 @@
-import {Dimensions, Image, Text, View} from 'react-native';
+import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
 import {useTheme} from '../../../hooks/useTheme';
 import React, {useEffect, useState} from 'react';
 import IconSeen from '../../../assets/svgs/icon_seen';
@@ -7,18 +7,19 @@ import {useAuth} from '../../../hooks/useAuth';
 import {Participant} from '../../../hooks/useParticipant';
 import {Messages} from '../../../store/reducers/messageSlice';
 import Animated, {FadeInDown} from 'react-native-reanimated';
-import {useLocalizedDate} from "../../../hooks/useDateFromLocal";
+import {useLocalizedDate} from '../../../hooks/useDateFromLocal';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 interface Props {
   currentMessage: Messages;
   participants: Participant[];
-  index : number
+  index: number;
+  onPress?: ({fullName, userId}) => void;
 }
 
 const RenderItemMessage: React.FC<Props> = React.memo(
-  ({currentMessage, participants,index}) => {
+  ({currentMessage, participants, index, onPress}) => {
     const {theme} = useTheme();
     const {user: currentUser} = useAuth();
     const senderId = currentMessage.senderId;
@@ -27,7 +28,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(
     const extraCount = images.length - 3;
     const {formatTime} = useLocalizedDate();
     const [sender, setSender] = useState<Participant>();
-    const duration = index*150;
+    const duration = index * 150;
     useEffect(() => {
       if (!currentMessage) return;
 
@@ -40,8 +41,7 @@ const RenderItemMessage: React.FC<Props> = React.memo(
     }, [participants, currentMessage]);
 
     return (
-      <Animated.View
-        entering={FadeInDown.duration(duration)}>
+      <Animated.View entering={FadeInDown.duration(duration)}>
         {!isUserCurrent && (
           <View
             style={{
@@ -49,14 +49,19 @@ const RenderItemMessage: React.FC<Props> = React.memo(
               alignItems: 'center',
               gap: 5,
             }}>
-            <Image
-              source={{uri: sender?.avatarUrl}}
-              style={{
-                width: 28,
-                height: 28,
-                borderRadius: 14,
-              }}
-            />
+            <TouchableOpacity
+              onPress={() =>
+                onPress?.({fullName: sender?.fullName, userId: senderId})
+              }>
+              <Image
+                source={{uri: sender?.avatarUrl}}
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 14,
+                }}
+              />
+            </TouchableOpacity>
             <Text
               style={[
                 globalStyles.smailSize,

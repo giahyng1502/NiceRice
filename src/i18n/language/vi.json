@@ -49,6 +49,7 @@
     "document": "Tài liệu",
     "joinedDate": "Ngày tham gia",
     "Block": "Chặn người dùng",
+    "viewProfile": "Xem trang cá nhân",
     "UnBlock": "Bỏ chặn",
     "Report": "Báo cáo hành vi"
   },
@@ -126,6 +127,7 @@
     "submit": "Gửi báo cáo",
     "provider": " Hãy cung cấp cho chúng tôi thêm thông tin cụ thể.",
     "select_problem": "Hãy chọn hành vi bạn muốn báo cáo",
+    "description4":"Nếu bạn chặn người dùng này, họ sẽ không thể nhắn tin hoặc tìm thấy hồ sơ tài khoản của bạn. Chúng tôi sẽ không thông báo cho họ rằng bạn đã chặn.",
     "dont_wait": "Chúng tôi sẽ không cho người bị báo cáo biết ai đã báo cáo họ. Nếu ai đó đang gặp nguy hiểm khẩn cấp, hãy gọi dịch vụ khẩn cấp địa phương. Đừng chờ đợi."
   },
 
@@ -142,6 +144,6 @@
     "description3": "- Tất cả người dùng liên hệ vẫn có thể xem thông tin của bạn",
     "confirm": "Xóa tài khoản",
     "password_placeholder": "Nhập mật khẩu để xác nhận xóa tài khoản",
-    "confirmDelete": "Xác nhận xóa tài khoản ?"
+    "confirmDelete": "Xác nhận xóa tài khoản ?",
   }
 }

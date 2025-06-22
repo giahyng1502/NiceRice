@@ -60,6 +60,7 @@
     "document": "Document",
     "joinedDate": "Joined Date",
     "Block": "Block",
+    "viewProfile": "View Profile",
     "UnBlock": "Unblock",
     "Report": "Report"
   },
@@ -126,7 +127,9 @@
     "submit": "Submit",
     "select_problem": "Select a problem to report",
     "dont_wait": "We won'n let the person know who reported them. It someone is immediate danger, call local emergency services. Don't wait.",
-    "provider": "Please provide us with more specific information."
+    "provider": "Please provide us with more specific information.",
+    "description_block": "If you're blocking this user, they won't be able to message or find your account profile. We won't tell them you blocked them."
+
   },
   "userProfile": {
     "bio" : "Biography",
@@ -141,6 +144,6 @@
     "description3": "- Allow existing contacts to still view your profile information.",
     "confirm": "Delete Account",
     "confirmDelete": "Are you sure you want to delete your account?",
-    "password_placeholder": "Confirm your password to delete account"
+    "password_placeholder": "Confirm your password to delete account",
   }
 }

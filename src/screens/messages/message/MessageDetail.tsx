@@ -12,6 +12,8 @@ import Magin from '../../../components/margin/magin';
 import {useConversationMessages} from '../../../hooks/useMessage';
 import {useConversationParticipants} from '../../../hooks/useParticipant';
 import {useTranslation} from 'react-i18next';
+import {useBottomSheet} from '../../../modals/bottom_sheet_modal';
+import BottomSheetConfirmViewProfile from '../../../modals/bottom_sheet_view_profile_member';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'MessageDetail'>;
 
@@ -23,6 +25,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
   const [content, setContent] = useState<string>('');
   const {theme} = useTheme();
   const {t} = useTranslation();
+  const {openBottomSheet, closeBottomSheet} = useBottomSheet();
   const {participants} = useConversationParticipants(conversationId);
   const displayName = !isGroup
     ? members?.[0]?.fullName || `${t('except.disPlayName')}`
@@ -39,6 +42,18 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
       avatar: avatar,
       conversationId: conversationId,
     });
+  };
+  const handleReport = ({fullName, userId}) => {
+    openBottomSheet(
+      <BottomSheetConfirmViewProfile
+        fullName={fullName}
+        navigation={navigation}
+        onClose={closeBottomSheet}
+        userId={userId}
+      />,
+      ['35%'], // snap points
+      0, // index mặc định
+    );
   };
 
   const renderItem = useCallback(
@@ -60,6 +75,7 @@ const MessageDetail: React.FC<Props> = ({route, navigation}) => {
           currentMessage={item.message}
           participants={participants}
           index={index}
+          onPress={handleReport}
         />
       );
     },

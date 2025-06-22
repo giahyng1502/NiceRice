@@ -47,6 +47,7 @@ const UserProfile = ({navigation, route}) => {
       <BottomSheetReport
         onClose={() => closeBottomSheet()}
         userId={userId}
+        fullName={userProfile.fullName || 'Not Found'}
         navigation={navigation}
       />,
       ['20%'], // snap points
