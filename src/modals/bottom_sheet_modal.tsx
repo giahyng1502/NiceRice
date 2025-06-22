@@ -111,7 +111,7 @@ export const BottomSheetProvider: React.FC<{children: ReactNode}> = ({children})
                       styles.sheet,
                       {
                         height: heightRef.current,
-                        backgroundColor: theme.bottomSheetColor,
+                        backgroundColor: theme.background,
                       },
                       animatedStyle,
                     ]}>

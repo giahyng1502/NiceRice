@@ -75,7 +75,7 @@ export const themes: Record<Theme, {
         dot: '#B0BEC5',
         activeDot: '#0D47A1',
         primary: '#40C4FF',
-        borderColor: '#444444',
+        borderColor: '#e0e0e0',
 
         borderRadiusColorIcon: '#40C4FF',
         inputBar: '#eaeaea',
@@ -90,7 +90,7 @@ export const themes: Record<Theme, {
         backgroundIntroduce2: '#B2EBF2',
         backgroundLogin1 : "#1A47B8",
         backgroundLogin2 : "#9A9BB1",
-        iconColor: '#000000',
+        iconColor: '#4A4A4A',
         skeletonColor : "#E0E0E0",
 
         highlightColor : "rgba(255,255,255,0.6)",

@@ -1,33 +1,43 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, StyleProp, ViewStyle} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import {FONT_SIZE} from '../../styles/globalStyles';
 import {useTheme} from '../../hooks/useTheme';
 
 type Props = {
-    title: string;
-    onPress: () => void;
-    customButton?: StyleProp<ViewStyle>;
-}
+  title: string;
+  onPress: () => void;
+  customButton?: StyleProp<ViewStyle>;
+};
 
-const TextButton: React.FC<Props> = ({title, onPress,customButton}) => {
+const TextButton: React.FC<Props> = ({title, onPress, customButton}) => {
   const {theme} = useTheme();
   return (
     <TouchableOpacity
-      style={[customButton,{
-        backgroundColor: theme.bottomSheetColor,
-        padding: 10,
-        borderRadius: 8,
-        elevation: 6,
-        height: 50,
-        borderWidth: 1,
-        borderColor: theme.borderColor,
-      }]}
+      style={[
+        customButton,
+        {
+          backgroundColor: theme.bottomSheetColor,
+          padding: 10,
+          borderRadius: 8,
+          elevation: 6,
+          height: 50,
+          borderWidth: 1,
+          borderColor: theme.borderColor,
+        },
+      ]}
       onPress={onPress}>
       <Text
         style={{
           fontSize: FONT_SIZE.titleMedium,
           color: theme.text2,
-            fontWeight : 'bold',
+          fontWeight: 'bold',
           textAlign: 'center',
         }}>
         {title}

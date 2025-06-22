@@ -59,10 +59,6 @@ const MoreScreen = () => {
     const openDeleteAccount = () => {
         openBottomSheet(
             <BottomSheetDeleteAccount
-                onDelete={() => {
-                    setIsComfirmDeleteAccount(true);
-                    closeBottomSheet();
-                }}
                 onClose={() => closeBottomSheet()}
             />
             ,
@@ -119,9 +115,6 @@ const MoreScreen = () => {
                     title={t('optionScreen.delete_account')}
                     onPress={openDeleteAccount}
                 />
-                <ModalComfirmDeleteAccount isVisible={isComfirmDeleteAccount} onClose={()=>{
-                    setIsComfirmDeleteAccount(false);
-                }}/>
                 <Margin bottom={4} />
 
             </ScrollView>

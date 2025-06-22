@@ -139,14 +139,6 @@ const Login = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-  },
-  header: {
-    width: width * 2,
-    flexDirection: 'row',
-  },
   image: {
     width: width * 0.3,
     height: width * 0.3,

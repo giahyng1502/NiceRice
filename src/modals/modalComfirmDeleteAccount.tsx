@@ -1,82 +1,86 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useTheme} from '../hooks/useTheme';
 import {useTranslation} from 'react-i18next';
-import Modal from 'react-native-modal';
 import {FONT_SIZE, width} from '../styles/globalStyles';
 import TextButton from '../components/buttons/TextButton';
 import Margin from '../components/margin/magin';
+import IconBack from '../assets/svgs/icon_back';
 
-const ModalComfirmDeleteAccount = ({isVisible, onClose}) => {
+const BottomSheetConfirmDelete = ({onClose, handleSwitch}) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const [password, setPassword] = useState<string>();
   return (
-    <Modal
-      isVisible={isVisible}
-      animationIn={'bounceInLeft'}
-      animationOut={'bounceOutRight'}
-      animationInTiming={500}
-      animationOutTiming={500}
-      useNativeDriver={true}
-        onBackdropPress={onClose}
-      backdropOpacity={0.4}>
-      <View
+    <View
+      style={{
+        width: width,
+      }}>
+      <TouchableOpacity
         style={{
-          backgroundColor: theme.background,
-          height: 270,
-          width: width * 0.9,
-          borderRadius: 16,
-          elevation: 8,
-          padding: 15,
-          justifyContent: 'center',
+          flexDirection: 'row',
+          gap: 5,
+          alignItems: 'center',
+        }}
+        onPress={() => {
+          handleSwitch(0);
         }}>
+        <IconBack color={theme.iconColor} />
         <Text
-          style={{
-            fontSize: FONT_SIZE.titleMedium,
-            color: theme.text2,
-            fontWeight: 'bold',
-            marginBottom: 10,
-          }}>
-            {t('delete_account_modal.confirmDelete')}
-        </Text>
-          <Text
-              style={{
-                  fontSize: FONT_SIZE.bodyLarge,
-                  color: theme.text3,
-                  marginBottom: 10,
-              }}>
-              {t('delete_account_modal.description1')}
-          </Text>
-        <TextInput
           style={{
             fontSize: FONT_SIZE.bodyLarge,
             color: theme.text2,
-            borderColor: theme.borderColor,
-            borderWidth: 2,
-            height: 50,
-            backgroundColor: theme.background,
-            padding: 10,
-            borderRadius: 5,
-          }}
-          secureTextEntry={true}
-          placeholderTextColor={theme.text3}
-          value={password}
-          onChangeText={setPassword}
-          placeholder={t('delete_account_modal.password_placeholder')}
-        />
-        <Margin top={2} />
-        <TextButton
-          onPress={onClose}
-          title={t('delete_account_modal.confirm')}
-          customButton={{
-              width : 200,
-              alignSelf : 'center'
-          }}
-        />
-      </View>
-    </Modal>
+            fontWeight: 'bold',
+          }}>
+            {t('report.cancel')}
+        </Text>
+      </TouchableOpacity>
+      <Margin top={2} />
+      <Text
+        style={{
+          fontSize: FONT_SIZE.titleMedium,
+          color: theme.text2,
+          fontWeight: 'bold',
+          marginBottom: 10,
+        }}>
+        {t('delete_account_modal.confirmDelete')}
+      </Text>
+      <Text
+        style={{
+          fontSize: FONT_SIZE.bodyLarge,
+          color: theme.text3,
+          marginBottom: 10,
+        }}>
+        {t('delete_account_modal.description1')}
+      </Text>
+      <TextInput
+        style={{
+          fontSize: FONT_SIZE.bodyLarge,
+          color: theme.text2,
+          borderColor: theme.borderColor,
+          borderWidth: 2,
+          height: 50,
+          backgroundColor: theme.background,
+          padding: 10,
+          width: '90%',
+          borderRadius: 5,
+        }}
+        secureTextEntry={true}
+        placeholderTextColor={theme.text3}
+        value={password}
+        onChangeText={setPassword}
+        placeholder={t('delete_account_modal.password_placeholder')}
+      />
+      <Margin top={2} />
+      <TextButton
+        onPress={onClose}
+        title={t('delete_account_modal.confirm')}
+        customButton={{
+          width: '90%',
+        }}
+      />
+    </View>
   );
 };
 
-export default ModalComfirmDeleteAccount;
+export default BottomSheetConfirmDelete;

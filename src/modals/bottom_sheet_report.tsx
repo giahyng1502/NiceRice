@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '../hooks/useTheme';
 import {FONT_SIZE} from '../styles/globalStyles';
-import BottomSheetConfirmBlock from "./bottomsheet_confirm_block";
 import {useBottomSheet} from "./bottom_sheet_modal";
 
 const BottomSheetReport = ({userId,fullName, onClose,navigation}) => {
