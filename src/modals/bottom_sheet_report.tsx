@@ -31,7 +31,7 @@ const BottomSheetReport = ({userId, onClose,navigation}) => {
         <Text
           style={{
             color: theme.text2,
-            fontSize: FONT_SIZE.titleMedium,
+            fontSize: FONT_SIZE.bodyLarge,
             fontWeight: 'bold',
           }}>
           {' '}
@@ -56,7 +56,7 @@ const BottomSheetReport = ({userId, onClose,navigation}) => {
         <Text
           style={{
             color: theme.text2,
-            fontSize: FONT_SIZE.titleMedium,
+            fontSize: FONT_SIZE.bodyLarge,
             fontWeight: 'bold',
           }}>
           {' '}

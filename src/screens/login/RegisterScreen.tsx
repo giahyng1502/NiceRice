@@ -12,6 +12,7 @@ import {width} from '../../styles/globalStyles';
 import {useTheme} from '../../hooks/useTheme';
 import {useRegisterForm} from '../register/registerForm';
 import ModalCongratulation from '../../modals/modal_congratulation';
+import TextButton from '../../components/buttons/TextButton';
 
 const RegisterScreen = () => {
   const {theme} = useTheme();
@@ -24,13 +25,13 @@ const RegisterScreen = () => {
         placeholder="Full Name"
         placeholderTextColor={theme.text2}
         style={[
-            styles.textInput,
-            {
-                backgroundColor: theme.background,
-                color: theme.text2,
-                borderWidth: 1,
-                borderColor: theme.borderColor,
-            },
+          styles.textInput,
+          {
+            backgroundColor: theme.background,
+            color: theme.text2,
+            borderWidth: 1,
+            borderColor: theme.borderColor,
+          },
         ]}
         value={information.fullName}
         onChangeText={text => handleChange('fullName', text)}
@@ -54,13 +55,13 @@ const RegisterScreen = () => {
         placeholder="User name"
         placeholderTextColor={theme.text2}
         style={[
-            styles.textInput,
-            {
-                backgroundColor: theme.background,
-                color: theme.text2,
-                borderWidth: 1,
-                borderColor: theme.borderColor,
-            },
+          styles.textInput,
+          {
+            backgroundColor: theme.background,
+            color: theme.text2,
+            borderWidth: 1,
+            borderColor: theme.borderColor,
+          },
         ]}
         value={information.userName}
         onChangeText={text => handleChange('userName', text)}
@@ -71,13 +72,13 @@ const RegisterScreen = () => {
         placeholder="Password"
         placeholderTextColor={theme.text2}
         style={[
-            styles.textInput,
-            {
-                backgroundColor: theme.background,
-                color: theme.text2,
-                borderWidth: 1,
-                borderColor: theme.borderColor,
-            },
+          styles.textInput,
+          {
+            backgroundColor: theme.background,
+            color: theme.text2,
+            borderWidth: 1,
+            borderColor: theme.borderColor,
+          },
         ]}
         secureTextEntry
         value={information.password}
@@ -89,13 +90,13 @@ const RegisterScreen = () => {
         placeholder="Confirm Password"
         placeholderTextColor={theme.text2}
         style={[
-            styles.textInput,
-            {
-                backgroundColor: theme.background,
-                color: theme.text2,
-                borderWidth: 1,
-                borderColor: theme.borderColor,
-            },
+          styles.textInput,
+          {
+            backgroundColor: theme.background,
+            color: theme.text2,
+            borderWidth: 1,
+            borderColor: theme.borderColor,
+          },
         ]}
         secureTextEntry
         value={information.confirmPassword}
@@ -105,21 +106,10 @@ const RegisterScreen = () => {
         <Text style={{color: 'red', marginTop: 5}}>{passwordError}</Text>
       ) : null}
       <Margin top={3} />
-
-      <TouchableOpacity
-        onPress={handleSignUp}
-        style={{
-            backgroundColor: theme.background,
-            width: width * 0.6,
-            borderColor: theme.borderColor,
-            height: 50,
-            elevation : 6,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 8,
-        }}>
-        <Text style={{color: theme.text2, fontSize: 16}}>Sign Up</Text>
-      </TouchableOpacity>
+      <TextButton title={'SingUp'} onPress={handleSignUp} customButton={{
+          width : '70%',
+      }} />
+        <Margin top={4} />
     </View>
   );
 };

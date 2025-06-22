@@ -6,21 +6,20 @@ import {FONT_SIZE} from '../styles/globalStyles';
 import TextButton from '../components/buttons/TextButton';
 import Margin from '../components/margin/magin';
 import TextInputMultiline from '../components/input/TextInputMultiline';
+import {ScrollView} from "react-native-gesture-handler";
 
 const BottomSheetDeleteAccount = ({onClose,onDelete}) => {
   const {t} = useTranslation();
   const {theme} = useTheme();
   const [reason, setReason] = useState<string>();
   return (
-    <View
+    <ScrollView
       style={{
         backgroundColor: theme.bottomSheetColor,
-        flex: 1,
-        justifyContent: 'flex-start',
       }}>
       <Text
         style={{
-          fontSize: FONT_SIZE.titleLarge,
+          fontSize: FONT_SIZE.titleMedium,
           color: theme.text2,
           fontWeight: 'bold',
           marginVertical: 10,
@@ -29,7 +28,7 @@ const BottomSheetDeleteAccount = ({onClose,onDelete}) => {
       </Text>
       <Text
         style={{
-          fontSize: FONT_SIZE.titleMedium,
+          fontSize: FONT_SIZE.bodyLarge,
           color: theme.text3,
         }}>
           {t('delete_account_modal.description1')}
@@ -37,7 +36,7 @@ const BottomSheetDeleteAccount = ({onClose,onDelete}) => {
       </Text>
       <Text
         style={{
-          fontSize: FONT_SIZE.titleMedium,
+          fontSize: FONT_SIZE.bodyLarge,
           color: theme.text3,
         }}>
           {t('delete_account_modal.description2')}
@@ -45,7 +44,7 @@ const BottomSheetDeleteAccount = ({onClose,onDelete}) => {
       </Text>
       <Text
         style={{
-          fontSize: FONT_SIZE.titleMedium,
+          fontSize: FONT_SIZE.bodyLarge,
           color: theme.text3,
         }}>
           {t('delete_account_modal.description3')}
@@ -58,20 +57,7 @@ const BottomSheetDeleteAccount = ({onClose,onDelete}) => {
       />
       <Margin top={2} />
       <TextButton title={t('delete_account_modal.confirm')} onPress={onDelete} />
-    </View>
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 20,
-    color: 'black',
-  },
-});
-
 export default BottomSheetDeleteAccount;

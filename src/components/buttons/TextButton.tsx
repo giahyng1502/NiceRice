@@ -17,9 +17,9 @@ const TextButton: React.FC<Props> = ({title, onPress,customButton}) => {
         backgroundColor: theme.bottomSheetColor,
         padding: 10,
         borderRadius: 8,
-        elevation: 4,
+        elevation: 6,
         height: 50,
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: theme.borderColor,
       }]}
       onPress={onPress}>

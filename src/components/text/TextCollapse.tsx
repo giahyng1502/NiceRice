@@ -16,7 +16,7 @@ const TextCollapse = ({description}) => {
             <Text
                 numberOfLines={isExpanded ? undefined : 5}
                 style={{
-                    fontSize: FONT_SIZE.titleMedium,
+                    fontSize: FONT_SIZE.bodyMedium,
                     color: theme.text2,
                 }}
             >

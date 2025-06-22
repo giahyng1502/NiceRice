@@ -19,6 +19,7 @@ import {useAuth} from '../../hooks/useAuth';
 import LoadingModal from '../../modals/modal_loading';
 import RegisterScreen from './RegisterScreen';
 import Login from './Login';
+import {ScrollView} from "react-native-gesture-handler";
 
 const {width} = Dimensions.get('window');
 
@@ -40,7 +41,7 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
+    <ScrollView style={[styles.container, {backgroundColor: theme.background}]}>
       <Margin top={5} />
       <Animated.View style={[styles.header, animatedStyle]}>
         <View style={styles.screen}>
@@ -107,7 +108,7 @@ const LoginScreen: React.FC = () => {
       </Animated.View>
 
       <LoadingModal visible={loading} />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -121,8 +122,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
     resizeMode: 'contain',
   },
   tabContainer: {

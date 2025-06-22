@@ -66,7 +66,7 @@ const MoreScreen = () => {
                 onClose={() => closeBottomSheet()}
             />
             ,
-            ['50%'], // snap points
+            ['60%'], // snap points
             0 // index mặc định
         );
     };
@@ -119,11 +119,13 @@ const MoreScreen = () => {
                     title={t('optionScreen.delete_account')}
                     onPress={openDeleteAccount}
                 />
+                <ModalComfirmDeleteAccount isVisible={isComfirmDeleteAccount} onClose={()=>{
+                    setIsComfirmDeleteAccount(false);
+                }}/>
+                <Margin bottom={4} />
+
             </ScrollView>
-            <Margin bottom={2} />
-            <ModalComfirmDeleteAccount isVisible={isComfirmDeleteAccount} onClose={()=>{
-                setIsComfirmDeleteAccount(false);
-            }}/>
+
         </View>
     );
 };

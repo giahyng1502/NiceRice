@@ -14,11 +14,13 @@ const ModalComfirmDeleteAccount = ({isVisible, onClose}) => {
   return (
     <Modal
       isVisible={isVisible}
-      animationIn={'fadeInLeft'}
-      animationOut={'fadeOutRight'}
+      animationIn={'bounceInLeft'}
+      animationOut={'bounceOutRight'}
+      animationInTiming={500}
+      animationOutTiming={500}
       useNativeDriver={true}
         onBackdropPress={onClose}
-      backdropOpacity={0.2}>
+      backdropOpacity={0.4}>
       <View
         style={{
           backgroundColor: theme.background,
@@ -34,13 +36,18 @@ const ModalComfirmDeleteAccount = ({isVisible, onClose}) => {
             fontSize: FONT_SIZE.titleLarge,
             color: theme.text2,
             fontWeight: 'bold',
-              top : 0,
             marginBottom: 10,
           }}>
-          Bạn sẽ không thể khôi phục tài khoản của mình sau khi xóa.
+            {t('delete_account_modal.confirmDelete')}
         </Text>
-          <Margin top={2}/>
-
+          <Text
+              style={{
+                  fontSize: FONT_SIZE.bodyLarge,
+                  color: theme.text3,
+                  marginBottom: 10,
+              }}>
+              {t('delete_account_modal.description1')}
+          </Text>
         <TextInput
           style={{
             fontSize: FONT_SIZE.bodyLarge,

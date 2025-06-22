@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {useTheme} from '../../hooks/useTheme';
-import {FONT_SIZE} from "../../styles/globalStyles";
+import {FONT_SIZE} from '../../styles/globalStyles';
 
 const ButtonChecked = ({label, checked, onPress}) => {
   const {theme} = useTheme();
@@ -11,7 +11,7 @@ const ButtonChecked = ({label, checked, onPress}) => {
         styles.container,
         {backgroundColor: theme.background},
         checked && {
-          backgroundColor : theme.activeColor
+          backgroundColor: theme.activeColor,
         },
       ]}
       onPress={onPress}
@@ -20,7 +20,7 @@ const ButtonChecked = ({label, checked, onPress}) => {
         style={[
           styles.text,
           {color: theme.text2},
-          checked && {color: theme.text3}
+          checked && {color: theme.text3},
         ]}>
         {label}
       </Text>
@@ -33,10 +33,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 8,
-      height : 50,
-      justifyContent : 'center',
+    height: 50,
+    justifyContent: 'center',
     marginBottom: 15,
-      elevation : 6,
+    elevation: 6,
   },
   text: {
     fontSize: FONT_SIZE.bodyLarge,

@@ -17,6 +17,7 @@ import {useSnackbar} from '../../provider/SnackbarProvider';
 import {getDataGoogle} from './loginwithGoogle';
 import IconGoogle from '../../assets/svgs/ic_google';
 import {logInfo} from '../../utils/errorHandler';
+import TextButton from '../../components/buttons/TextButton';
 
 const Login = () => {
   const [information, setInformation] = useState({
@@ -102,34 +103,21 @@ const Login = () => {
       />
       <Margin top={2} />
 
-      <TouchableOpacity
-        style={{
-          backgroundColor: theme.background,
-          width: width * 0.6,
-          elevation: 6,
-
-          height: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 8,
-        }}
-        onPress={handleLogin}>
-        <Text
-          style={{
-            color: theme.text2,
-            fontSize: 16,
-          }}>
-          Login
-        </Text>
-      </TouchableOpacity>
+      <TextButton
+        onPress={handleLogin}
+        title={'Login'}
+        customButton={{width: '70%'}}
+      />
 
       <TouchableOpacity
         style={{
           backgroundColor: theme.background,
-          width: width * 0.6,
+          width: '70%',
           flexDirection: 'row',
           height: 50,
           elevation: 6,
+          borderWidth: 1,
+          borderColor: theme.borderColor,
           gap: 10,
           marginTop: 10,
           alignItems: 'center',

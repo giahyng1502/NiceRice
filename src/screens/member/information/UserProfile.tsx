@@ -20,7 +20,6 @@ import {RootState} from '../../../store/store';
 import IconShowMore from '../../../assets/svgs/icon_showmore';
 import BottomSheetReport from '../../../modals/bottom_sheet_report';
 import {useBottomSheet} from '../../../modals/bottom_sheet_modal';
-import EditInfoDialog from '../../../modals/modal_edit_profile';
 
 const UserProfile = ({navigation, route}) => {
   const {theme} = useTheme();
@@ -93,7 +92,7 @@ const UserProfile = ({navigation, route}) => {
       <View style={styles.information}>
         <Text
           style={{
-            fontSize: FONT_SIZE.customMedium,
+            fontSize: FONT_SIZE.titleMedium,
             color: theme.text2,
             fontWeight: 'bold',
           }}>
@@ -101,7 +100,7 @@ const UserProfile = ({navigation, route}) => {
         </Text>
         <Text
           style={{
-            fontSize: FONT_SIZE.titleMedium,
+            fontSize: FONT_SIZE.bodyLarge,
             color: theme.text3,
             fontWeight: 'bold',
           }}>
@@ -130,7 +129,7 @@ const UserProfile = ({navigation, route}) => {
               style={{
                 color: theme.text2,
                 borderColor: theme.borderColor,
-                fontSize: FONT_SIZE.titleMedium,
+                fontSize: FONT_SIZE.bodyLarge,
               }}>
                 {t('userProfile.Message')}
             </Text>
@@ -152,7 +151,7 @@ const UserProfile = ({navigation, route}) => {
         <Margin top={2} />
         <Text
           style={{
-            fontSize: FONT_SIZE.titleMedium,
+            fontSize: FONT_SIZE.bodyLarge,
             color: theme.text2,
             fontWeight: 'bold',
           }}>
