@@ -96,7 +96,8 @@
     "customBackground": "Custom Background Chat",
     "writeMessage": "Write a message",
     "edit": "Edit",
-    "invite": "Invite"
+    "invite": "Invite",
+    "delete_account": "Delete Account",
   },
 
   "birthday": {
@@ -132,5 +133,14 @@
     "Message" : "Messages",
     "more" : "See more",
     "less" : "Collapse"
+  },
+  "delete_account_modal": {
+    "title": "Deleting your account will:",
+    "description1": "- Permanently remove all your personal data from the system and it cannot be recovered.",
+    "description2": "- Prevent all users or group members from sending you messages.",
+    "description3": "- Allow existing contacts to still view your profile information.",
+    "confirm": "Delete Account",
+    "confirmDelete": "Are you sure you want to delete your account?",
+    "password_placeholder": "Confirm your password to delete account"
   }
 }

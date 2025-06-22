@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     View,
     Text,
@@ -22,11 +22,13 @@ import {useTranslation} from "react-i18next";
 import {useBottomSheet} from "../../modals/bottom_sheet_modal";
 import PoliceSheet from "../../modals/PoliceSheet";
 import LanguageSheet from "../../modals/modal_selected_lang";
+import BottomSheetDeleteAccount from "../../modals/bottom_sheet_delete_account";
+import ModalComfirmDeleteAccount from "../../modals/modalComfirmDeleteAccount";
 
 const MoreScreen = () => {
     const {theme} = useTheme();
     const scrollY = useSharedValue(0);
-
+    const [isComfirmDeleteAccount, setIsComfirmDeleteAccount] = useState(false)
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         scrollY.value = event.nativeEvent.contentOffset.y;
     };
@@ -50,6 +52,21 @@ const MoreScreen = () => {
             />
             ,
             ['30%'], // snap points
+            0 // index mặc định
+        );
+    };
+
+    const openDeleteAccount = () => {
+        openBottomSheet(
+            <BottomSheetDeleteAccount
+                onDelete={() => {
+                    setIsComfirmDeleteAccount(true);
+                    closeBottomSheet();
+                }}
+                onClose={() => closeBottomSheet()}
+            />
+            ,
+            ['50%'], // snap points
             0 // index mặc định
         );
     };
@@ -97,10 +114,16 @@ const MoreScreen = () => {
                     title={t('moreScreen.helpCenter')}
 
                 />
+                <ItemOption
+                    Icon={<IconHelpCenter color={theme.iconColor} />}
+                    title={t('optionScreen.delete_account')}
+                    onPress={openDeleteAccount}
+                />
             </ScrollView>
             <Margin bottom={2} />
-
-
+            <ModalComfirmDeleteAccount isVisible={isComfirmDeleteAccount} onClose={()=>{
+                setIsComfirmDeleteAccount(false);
+            }}/>
         </View>
     );
 };

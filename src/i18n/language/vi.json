@@ -97,7 +97,8 @@
     "customBackground": "Tùy chỉnh nền của đoạn chat",
     "writeMessage": "Soạn tin nhắn",
     "edit": "Chỉnh sửa",
-    "invite": "Mời"
+    "invite": "Mời",
+    "delete_account": "Xóa tài khoản"
   },
   "birthday": {
     "Male": "Nam",
@@ -129,9 +130,18 @@
   },
 
   "userProfile": {
-    "bio" : "Thông tin mô tả ngắn gọn về bản thân",
-    "Message" : "Nhắn tin",
-    "more" : "Xem thêm",
-    "less" : "Thu gọn"
+    "bio": "Thông tin mô tả ngắn gọn về bản thân",
+    "Message": "Nhắn tin",
+    "more": "Xem thêm",
+    "less": "Thu gọn"
+  },
+  "delete_account_modal": {
+    "title": "Xóa tài khoản sẽ :",
+    "description1": "- Xóa tất cả dữ liệu cá nhân của bạn khỏi hệ thống và không thể khôi phục lại .",
+    "description2": "- Tất cả người dùng hoặc thành viên nhóm sẽ không thể gửi tin nhắn đến bạn .",
+    "description3": "- Tất cả người dùng liên hệ vẫn có thể xem thông tin của bạn",
+    "confirm": "Xóa tài khoản",
+    "password_placeholder": "Nhập mật khẩu để xác nhận xóa tài khoản",
+    "confirmDelete": "Bạn có chắc chắn muốn xóa tài khoản của mình không?"
   }
 }

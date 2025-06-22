@@ -7,6 +7,7 @@ import IconBack from '../../assets/svgs/icon_back';
 import ButtonChecked from "../../components/buttons/ButtonChecked";
 import Margin from "../../components/margin/magin";
 import KeyboardCustomView from "../../components/container/KeyboardAvoidingView";
+import TextInputMultiline from "../../components/input/TextInputMultiline";
 const options = [
   'harassment',
   'suicide_or_self_injury',
@@ -64,23 +65,7 @@ const ReportScreen = ({navigation, route}) => {
             />
         ))}
       </View>
-      <TextInput
-          multiline={true}
-          textAlignVertical="top"
-          style={{
-            height: 100,
-            borderRadius: 8,
-            paddingHorizontal: 12,
-            fontSize: 16,
-            elevation : 6,
-            color : theme.text2,
-            backgroundColor: theme.inputBar,
-          }}
-          placeholder={t('report.provider')}
-          placeholderTextColor={theme.text3}
-          value={moreInfor}
-          onChangeText={setMoreInfor}
-      />
+      <TextInputMultiline value={moreInfor} setValue={setMoreInfor} placeHolder={t('report.provider')}/>
 
       <TouchableOpacity
           style={[
