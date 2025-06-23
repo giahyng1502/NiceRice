@@ -19,7 +19,8 @@ import {useAuth} from '../../hooks/useAuth';
 import LoadingModal from '../../modals/modal_loading';
 import RegisterScreen from './RegisterScreen';
 import Login from './Login';
-import {ScrollView} from "react-native-gesture-handler";
+import {ScrollView} from 'react-native-gesture-handler';
+import KeyboardCustomView from '../../components/container/KeyboardAvoidingView';
 
 const {width} = Dimensions.get('window');
 
@@ -41,74 +42,78 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={[styles.container, {backgroundColor: theme.background}]}>
-      <Margin top={5} />
-      <Animated.View style={[styles.header, animatedStyle]}>
-        <View style={styles.screen}>
-          <Image
-            source={require('../../assets/images/icon_group.png')}
-            style={styles.image}
-          />
-          <Text style={[globalStyles.title, {color: theme.text2}]}>
-            Welcome Back!
-          </Text>
-          <Text
-            style={[
-              globalStyles.contentSize,
-              {color: theme.text2, flexWrap: 'wrap', textAlign: 'center'},
-            ]}>
-            Login to your account to continue
-          </Text>
-        </View>
-
-        <View style={styles.screen}>
-          <Image
-            source={require('../../assets/images/icon_group.png')}
-            style={styles.image}
-          />
-          <Text style={[globalStyles.title, {color: theme.text2}]}>
-            Let's get you setup
-          </Text>
-          <Text
-            style={[
-              globalStyles.contentSize,
-              {color: theme.text2, flexWrap: 'wrap', textAlign: 'center'},
-            ]}>
-            It should take a couple of minutes to create your account
-          </Text>
-        </View>
-      </Animated.View>
-
-      {/* Tabs */}
-      <View style={styles.tabContainer}>
-        {tabs.map((tab, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => handleSwitch(index)}
-            style={styles.tabButton}>
+    <KeyboardCustomView>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        style={[styles.container, {backgroundColor: theme.background}]}>
+        <Margin top={5} />
+        <Animated.View style={[styles.header, animatedStyle]}>
+          <View style={styles.screen}>
+            <Image
+              source={require('../../assets/images/icon_group.png')}
+              style={styles.image}
+            />
+            <Text style={[globalStyles.title, {color: theme.text2}]}>
+              Welcome Back!
+            </Text>
             <Text
               style={[
-                styles.tabText,
-                {color: activeTab === index ? '#06B6D4' : '#aaa'},
+                globalStyles.contentSize,
+                {color: theme.text2, flexWrap: 'wrap', textAlign: 'center'},
               ]}>
-              {tab}
+              Login to your account to continue
             </Text>
-            {activeTab === index && <View style={styles.activeIndicator} />}
-          </TouchableOpacity>
-        ))}
-      </View>
+          </View>
 
-      {/* Animated Views */}
-      <Animated.View style={[styles.sliderContainer, animatedStyle]}>
-        {/* SignIn */}
+          <View style={styles.screen}>
+            <Image
+              source={require('../../assets/images/icon_group.png')}
+              style={styles.image}
+            />
+            <Text style={[globalStyles.title, {color: theme.text2}]}>
+              Let's get you setup
+            </Text>
+            <Text
+              style={[
+                globalStyles.contentSize,
+                {color: theme.text2, flexWrap: 'wrap', textAlign: 'center'},
+              ]}>
+              It should take a couple of minutes to create your account
+            </Text>
+          </View>
+        </Animated.View>
 
-        <Login />
-        {/* SignUp */}
-        <RegisterScreen />
-      </Animated.View>
+        {/* Tabs */}
+        <View style={styles.tabContainer}>
+          {tabs.map((tab, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleSwitch(index)}
+              style={styles.tabButton}>
+              <Text
+                style={[
+                  styles.tabText,
+                  {color: activeTab === index ? '#06B6D4' : '#aaa'},
+                ]}>
+                {tab}
+              </Text>
+              {activeTab === index && <View style={styles.activeIndicator} />}
+            </TouchableOpacity>
+          ))}
+        </View>
 
-      <LoadingModal visible={loading} />
-    </ScrollView>
+        {/* Animated Views */}
+        <Animated.View style={[styles.sliderContainer, animatedStyle]}>
+          {/* SignIn */}
+
+          <Login />
+          {/* SignUp */}
+          <RegisterScreen />
+        </Animated.View>
+
+        <LoadingModal visible={loading} />
+      </ScrollView>
+    </KeyboardCustomView>
   );
 };
 

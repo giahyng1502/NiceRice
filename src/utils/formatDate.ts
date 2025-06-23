@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export const formatSmartDate = (
     date?: string | Date | null,
-    locale: string = 'en-US',
+    locale: string = 'en',
     fallbackText: string = 'Not specified'
 ): string => {
     if (!date) return fallbackText;

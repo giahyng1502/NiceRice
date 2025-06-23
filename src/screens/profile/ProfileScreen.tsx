@@ -24,7 +24,7 @@ const ProfileScreen = () => {
   const {logout, loadUser, user, dispatch, loading} = useAuth();
   const {showSnackbar} = useSnackbar();
   const {t, i18n} = useTranslation();
-  const locale = i18n.language || 'en-US';
+  const locale = i18n.language || 'en';
   const lang = guessLangFromLocale(locale);
   const {openBottomSheet, closeBottomSheet} = useBottomSheet();
   const {onPicker} = useCamera(lang, themeType, theme, t);

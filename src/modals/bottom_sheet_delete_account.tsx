@@ -23,6 +23,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {transform} from '@babel/core';
 import IconBack from '../assets/svgs/icon_back';
+import KeyboardCustomView from '../components/container/KeyboardAvoidingView';
 
 const BottomSheetDeleteAccount = ({onClose}) => {
   const {t} = useTranslation();
@@ -38,83 +39,85 @@ const BottomSheetDeleteAccount = ({onClose}) => {
   };
 
   return (
-    <ScrollView
-      style={{
-        backgroundColor: theme.background,
-      }}>
-      <Animated.View
-        style={[
-          animatedStyle,
-          {
-            width: width * 2,
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'center',
-          },
-        ]}>
-        <View
-          style={{
-            width: width,
-            flex: 1,
-          }}>
+    <KeyboardCustomView>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        style={{
+          backgroundColor: theme.background,
+        }}>
+        <Animated.View
+          style={[
+            animatedStyle,
+            {
+              width: width * 2,
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+            },
+          ]}>
           <View
             style={{
-              width: width * 0.9,
+              width: width,
+              flex: 1,
             }}>
-            <Text
+            <View
               style={{
-                fontSize: FONT_SIZE.titleMedium,
-                color: theme.text2,
-                fontWeight: 'bold',
-                marginVertical: 10,
+                width: width * 0.9,
               }}>
-              {t('delete_account_modal.title')}
-            </Text>
-            <Text
-              style={{
-                fontSize: FONT_SIZE.bodyLarge,
-                color: theme.text3,
-              }}>
-              {t('delete_account_modal.description1')}
-            </Text>
-            <Text
-              style={{
-                fontSize: FONT_SIZE.bodyLarge,
-                color: theme.text3,
-              }}>
-              {t('delete_account_modal.description2')}
-            </Text>
-            <Text
-              style={{
-                fontSize: FONT_SIZE.bodyLarge,
-                color: theme.text3,
-              }}>
-              {t('delete_account_modal.description3')}
-            </Text>
-            <Margin top={2} />
-            <TextInputMultiline
-              setValue={setReason}
-              value={reason}
-              placeHolder={t('report.provider')}
-            />
-            <Margin top={2} />
-            <TextButton
-              title={t('delete_account_modal.confirm')}
-              onPress={() => {
-                handleSwitch(1);
-              }}
-
-            />
+              <Text
+                style={{
+                  fontSize: FONT_SIZE.titleMedium,
+                  color: theme.text2,
+                  fontWeight: 'bold',
+                  marginVertical: 10,
+                }}>
+                {t('delete_account_modal.title')}
+              </Text>
+              <Text
+                style={{
+                  fontSize: FONT_SIZE.bodyLarge,
+                  color: theme.text3,
+                }}>
+                {t('delete_account_modal.description1')}
+              </Text>
+              <Text
+                style={{
+                  fontSize: FONT_SIZE.bodyLarge,
+                  color: theme.text3,
+                }}>
+                {t('delete_account_modal.description2')}
+              </Text>
+              <Text
+                style={{
+                  fontSize: FONT_SIZE.bodyLarge,
+                  color: theme.text3,
+                }}>
+                {t('delete_account_modal.description3')}
+              </Text>
+              <Margin top={2} />
+              <TextInputMultiline
+                setValue={setReason}
+                value={reason}
+                placeHolder={t('report.provider')}
+              />
+              <Margin top={2} />
+              <TextButton
+                title={t('delete_account_modal.confirm')}
+                onPress={() => {
+                  handleSwitch(1);
+                }}
+              />
+            </View>
           </View>
-        </View>
-        <BottomSheetConfirmDelete
-          onClose={onClose}
-          handleSwitch={() => {
-            handleSwitch(0);
-          }}
-        />
-      </Animated.View>
-    </ScrollView>
+          <BottomSheetConfirmDelete
+            onClose={onClose}
+            handleSwitch={() => {
+              handleSwitch(0);
+            }}
+          />
+        </Animated.View>
+      </ScrollView>
+    </KeyboardCustomView>
   );
 };
 export default BottomSheetDeleteAccount;

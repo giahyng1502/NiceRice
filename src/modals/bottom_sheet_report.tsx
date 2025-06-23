@@ -3,12 +3,10 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '../hooks/useTheme';
 import {FONT_SIZE} from '../styles/globalStyles';
-import {useBottomSheet} from "./bottom_sheet_modal";
 
 const BottomSheetReport = ({userId,fullName, onClose,navigation}) => {
   const {t} = useTranslation();
   const {theme} = useTheme();
-    const {openBottomSheet, closeBottomSheet} = useBottomSheet();
 
 
     const handleReportUser = () => {
@@ -17,19 +15,7 @@ const BottomSheetReport = ({userId,fullName, onClose,navigation}) => {
         });
         onClose();
     };
-    const handleBlockUser = () => {
-        // Logic to block the user
-        onClose();
-        openBottomSheet(
-            <BottomSheetConfirmBlock
-                fullName={fullName}
-                onClose={() => closeBottomSheet()}
-                userId={userId}
-            />,
-            ['35%'], // snap points
-            0, // default index
-        );
-    };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -38,8 +24,7 @@ const BottomSheetReport = ({userId,fullName, onClose,navigation}) => {
           backgroundColor: theme.background,
           alignItems: 'center',
           justifyContent: 'center',
-        }}
-        onPress={handleBlockUser}>
+        }}>
         <Text
           style={{
             color: theme.text2,

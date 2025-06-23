@@ -30,6 +30,7 @@ import {SelectModeContext} from '../../provider/SelectMemberProvider';
 import {FlashList} from '@shopify/flash-list';
 import {useDebounce} from '../../hooks/useDebound';
 import {searchUserFromServer} from '../../apis/service/search-user';
+import KeyboardCustomView from '../../components/container/KeyboardAvoidingView';
 
 type NavigationProps = NavigationProp<AppStackParamList, 'Member'>;
 
@@ -148,205 +149,208 @@ const MemberScreen = () => {
     }
   };
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: theme.background,
-        },
-      ]}>
-      <View style={styles.header}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: 10,
-          }}>
-          <Text
-            style={[
-              {
-                color: theme.text2,
-                fontSize: FONT_SIZE.customMedium,
-                fontWeight: 'bold',
-              },
-            ]}>
-            NiceRice
-          </Text>
-          <TouchableOpacity onPress={setSelected}>
+    <KeyboardCustomView>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: theme.background,
+          },
+        ]}>
+        <View style={styles.header}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 10,
+            }}>
             <Text
               style={[
                 {
                   color: theme.text2,
-                  fontSize: FONT_SIZE.bodyLarge,
+                  fontSize: FONT_SIZE.customMedium,
                   fontWeight: 'bold',
                 },
               ]}>
-              {isSelect ? t('memberScreen.cancel') : t('memberScreen.select')}
+              NiceRice
             </Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={setSelected}>
+              <Text
+                style={[
+                  {
+                    color: theme.text2,
+                    fontSize: FONT_SIZE.bodyLarge,
+                    fontWeight: 'bold',
+                  },
+                ]}>
+                {isSelect ? t('memberScreen.cancel') : t('memberScreen.select')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <Animated.View
+            style={[
+              {
+                width: '100%',
+                gap: 8,
+                overflow: 'hidden',
+              },
+              animatedTopSlide,
+            ]}>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}>
+              <TextInput
+                value={groupName}
+                placeholder={t('memberScreen.GroupName')}
+                placeholderTextColor={theme.text3}
+                onChangeText={setGroupName}
+                style={{
+                  flex: 1,
+                  color: theme.text2,
+                  minHeight: 48,
+                  fontSize: FONT_SIZE.titleMedium,
+                  paddingVertical: 10,
+                }}
+              />
+              {groupName.length > 0 && (
+                <TouchableOpacity
+                  onPress={() => setGroupName('')}
+                  style={{
+                    width: 24,
+                    height: 24,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: theme.deleteSearch,
+                    borderRadius: 14,
+                  }}>
+                  <Text
+                    style={{
+                      color: '#252525',
+                      fontSize: FONT_SIZE.labelSmall,
+                    }}>
+                    X
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+            <HorizontalAnimatedList
+              members={selectedMembers}
+              onDelete={deleteMemeber}
+            />
+          </Animated.View>
+
+          <View
+            style={{
+              width: '100%',
+              marginTop: 20,
+              height: 50,
+              paddingHorizontal: 15,
+              borderRadius: 8,
+              marginBottom: 10,
+              elevation: 4,
+              backgroundColor: theme.background,
+            }}>
+            <TextInput
+              value={searchText}
+              placeholder={'Search'}
+              placeholderTextColor={theme.text3}
+              onChangeText={setSearchText}
+              style={{
+                width: '100%',
+                height: 50,
+                color: theme.text2,
+                fontSize: FONT_SIZE.titleMedium,
+              }}
+            />
+          </View>
         </View>
+        {members.length > 0 ? (
+          <SelectModeContext.Provider value={isSelect}>
+            {searchUser.length > 0 ? (
+              <FlashList
+                data={searchUser}
+                keyboardShouldPersistTaps="handled"
+                keyExtractor={(item, index) => `conv${item.userId}-${index}`}
+                renderItem={({item}) => (
+                  <MemberItem
+                    member={item}
+                    isChecked={selectedMembers.some(
+                      m => m.userId === item.userId,
+                    )}
+                    isOnline={memberOnline.includes(item.userId)}
+                    currentUser={user}
+                    navigation={navigation}
+                    onToggle={handleMemberCheck}
+                  />
+                )}
+                extraData={[selectedMembers, memberOnline]}
+                scrollEventThrottle={16}
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.5}
+                estimatedItemSize={80}
+                contentContainerStyle={{paddingTop: 10}}
+              />
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                {searchDebounced.trim() !== '' && (
+                  <Text
+                    style={{
+                      color: theme.text2,
+                      fontSize: FONT_SIZE.bodyLarge,
+                    }}>
+                    {t('memberScreen.noResult')}
+                  </Text>
+                )}
+              </View>
+            )}
+          </SelectModeContext.Provider>
+        ) : (
+          <SkeletonMemberItem repeat={10} />
+        )}
 
         <Animated.View
           style={[
             {
-              width: '100%',
-              gap: 8,
-              overflow: 'hidden',
+              position: 'absolute',
+              bottom: 10,
+              right: -90,
             },
-            animatedTopSlide,
+            animatedStyle,
           ]}>
-          <View
+          <TouchableOpacity
+            onPress={createGroup}
+            disabled={!isSelect}
             style={{
-              flexDirection: 'row',
-            }}>
-            <TextInput
-              value={groupName}
-              placeholder={t('memberScreen.GroupName')}
-              placeholderTextColor={theme.text3}
-              onChangeText={setGroupName}
-              style={{
-                flex: 1,
-                color: theme.text2,
-                minHeight: 48,
-                fontSize: FONT_SIZE.titleMedium,
-                paddingVertical: 10,
-              }}
-            />
-            {groupName.length > 0 && (
-              <TouchableOpacity
-                onPress={() => setGroupName('')}
-                style={{
-                  width: 24,
-                  height: 24,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: theme.deleteSearch,
-                  borderRadius: 14,
-                }}>
-                <Text
-                  style={{
-                    color: '#252525',
-                    fontSize: FONT_SIZE.labelSmall,
-                  }}>
-                  X
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-          <HorizontalAnimatedList
-            members={selectedMembers}
-            onDelete={deleteMemeber}
-          />
-        </Animated.View>
-
-        <View
-          style={{
-            width: '100%',
-            marginTop: 20,
-            height: 50,
-            paddingHorizontal: 15,
-            borderRadius: 8,
-            marginBottom: 10,
-            elevation: 4,
-            backgroundColor: theme.background,
-          }}>
-          <TextInput
-            value={searchText}
-            placeholder={'Search'}
-            placeholderTextColor={theme.text3}
-            onChangeText={setSearchText}
-            style={{
-              width: '100%',
+              backgroundColor: theme.background,
+              elevation: 8,
+              width: 120,
               height: 50,
-              color: theme.text2,
-              fontSize: FONT_SIZE.titleMedium,
-            }}
-          />
-        </View>
-      </View>
-      {members.length > 0 ? (
-        <SelectModeContext.Provider value={isSelect}>
-          {searchUser.length > 0 ? (
-            <FlashList
-              data={searchUser}
-              keyExtractor={(item, index) => `conv${item.userId}-${index}`}
-              renderItem={({item}) => (
-                <MemberItem
-                  member={item}
-                  isChecked={selectedMembers.some(
-                    m => m.userId === item.userId,
-                  )}
-                  isOnline={memberOnline.includes(item.userId)}
-                  currentUser={user}
-                  navigation={navigation}
-                  onToggle={handleMemberCheck}
-                />
-              )}
-              extraData={[selectedMembers, memberOnline]}
-              scrollEventThrottle={16}
-              onEndReached={loadMore}
-              onEndReachedThreshold={0.5}
-              estimatedItemSize={80}
-              contentContainerStyle={{paddingTop: 10}}
-            />
-          ) : (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              {searchDebounced.trim() !== '' && (
-                <Text
-                  style={{
-                    color: theme.text2,
-                    fontSize: FONT_SIZE.bodyLarge,
-                  }}>
-                  {t('memberScreen.noResult')}
-                </Text>
-              )}
-            </View>
-          )}
-        </SelectModeContext.Provider>
-      ) : (
-        <SkeletonMemberItem repeat={10} />
-      )}
-
-      <Animated.View
-        style={[
-          {
-            position: 'absolute',
-            bottom: 10,
-            right: -90,
-          },
-          animatedStyle,
-        ]}>
-        <TouchableOpacity
-          onPress={createGroup}
-          disabled={!isSelect}
-          style={{
-            backgroundColor: theme.background,
-            elevation: 8,
-            width: 120,
-            height: 50,
-            padding: 8,
-            borderRadius: 8,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              color: theme.text2,
-              fontSize: FONT_SIZE.bodyLarge,
-              fontWeight: 700,
+              padding: 8,
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            {t('memberScreen.createGroup')}
-          </Text>
-        </TouchableOpacity>
-      </Animated.View>
-      <LoadingModal visible={isloading} />
-    </View>
+            <Text
+              style={{
+                color: theme.text2,
+                fontSize: FONT_SIZE.bodyLarge,
+                fontWeight: 700,
+              }}>
+              {t('memberScreen.createGroup')}
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
+        <LoadingModal visible={isloading} />
+      </View>
+    </KeyboardCustomView>
   );
 };
 

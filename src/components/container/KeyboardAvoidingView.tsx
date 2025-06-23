@@ -1,20 +1,19 @@
-import React, {ReactNode} from 'react';
 import {
   KeyboardAvoidingView,
-  Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
 } from 'react-native';
 
-type Props = {
-  children: ReactNode;
-};
-
-const KeyboardCustomView: React.FC<Props> = ({children}) => {
+const KeyboardCustomView = ({children}) => {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      {children}
-    </TouchableWithoutFeedback>
+      <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{flex: 1}}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          {children}
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
   );
 };
 
