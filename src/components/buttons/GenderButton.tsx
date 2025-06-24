@@ -28,7 +28,7 @@ const GenderButton: React.FC<GenderButtonProps> = ({
           borderWidth: selected ? 1 : 2,
         },
       ]}>
-      <Text style={{color: theme.text2, fontSize: 16}}>{t(label)}</Text>
+      <Text style={{color: theme.text2, fontSize: 16}}>{t(`birthday.${label}`)}</Text>
     </TouchableOpacity>
   );
 };

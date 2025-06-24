@@ -21,17 +21,18 @@ import RegisterScreen from './RegisterScreen';
 import Login from './Login';
 import {ScrollView} from 'react-native-gesture-handler';
 import KeyboardCustomView from '../../components/container/KeyboardAvoidingView';
+import {useTranslation} from 'react-i18next';
 
 const {width} = Dimensions.get('window');
 
-const tabs = ['SIGN IN', 'SIGN UP'];
+const tabs = ['signIn', 'signup'];
 
 const LoginScreen: React.FC = () => {
   const {theme} = useTheme();
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useSharedValue(0);
   const {loading, error} = useAuth();
-
+  const {t} = useTranslation();
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateX: translateX.value}],
   }));
@@ -54,14 +55,14 @@ const LoginScreen: React.FC = () => {
               style={styles.image}
             />
             <Text style={[globalStyles.title, {color: theme.text2}]}>
-              Welcome Back!
+              {t('LoginScreen.welcome')}
             </Text>
             <Text
               style={[
                 globalStyles.contentSize,
                 {color: theme.text2, flexWrap: 'wrap', textAlign: 'center'},
               ]}>
-              Login to your account to continue
+              {t('LoginScreen.loginContinue')}
             </Text>
           </View>
 
@@ -71,14 +72,14 @@ const LoginScreen: React.FC = () => {
               style={styles.image}
             />
             <Text style={[globalStyles.title, {color: theme.text2}]}>
-              Let's get you setup
+              {t('LoginScreen.letgo_setup')}
             </Text>
             <Text
               style={[
                 globalStyles.contentSize,
                 {color: theme.text2, flexWrap: 'wrap', textAlign: 'center'},
               ]}>
-              It should take a couple of minutes to create your account
+              {t('LoginScreen.setup_minutes')}
             </Text>
           </View>
         </Animated.View>
@@ -95,7 +96,7 @@ const LoginScreen: React.FC = () => {
                   styles.tabText,
                   {color: activeTab === index ? '#06B6D4' : '#aaa'},
                 ]}>
-                {tab}
+                {t(`LoginScreen.${tab}`)}
               </Text>
               {activeTab === index && <View style={styles.activeIndicator} />}
             </TouchableOpacity>

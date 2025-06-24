@@ -18,6 +18,7 @@ import {getDataGoogle} from './loginwithGoogle';
 import IconGoogle from '../../assets/svgs/ic_google';
 import {logInfo} from '../../utils/errorHandler';
 import TextButton from '../../components/buttons/TextButton';
+import {useTranslation} from "react-i18next";
 
 const Login = () => {
   const [information, setInformation] = useState({
@@ -27,6 +28,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
 
   const {theme} = useTheme();
+  const {t} = useTranslation();
   const {showSnackbar} = useSnackbar();
   const handleChange = (key: keyof User, value: string) => {
     setInformation(prev => ({
@@ -37,7 +39,8 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!information.userName || !information.password) {
-      Alert.alert('Lỗi', 'Vui lòng nhập userName và mật khẩu');
+        showSnackbar(t('LoginScreen.acountError'), 'error');
+
       return;
     }
     // Gọi login từ useAuth hook
@@ -46,7 +49,7 @@ const Login = () => {
       showSnackbar(res.payload as string, 'error');
       return;
     }
-    showSnackbar('Đăng nhập thành công', 'success');
+    showSnackbar(t('LoginScreen.loginSuccet'), 'success');
     logInfo('User logged in', {username: information.userName});
   };
   const handleLoginWithGoogle = async () => {
@@ -57,7 +60,7 @@ const Login = () => {
         showSnackbar(res.payload as string, 'error');
         return;
       }
-      showSnackbar('Đăng nhập thành công', 'success');
+      showSnackbar(t('LoginScreen.loginSuccet'), 'success');
 
       logInfo('Đăng nhập thành công');
     } catch (e) {
@@ -67,7 +70,7 @@ const Login = () => {
   return (
     <View style={[styles.screen, {backgroundColor: theme.background}]}>
       <TextInput
-        placeholder="User name"
+        placeholder={t('LoginScreen.username')}
         placeholderTextColor={theme.text2}
         style={[
           styles.textInput,
@@ -84,7 +87,7 @@ const Login = () => {
       <Margin top={2} />
 
       <TextInput
-        placeholder="Password"
+        placeholder={t('LoginScreen.password')}
         placeholderTextColor={theme.text2}
         secureTextEntry
         style={[
@@ -105,7 +108,7 @@ const Login = () => {
 
       <TextButton
         onPress={handleLogin}
-        title={'Login'}
+        title={t('LoginScreen.signIn')}
         customButton={{width: '70%'}}
       />
 

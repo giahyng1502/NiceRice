@@ -8,9 +8,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import IconSend from '../../../assets/svgs/ic_Send';
-import IconAdd from '../../../assets/svgs/ic_add';
 import { useTheme } from '../../../hooks/useTheme';
-import ModalOption from '../../../modals/modal_option';
 import { useTranslation } from 'react-i18next';
 import TypingAnimation from '../../../components/animation/isTypingAnimation';
 import { RootState } from '../../../store/store';
@@ -36,7 +34,6 @@ const CustomInputToolbar: React.FC<Props> = ({
                                                onSend,
                                                currentConv,
                                              }) => {
-  const [optionModalVisible, setOptionModalVisible] = useState(false);
   const { t } = useTranslation();
   const { theme } = useTheme();
   const typingRoom = useSelector((state: RootState) => state.conv.conversationIsTyping);

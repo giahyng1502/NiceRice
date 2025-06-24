@@ -48,7 +48,7 @@
     "location": "Vị trí của bạn",
     "document": "Tài liệu",
     "joinedDate": "Ngày tham gia",
-    "Block": "Chặn người dùng",
+    "Block": "Chặn",
     "viewProfile": "Xem trang cá nhân",
     "UnBlock": "Bỏ chặn",
     "Report": "Báo cáo hành vi"
@@ -68,7 +68,7 @@
   "moreScreen": {
     "muteNotification": "Tắt thông báo",
     "inviteFriend": "Mời bạn bè",
-    "aboutApp": "Về ứng dụng",
+    "aboutApp": "Chính sách quyền riêng tư",
     "helpCenter": "Hướng dẫn",
     "darkMode": "Chế độ tối"
   },
@@ -125,10 +125,11 @@
     "scam_or_fraud": "Lừa đảo hoặc gian lận",
     "other": "Khác",
     "cancel": "Trở về",
+    "description_block": "Nếu bạn chặn người dùng này, họ sẽ không thể nhắn tin hoặc tìm thấy hồ sơ tài khoản của bạn. Chúng tôi sẽ không thông báo cho họ rằng bạn đã chặn họ.",
     "submit": "Gửi báo cáo",
     "provider": " Hãy cung cấp cho chúng tôi thêm thông tin cụ thể.",
     "select_problem": "Hãy chọn hành vi bạn muốn báo cáo",
-    "description4":"Nếu bạn chặn người dùng này, họ sẽ không thể nhắn tin hoặc tìm thấy hồ sơ tài khoản của bạn. Chúng tôi sẽ không thông báo cho họ rằng bạn đã chặn.",
+    "description4": "Nếu bạn chặn người dùng này, họ sẽ không thể nhắn tin hoặc tìm thấy hồ sơ tài khoản của bạn. Chúng tôi sẽ không thông báo cho họ rằng bạn đã chặn.",
     "dont_wait": "Chúng tôi sẽ không cho người bị báo cáo biết ai đã báo cáo họ. Nếu ai đó đang gặp nguy hiểm khẩn cấp, hãy gọi dịch vụ khẩn cấp địa phương. Đừng chờ đợi."
   },
 
@@ -149,5 +150,28 @@
   },
   "value_date": {
     "no_name": "Ẩn danh"
+  },
+  "LoginScreen": {
+    "agree": "Tôi đồng ý với ",
+    "application": "của ứng dụng",
+    "fullname": "Họ và tên",
+    "username": "Tài khoản",
+    "password": "Mật khẩu",
+    "confirm_Password": "Xác nhận mật khẩu",
+    "signup": "Đăng ký",
+    "signIn": "Đăng nhập",
+    "confirmRegister": "Vui lòng điền đầy đủ thông tin!",
+    "password_lengh": "Mật khẩu phải có ít nhất 6 ký tự.",
+    "agreePolicy": "Bạn cần phải đồng ý với chính sách của chúng tôi!",
+    "passwordConfirmError": "Mật khẩu nhập lại không trùng khớp!",
+    "accountAvable": "Tài khoản đã tồn tại!",
+    "failSignIn": "Đăng ký thất bại. Vui lòng thử lại!",
+    "welcome": "Chào mừng bạn quay lại!",
+    "loginContinue": "Hãy đăng nhập để tiếp tục sử dụng tài khoản của bạn",
+    "letgo_setup": "Hãy bắt đầu tạo tài khoản cho bạn",
+    "setup_minutes": "Chỉ mất vài phút để tạo tài khoản",
+    "acountError": "Vui lòng không bỏ trống tài khoản hoặc mật khẩu",
+    "loginSuccet": "Đăng nhập thành công"
   }
+
 }

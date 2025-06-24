@@ -5,24 +5,42 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import Margin from '../../components/margin/magin';
 import GenderButton from '../../components/buttons/GenderButton';
-import {width} from '../../styles/globalStyles';
+import {FONT_SIZE, width} from '../../styles/globalStyles';
 import {useTheme} from '../../hooks/useTheme';
 import {useRegisterForm} from '../register/registerForm';
 import ModalCongratulation from '../../modals/modal_congratulation';
 import TextButton from '../../components/buttons/TextButton';
+import IconCheck from '../../assets/svgs/icon_check';
+import IconChecked from '../../assets/svgs/ic_checked';
+import {useTranslation} from 'react-i18next';
+import {useBottomSheet} from '../../modals/bottom_sheet_modal';
+import PoliceSheet from '../../modals/PoliceSheet';
 
 const RegisterScreen = () => {
   const {theme} = useTheme();
+  const {t} = useTranslation();
+  const [isAgree, setIsAgree] = useState<boolean>(false);
+
   const {information, handleChange, handleSignUp, passwordError} =
-    useRegisterForm();
+    useRegisterForm(isAgree);
+
+  const {openBottomSheet} = useBottomSheet();
+  const openPoliceSheet = () => {
+    openBottomSheet(
+      <PoliceSheet />,
+      ['95%'], // snap points
+      0, // index mặc định
+    );
+  };
 
   return (
     <View style={[styles.screen, {backgroundColor: theme.background}]}>
       <TextInput
-        placeholder="Full Name"
+        placeholder={t('LoginScreen.fullname')}
         placeholderTextColor={theme.text2}
         style={[
           styles.textInput,
@@ -52,7 +70,7 @@ const RegisterScreen = () => {
       <Margin top={2} />
 
       <TextInput
-        placeholder="User name"
+        placeholder={t('LoginScreen.username')}
         placeholderTextColor={theme.text2}
         style={[
           styles.textInput,
@@ -69,7 +87,7 @@ const RegisterScreen = () => {
       <Margin top={2} />
 
       <TextInput
-        placeholder="Password"
+        placeholder={t('LoginScreen.password')}
         placeholderTextColor={theme.text2}
         style={[
           styles.textInput,
@@ -87,7 +105,7 @@ const RegisterScreen = () => {
       <Margin top={2} />
 
       <TextInput
-        placeholder="Confirm Password"
+        placeholder={t('LoginScreen.confirm_Password')}
         placeholderTextColor={theme.text2}
         style={[
           styles.textInput,
@@ -103,13 +121,45 @@ const RegisterScreen = () => {
         onChangeText={text => handleChange('confirmPassword', text)}
       />
       {passwordError ? (
-        <Text style={{color: 'red', marginTop: 5}}>{passwordError}</Text>
+        <Text style={{color: 'red'}}>{passwordError}</Text>
       ) : null}
       <Margin top={3} />
-      <TextButton title={'SingUp'} onPress={handleSignUp} customButton={{
-          width : '70%',
-      }} />
-        <Margin top={4} />
+
+      <Pressable
+        onPress={() => setIsAgree(!isAgree)}
+        style={{
+          flexDirection: 'row',
+          height: 50,
+          flexWrap: 'wrap',
+        }}>
+        {isAgree ? <IconChecked /> : <IconCheck />}
+        <Text
+          style={{
+            color: theme.text2,
+            fontSize: FONT_SIZE.bodyLarge,
+            marginLeft: 10,
+          }}>
+          {t('LoginScreen.agree')}
+        </Text>
+        <TouchableOpacity onPress={openPoliceSheet}>
+          <Text style={{color: theme.primary, fontSize: FONT_SIZE.bodyLarge}}>
+            {t('moreScreen.aboutApp')}
+          </Text>
+        </TouchableOpacity>
+        <Text style={{color: theme.text2, fontSize: FONT_SIZE.bodyLarge}}>
+          {t('LoginScreen.application')}
+        </Text>
+      </Pressable>
+
+      <Margin top={3} />
+      <TextButton
+        title={t('LoginScreen.signup')}
+        onPress={handleSignUp}
+        customButton={{
+          width: '100%',
+        }}
+      />
+      <Margin top={4} />
     </View>
   );
 };

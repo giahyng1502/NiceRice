@@ -9,7 +9,6 @@ import SelectInput from '../components/input/selectInput';
 import DatePickerExample from '../components/input/DialogPickerInput';
 import { useAuth } from '../hooks/useAuth';
 import { useTranslation } from 'react-i18next';
-import {BottomSheetView} from "@gorhom/bottom-sheet";
 
 const EditInfoDialog: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { theme } = useTheme();

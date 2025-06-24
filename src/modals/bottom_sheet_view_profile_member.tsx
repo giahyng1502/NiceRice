@@ -141,7 +141,7 @@ const BottomSheetConfirmViewProfile = ({
                             color: theme.text2,
                             fontWeight: 'bold',
                         }}>
-                        {t('modal.Block')} {''} {fullName} ?
+                        {t('modal.Block')} {fullName} ?
                     </Text>
                     <Text
                         style={{

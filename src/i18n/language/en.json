@@ -67,7 +67,7 @@
   "moreScreen": {
     "muteNotification": "Mute Notifications",
     "inviteFriend": "Invite Friends",
-    "aboutApp": "About App",
+    "aboutApp": "Privacy Policy",
     "helpCenter": "Help Center",
     "darkMode": "Dark Mode"
   },
@@ -98,7 +98,7 @@
     "writeMessage": "Write a message",
     "edit": "Edit",
     "invite": "Invite",
-    "delete_account": "Delete Account",
+    "delete_account": "Delete Account"
   },
 
   "birthday": {
@@ -130,13 +130,12 @@
     "dont_wait": "We won'n let the person know who reported them. It someone is immediate danger, call local emergency services. Don't wait.",
     "provider": "Please provide us with more specific information.",
     "description_block": "If you're blocking this user, they won't be able to message or find your account profile. We won't tell them you blocked them."
-
   },
   "userProfile": {
-    "bio" : "Biography",
-    "Message" : "Messages",
-    "more" : "See more",
-    "less" : "Collapse"
+    "bio": "Biography",
+    "Message": "Messages",
+    "more": "See more",
+    "less": "Collapse"
   },
   "delete_account_modal": {
     "title": "Deleting your account will:",
@@ -145,9 +144,32 @@
     "description3": "- Allow existing contacts to still view your profile information.",
     "confirm": "Delete Account",
     "confirmDelete": "Are you sure you want to delete your account?",
-    "password_placeholder": "Confirm your password to delete account",
+    "password_placeholder": "Confirm your password to delete account"
   },
   "value_date": {
     "no_name": "Anonymous"
+  },
+  "LoginScreen": {
+    "agree": "I agree with ",
+    "application": "the application's",
+    "fullname": "Full Name",
+    "username": "Username",
+    "password": "Password",
+    "confirm_Password": "Confirm Password",
+    "signup": "Sign Up",
+    "signIn": "Sign In",
+    "confirmRegister": "Please fill in all required information!",
+    "password_error": "Username can only contain letters, numbers, underscores, and be 4–20 characters long.",
+    "password_lengh": "Password must be at least 6 characters.",
+    "agreePolicy": "You need to agree to our policy!",
+    "passwordConfirmError": "Passwords do not match!",
+    "accountAvable": "Account already exists!",
+    "failSignIn": "Sign up failed. Please try again!",
+    "welcome": "Welcome Back!",
+    "loginContinue": "Login to your account to continue",
+    "letgo_setup": "Let's get you set up",
+    "setup_minutes": "It should take a couple of minutes to create your account",
+    "acountError": "Please do not leave username or password empty",
+    "loginSuccet": "Login successful"
   }
 }
