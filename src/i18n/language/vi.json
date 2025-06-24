@@ -145,6 +145,9 @@
     "description3": "- Tất cả người dùng liên hệ vẫn có thể xem thông tin của bạn",
     "confirm": "Xóa tài khoản",
     "password_placeholder": "Nhập mật khẩu để xác nhận xóa tài khoản",
-    "confirmDelete": "Xác nhận xóa tài khoản ?",
+    "confirmDelete": "Xác nhận xóa tài khoản ?"
+  },
+  "value_date": {
+    "no_name": "Ẩn danh"
   }
 }

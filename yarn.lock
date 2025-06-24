@@ -2791,6 +2791,13 @@ anymatch@^3.0.3:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+apisauce@^3.1.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/apisauce/-/apisauce-3.2.0.tgz"
+  integrity sha512-uEvNyBl86g9znFzb5DsBN0kaC9cs9Seo6Ztippf1lJgMEj/mcwE7YMsv4NZeKHjpxGOQ4AHDPItnDRiEgNIdDA==
+  dependencies:
+    axios "^1.10.0"
+
 appdirsjs@^1.2.4:
   version "1.2.7"
   resolved "https://registry.npmjs.org/appdirsjs/-/appdirsjs-1.2.7.tgz"
@@ -2921,10 +2928,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-axios@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.npmjs.org/axios/-/axios-1.9.0.tgz"
-  integrity sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==
+axios@^1.10.0, axios@^1.9.0:
+  version "1.10.0"
+  resolved "https://registry.npmjs.org/axios/-/axios-1.10.0.tgz"
+  integrity sha512-/1xYAC4MP/HEG+3duIhFr4ZQXR4sQXOIe+o6sdqzeykGLx6Upp/1p8MHqhINOvGeP7xyNHe7tsiJByc4SSVUxw==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
@@ -6661,6 +6668,16 @@ react-native-date-picker@^5.0.13:
   resolved "https://registry.npmjs.org/react-native-date-picker/-/react-native-date-picker-5.0.13.tgz"
   integrity sha512-qCLUODZVsJetO5zuoXjw1D39K527XWqBG8sOfhWdHyPzf13h8RXR1/RSKd1N0fdRDi5GdyizYmB0lPAK12/hbw==
 
+react-native-device-info@^8.7.0:
+  version "8.7.1"
+  resolved "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-8.7.1.tgz"
+  integrity sha512-cVMZztFa2Qn6qpQa601W61CtUwZQ1KXfqCOeltejAWEXmgIWivC692WGSdtGudj4upSi1UgMSaGcvKjfcpdGjg==
+
+react-native-device-info@10.3.0:
+  version "10.3.0"
+  resolved "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.3.0.tgz"
+  integrity sha512-/ziZN1sA1REbJTv5mQZ4tXggcTvSbct+u5kCaze8BmN//lbxcTvWsU6NQd4IihLt89VkbX+14IGc9sVApSxd/w==
+
 react-native-gesture-handler@^2.25.0, react-native-gesture-handler@>=2.16.1:
   version "2.25.0"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.25.0.tgz"
@@ -6727,6 +6744,14 @@ react-native-screens@^4.10.0, "react-native-screens@>= 4.0.0":
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-siren@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.npmjs.org/react-native-siren/-/react-native-siren-0.0.7.tgz"
+  integrity sha512-GZkjNLGK+cIOtHeuz4MiUjeEwkyyyGxOZ0rxu8Yhp2m/PCE7F+OBzV+9xXAUUDih4ltogENFBACcwq0aG5UwCA==
+  dependencies:
+    apisauce "^3.1.0"
+    react-native-device-info "^8.7.0"
 
 react-native-svg@^15.11.2:
   version "15.11.2"
@@ -7090,6 +7115,11 @@ semver@^7.6.0:
   resolved "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz"
   integrity sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==
 
+semver@^7.7.1:
+  version "7.7.2"
+  resolved "https://registry.npmjs.org/semver/-/semver-7.7.2.tgz"
+  integrity sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==
+
 send@0.19.0:
   version "0.19.0"
   resolved "https://registry.npmjs.org/send/-/send-0.19.0.tgz"
@@ -7315,6 +7345,16 @@ source-map@0.5.6:
   version "0.5.6"
   resolved "https://registry.npmjs.org/source-map/-/source-map-0.5.6.tgz"
   integrity sha512-MjZkVp0NHr5+TPihLcadqnlVoGIoWo4IBHptutGh9wI3ttUYvCG26HkSuDi+K6lsZ25syXJXcctwgyVCt//xqA==
+
+sp-react-native-in-app-updates@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/sp-react-native-in-app-updates/-/sp-react-native-in-app-updates-1.5.0.tgz"
+  integrity sha512-zKWSTTz/Msil7gJUz+/i84Ox2EJWPVbDTj3dRcCoLOLUlY4akML035X5I0vNM6/8lHmLmsYk3/Dc6gZvrUyutQ==
+  dependencies:
+    react-native-device-info "10.3.0"
+    react-native-siren "^0.0.7"
+    semver "^7.7.1"
+    underscore "1.12.1"
 
 split-on-first@^1.0.0:
   version "1.1.0"
@@ -7730,6 +7770,11 @@ unbox-primitive@^1.1.0:
     has-bigints "^1.0.2"
     has-symbols "^1.1.0"
     which-boxed-primitive "^1.1.1"
+
+underscore@1.12.1:
+  version "1.12.1"
+  resolved "https://registry.npmjs.org/underscore/-/underscore-1.12.1.tgz"
+  integrity sha512-hEQt0+ZLDVUMhebKxL4x1BTtDY7bavVofhZ9KZ4aI26X9SRaE+Y3m83XUL1UP2jn8ynjndwCCpEHdUG+9pP1Tw==
 
 undici-types@~6.21.0:
   version "6.21.0"

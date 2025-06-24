@@ -94,7 +94,7 @@ const ProfileScreen = () => {
 
       <Text
         style={[globalStyles.title, {color: theme.text2, fontWeight: '700'}]}>
-        {user?.fullName}
+        {user?.fullName ?? t('value_date.no_name')}
       </Text>
 
       <Margin top={5} />

@@ -146,5 +146,8 @@
     "confirm": "Delete Account",
     "confirmDelete": "Are you sure you want to delete your account?",
     "password_placeholder": "Confirm your password to delete account",
+  },
+  "value_date": {
+    "no_name": "Anonymous"
   }
 }
