@@ -75,7 +75,7 @@
 ### 📦 Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/nice-rice.git
+git https://github.com/giahyng1502/NiceRice
 cd nice-rice
 ```
 
